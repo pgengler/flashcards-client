@@ -1,1 +1,18 @@
-{{flippable-card card=model}}
+{{#if isEditing}}
+	<form {{action "save" on="submit"}} class="edit_card">
+		<fieldset>
+			<label for="front">Front</label>
+			{{textarea value=editFront id="front"}}
+
+			<label for="back">Back</label>
+			{{textarea value=editBack id="back"}}
+
+			<div>
+				<input type="submit" class="btn">
+			</div>
+		</fieldset>
+	</form>
+{{else}}
+	{{flippable-card card=model}}
+	<button type="button" {{action "edit" on="click"}}>Edit</button>
+{{/if}}
