@@ -9,3 +9,58 @@
 		margin-left: -1.25em !important;
 	}
 }
+
+.flip-container, .card {
+	height: 12em;
+	width: 26em;
+}
+
+.card {
+	border: 1px solid black;
+	padding: 1em;
+}
+
+form.edit_card, form.new_card {
+	textarea {
+		height: 12em;
+		width: 26em;
+	}
+
+	label {
+		vertical-align: top;
+	}
+}
+
+.flip-container {
+	-moz-perspective: 1000;
+	perspective: 1000;
+
+	&.flipped .flipper {
+		transform: rotateY(180deg);
+	}
+}
+
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+	position: relative;
+}
+
+.front, .back {
+	backface-visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	transition: 0.6s;
+	transform-style: preserve-3d;
+	transform: rottateY(0deg);
+}
+
+.front {
+	z-index: 2;
+}
+
+.back {
+	transform: rotateY(-180deg);
+}
