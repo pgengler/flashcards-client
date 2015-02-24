@@ -14,6 +14,6 @@
 		</fieldset>
 	</form>
 {{else}}
-	{{flippable-card card=model}}
+	{{flippable-card card=model side=side flipped=flipped}}
 	<button type="button" {{action "edit" on="click"}}>Edit</button>
 {{/if}}

@@ -2,6 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 	isEditing: false,
+	queryParams: [ 'side' ],
+	side: 'front',
 
 	actions: {
 		delete: function() {
@@ -32,6 +34,10 @@ export default Ember.Controller.extend({
 			card.save().then(function() {
 				controller.set('isEditing', false);
 			});
+		},
+
+		flipped: function(side) {
+			this.set('side', side);
 		}
 	}
 });
