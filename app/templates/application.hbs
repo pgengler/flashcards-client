@@ -1,3 +1,28 @@
-<h2 id="title">Welcome to Ember.js</h2>
-
-{{outlet}}
+<nav class='navbar navbar-default' role='navigation'>
+	<div class='container'>
+		{{link-to 'Home' 'index' class='navbar-brand'}}
+		<ul class='nav navbar-nav'>
+			<li>
+				{{link-to 'New' 'index'}}
+			</li>
+			<li class='dropdown random-menu'>
+				{{link-to 'Random' 'index'}}
+				<a href='#' class='dropdown-toggle' data-toggle='dropdown'>
+					<span class='caret'></span>
+				</a>
+				<ul class='dropdown-menu' role='menu'>
+					<li>{{link-to 'Random front' 'index'}}</li>
+					<li>{{link-to 'Random back' 'index'}}</li>
+					<li>{{link-to 'Random front or back' 'index'}}</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</nav>
+<div class='container'>
+	<div class='row'>
+		<div class='col-md-12'>
+			{{outlet}}
+		</div>
+	</div>
+</div>
