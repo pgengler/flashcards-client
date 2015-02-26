@@ -5,6 +5,7 @@ export default Ember.Component.extend({
 	classNameBindings: [ 'isFlipped:flipped' ],
 	isFlipped: Ember.computed.equal('side', 'back'),
 	side: 'front',
+	markdownOptions: { gfm: true, breaks: true },
 
 	click: function() {
 		var side = this.get('side');
