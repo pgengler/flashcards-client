@@ -3,7 +3,19 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 	isEditing: false,
 	queryParams: [ 'side' ],
-	side: 'front',
+	side: '',
+
+	sideToDisplay: function() {
+		var selectedSide = this.get('side');
+		if (selectedSide === 'front' || selectedSide === 'back') {
+			return selectedSide;
+		}
+		if (Math.random() < 0.5) {
+			return 'front';
+		} else {
+			return 'back';
+		}
+	}.property('side'),
 
 	actions: {
 		delete: function() {

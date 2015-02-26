@@ -2,14 +2,14 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 	classNames: [ 'flip-container' ],
-	classNameBindings: [ 'flipped' ],
-	flipped: Ember.computed.equal('side', 'back'),
+	classNameBindings: [ 'isFlipped:flipped' ],
+	isFlipped: Ember.computed.equal('side', 'back'),
 	side: 'front',
 
 	click: function() {
-		var val = this.get('side');
-		val = (val === 'back') ? 'front' : 'back';
-		this.set('side', val);
-		this.sendAction('flipped', val);
+		var side = this.get('side');
+		side = (side === 'back') ? 'front' : 'back';
+		this.set('side', side);
+		this.sendAction('flipped', side);
 	}
 });

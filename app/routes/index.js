@@ -10,9 +10,7 @@ export default Ember.Route.extend({
 		if (numCards === 0) {
 			this.replaceWith('cards.new');
 		} else {
-			var pos = Math.floor(Math.random() * numCards);
-			var card = cards.objectAt(pos);
-			this.replaceWith('cards.show', card.get('id'));
+			this.replaceWith('cards.random');
 		}
 	}
 });

@@ -8,6 +8,7 @@ var Router = Ember.Router.extend({
 Router.map(function() {
   this.resource('cards', function() {
     this.route('new');
+    this.route('random', { path: '/random'} );
     this.route('show', { path: '/:id' });
   });
 });
