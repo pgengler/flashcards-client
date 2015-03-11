@@ -11,6 +11,9 @@ Router.map(function() {
     this.route('random', { path: '/random'} );
     this.route('show', { path: '/:id' });
   });
+  this.resource('cardSets', { path: '/sets' }, function() {
+    this.route('new');
+  });
 });
 
 export default Router;
