@@ -1,16 +1,16 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
-	model: function() {
-		return this.store.find('card');
+export default Route.extend({
+	model() {
+		return this.store.findAll('card');
 	},
 
-	afterModel: function(cards) {
-		var numCards = cards.get('length');
+	redirect(cards) {
+		let numCards = cards.get('length');
 		if (numCards === 0) {
-			this.replaceWith('cards.new');
+			this.transitionTo('cards.new');
 		} else {
-			this.replaceWith('cards.random');
+			this.transitionTo('cards.random');
 		}
 	}
 });

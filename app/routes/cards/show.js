@@ -1,15 +1,7 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
-	model: function(params) {
-		return Ember.RSVP.hash({
-			card: this.store.find('card', params.id),
-			side: params.side
-		});
-	},
-
-	setupController: function(controller, model) {
-		controller.set('model', model.card);
-		controller.set('side', model.side);
+export default Route.extend({
+	model(params) {
+		return this.store.findRecord('card', params.id);
 	}
 });

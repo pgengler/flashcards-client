@@ -1,12 +1,16 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
 	isEditing: false,
 	queryParams: [ 'side' ],
 	side: '',
 
-	sideToDisplay: function() {
-		var selectedSide = this.get('side');
+	card: alias('model'),
+
+	sideToDisplay: computed('side', function() {
+		let selectedSide = this.get('side');
 		if (selectedSide === 'front' || selectedSide === 'back') {
 			return selectedSide;
 		}
@@ -15,40 +19,34 @@ export default Ember.Controller.extend({
 		} else {
 			return 'back';
 		}
-	}.property('side'),
+	}),
 
 	actions: {
-		delete: function() {
-			var controller = this;
-
-			var card = this.get('model');
+		delete() {
+			let card = this.get('card');
 			card.deleteRecord();
 			card.save().then(function() {
-				controller.set('isEditing', false);
-				controller.transitionToRoute('index');
+				this.set('isEditing', false);
+				this.transitionToRoute('index');
 			});
 		},
 
-		edit: function() {
-			this.set('editFront', this.get('model.front'));
-			this.set('editBack', this.get('model.back'));
+		edit() {
+			this.set('editFront', this.get('card.front'));
+			this.set('editBack', this.get('card.back'));
 			this.set('isEditing', true);
 		},
 
-		save: function() {
-			var controller = this;
-
-			var card = this.get('model');
+		save() {
+			let card = this.get('card');
 			card.setProperties({
 				front: this.get('editFront'),
 				back: this.get('editBack')
 			});
-			card.save().then(function() {
-				controller.set('isEditing', false);
-			});
+			card.save().then(() => this.set('isEditing', false));
 		},
 
-		flipped: function(side) {
+		flipped(side) {
 			this.set('side', side);
 		}
 	}

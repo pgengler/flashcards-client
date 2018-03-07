@@ -1,15 +1,14 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
 	actions: {
-		create: function() {
-			var controller = this;
-			var card = this.store.createRecord('card', {
+		create() {
+			let card = this.store.createRecord('card', {
 				front: this.get('front'),
 				back: this.get('back')
 			});
-			card.save().then(function() {
-				controller.transitionToRoute('cards.show', card.get('id'));
+			card.save().then(() => {
+				this.transitionToRoute('cards.show', card.get('id'));
 			});
 		}
 	}
