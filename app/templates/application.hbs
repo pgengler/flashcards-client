@@ -1,27 +1,49 @@
-<nav class='navbar navbar-default' role='navigation'>
-	<div class='container'>
-		{{link-to 'Home' 'index' class='navbar-brand'}}
-		<ul class='nav navbar-nav'>
-			<li>
-				{{link-to 'New' 'cards.new'}}
-			</li>
-			<li class='dropdown random-menu'>
-				{{link-to 'Random' 'cards.random'}}
-				<a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-					<span class='caret'></span>
-				</a>
-				<ul class='dropdown-menu' role='menu'>
-					<li>{{link-to 'Random front' 'cards.random' (query-params side='front')}}</li>
-					<li>{{link-to 'Random back' 'cards.random' (query-params side='back')}}</li>
-					<li>{{link-to 'Random front or back' 'cards.random' (query-params side='')}}</li>
-				</ul>
-			</li>
-			<li>
-				{{link-to 'New set' 'card-sets.new'}}
-			</li>
-		</ul>
+{{#bs-navbar as |navbar|}}
+	<div class='navbar-header'>
+		{{#link-to 'index' class='navbar-brand'}}
+			Home
+		{{/link-to}}
 	</div>
-</nav>
+	{{#navbar.content}}
+		{{#navbar.nav as |nav|}}
+			{{#nav.item}}
+				{{#nav.link-to 'cards.new'}}
+					New
+				{{/nav.link-to}}
+			{{/nav.item}}
+
+			{{#nav.dropdown as |dd|}}
+				{{#dd.toggle}}
+					Random
+				{{/dd.toggle}}
+				{{#dd.menu as |menu|}}
+					{{#menu.item}}
+						{{#menu.link-to 'cards.random' (query-params side='front')}}
+							Random front
+						{{/menu.link-to}}
+					{{/menu.item}}
+					{{#menu.item}}
+						{{#menu.link-to 'cards.random' (query-params side='back')}}
+							Random back
+						{{/menu.link-to}}
+					{{/menu.item}}
+					{{#menu.item}}
+						{{#menu.link-to 'cards.random' (query-params side='')}}
+							Random front or back
+						{{/menu.link-to}}
+					{{/menu.item}}
+				{{/dd.menu}}
+			{{/nav.dropdown}}
+
+			{{#nav.item}}
+				{{#nav.link-to 'card-sets.new'}}
+					New set
+				{{/nav.link-to}}
+			{{/nav.item}}
+		{{/navbar.nav}}
+	{{/navbar.content}}
+{{/bs-navbar}}
+
 <div class='container'>
 	<div class='row'>
 		<div class='col-md-12'>

@@ -8,13 +8,13 @@
 	}
 }
 
-.flip-container, .card {
+.flip-container, .flashcard {
 	height: 12em;
 	width: 26em;
 }
 
-.card {
-	border: 1px solid black;
+.flashcard {
+	border: 1px solid rgba(0, 0, 0, 0.125);
 	padding: 1em;
 }
 
@@ -30,9 +30,6 @@ form.edit_card, form.new_card {
 }
 
 .flip-container {
-	-moz-perspective: 1000;
-	perspective: 1000;
-
 	&.flipped .flipper {
 		transform: rotateY(180deg);
 	}
@@ -52,7 +49,7 @@ form.edit_card, form.new_card {
 
 	transition: 0.6s;
 	transform-style: preserve-3d;
-	transform: rottateY(0deg);
+	transform: rotateY(0deg);
 }
 
 .front {
