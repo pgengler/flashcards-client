@@ -10,7 +10,7 @@ export default Controller.extend({
 	card: alias('model'),
 
 	sideToDisplay: computed('side', function() {
-		let selectedSide = this.get('side');
+		let selectedSide = this.side;
 		if (selectedSide === 'front' || selectedSide === 'back') {
 			return selectedSide;
 		}
@@ -23,7 +23,7 @@ export default Controller.extend({
 
 	actions: {
 		delete() {
-			let card = this.get('card');
+			let card = this.card;
 			card.deleteRecord();
 			card.save().then(function() {
 				this.set('isEditing', false);
@@ -38,10 +38,10 @@ export default Controller.extend({
 		},
 
 		save() {
-			let card = this.get('card');
+			let card = this.card;
 			card.setProperties({
-				front: this.get('editFront'),
-				back: this.get('editBack')
+				front: this.editFront,
+				back: this.editBack
 			});
 			card.save().then(() => this.set('isEditing', false));
 		},

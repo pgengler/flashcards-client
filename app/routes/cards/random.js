@@ -14,7 +14,7 @@ export default Route.extend({
 		let numCards = cards.get('length');
 		let pos = Math.floor(Math.random() * numCards);
 		let card = cards.objectAt(pos);
-		let side = this.get('side');
+		let side = this.side;
 		if (side) {
 			this.transitionTo('cards.show', card.get('id'), { queryParams: { side } });
 		} else {

@@ -8,7 +8,7 @@ export default Component.extend({
 	side: 'front',
 
 	click() {
-		let side = this.get('side');
+		let side = this.side;
 		side = (side === 'back') ? 'front' : 'back';
 		this.set('side', side);
 		this.sendAction('flipped', side);

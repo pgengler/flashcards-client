@@ -5,7 +5,7 @@ export default Controller.extend({
 
 	actions: {
 		createSet() {
-			let name = this.get('setName');
+			let name = this.setName;
 			let set = this.store.createRecord('card-set', { name });
 			set.save().then(() => {
 				this.set('setName', '');
