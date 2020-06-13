@@ -1,15 +1,21 @@
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-	isEditing: false,
-	queryParams: [ 'side' ],
-	side: '',
+import { tracked } from '@glimmer/tracking';
 
-	card: alias('model'),
+export default class CardShowController extends Controller {
+  queryParams = [ 'side' ];
 
-	sideToDisplay: computed('side', function() {
+  @tracked editFront;
+  @tracked editBack;
+	@tracked isEditing = false;
+  @tracked side = '';
+
+	get card() {
+    return this.model;
+  }
+
+  get sideToDisplay() {
 		let selectedSide = this.side;
 		if (selectedSide === 'front' || selectedSide === 'back') {
 			return selectedSide;
@@ -19,35 +25,29 @@ export default Controller.extend({
 		} else {
 			return 'back';
 		}
-	}),
-
-	actions: {
-		delete() {
-			let card = this.card;
-			card.deleteRecord();
-			card.save().then(function() {
-				this.set('isEditing', false);
-				this.transitionToRoute('index');
-			});
-		},
-
-		edit() {
-			this.set('editFront', this.get('card.front'));
-			this.set('editBack', this.get('card.back'));
-			this.set('isEditing', true);
-		},
-
-		save() {
-			let card = this.card;
-			card.setProperties({
-				front: this.editFront,
-				back: this.editBack
-			});
-			card.save().then(() => this.set('isEditing', false));
-		},
-
-		flipped(side) {
-			this.set('side', side);
-		}
 	}
-});
+
+	@action deleteCard() {
+		this.card.deleteRecord();
+		this.card.save().then(function() {
+			this.isEditing = false;
+			this.transitionToRoute('index');
+		});
+  }
+
+	@action edit() {
+		this.editFront = this.card.front;
+		this.editBack = this.card.back;
+		this.isEditing = true;
+	}
+
+	@action save() {
+		this.card.editFront = this.editFront;
+    this.card.editBack = this.editBack;
+		this.card.save().then(() => this.isEditing = false);
+	}
+
+	@action flipped(side) {
+		this.side = side;
+	}
+}

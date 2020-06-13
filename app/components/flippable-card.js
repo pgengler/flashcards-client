@@ -1,16 +1,16 @@
-import Component from '@ember/component';
-import { equal } from '@ember/object/computed';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 
-export default Component.extend({
-	classNames: [ 'flip-container' ],
-	classNameBindings: [ 'isFlipped:flipped' ],
-	isFlipped: equal('side', 'back'),
-	side: 'front',
+export default class extends Component {
+	get isFlipped() {
+    return this.side === 'back';
+  }
 
-	click() {
-		let side = this.side;
-		side = (side === 'back') ? 'front' : 'back';
-		this.set('side', side);
-		this.sendAction('flipped', side);
+	get side() {
+    return this.args.side || 'front';
+  }
+
+	@action flipCard() {
+		this.args.flipped(this.side === 'back' ? 'front' : 'back');
 	}
-});
+}

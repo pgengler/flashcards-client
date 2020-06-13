@@ -1,8 +1,8 @@
-import DS from 'ember-data';
+import Model, { attr, hasMany } from '@ember-data/model';
 
-export default DS.Model.extend({
-	front: DS.attr('string'),
-	back: DS.attr('string'),
+export default class Card extends Model {
+	@attr('string') front;
+	@attr('string') back;
 
-	cardSets: DS.hasMany('cardSet')
-});
+	@hasMany('cardSet') cardSets;
+}

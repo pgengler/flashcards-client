@@ -1,9 +1,11 @@
-<div class='flipper'>
-	<div class='flashcard front'>
-		{{markdown-to-html markdown=card.front}}
-	</div>
+<div class='flip-container {{if this.isFlipped 'flipped'}}' role='button' {{on 'click' this.flipCard}}>
+  <div class='flipper'>
+  	<div class='flashcard front'>
+  		<MarkdownToHtml @markdown={{@card.front}} />
+  	</div>
 
-	<div class='flashcard back'>
-		{{markdown-to-html markdown=card.back}}
-	</div>
+  	<div class='flashcard back'>
+  		<MarkdownToHtml @markdown={{@card.back}} />
+  	</div>
+  </div>
 </div>

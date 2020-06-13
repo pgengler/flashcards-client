@@ -1,48 +1,48 @@
-{{#bs-navbar as |navbar|}}
+<BsNavbar as |navbar|>
 	<div class='navbar-header'>
-		{{#link-to 'index' class='navbar-brand'}}
+		<LinkTo @route='index' class='navbar-brand'>
 			Home
-		{{/link-to}}
+		</LinkTo>
 	</div>
-	{{#navbar.content}}
-		{{#navbar.nav as |nav|}}
-			{{#nav.item}}
-				{{#nav.link-to 'cards.new'}}
+	<navbar.content>
+		<navbar.nav as |nav|>
+			<nav.item>
+				<nav.linkTo @route='cards.new'>
 					New
-				{{/nav.link-to}}
-			{{/nav.item}}
+				</nav.linkTo>
+			</nav.item>
 
-			{{#nav.dropdown as |dd|}}
-				{{#dd.toggle}}
+			<nav.dropdown as |dd|>
+				<dd.toggle>
 					Random
-				{{/dd.toggle}}
-				{{#dd.menu as |menu|}}
-					{{#menu.item}}
-						{{#menu.link-to 'cards.random' (query-params side='front')}}
+				</dd.toggle>
+				<dd.menu as |menu|>
+					<menu.item>
+						<menu.linkTo @route='cards.random' @query={{hash side='front'}}>
 							Random front
-						{{/menu.link-to}}
-					{{/menu.item}}
-					{{#menu.item}}
-						{{#menu.link-to 'cards.random' (query-params side='back')}}
+						</menu.linkTo>
+					</menu.item>
+					<menu.item>
+						<menu.linkTo @route='cards.random' @query={{hash side='back'}}>
 							Random back
-						{{/menu.link-to}}
-					{{/menu.item}}
-					{{#menu.item}}
-						{{#menu.link-to 'cards.random' (query-params side='')}}
+						</menu.linkTo>
+					</menu.item>
+					<menu.item>
+						<menu.linkTo @route='cards.random' @query={{hash side=''}}>
 							Random front or back
-						{{/menu.link-to}}
-					{{/menu.item}}
-				{{/dd.menu}}
-			{{/nav.dropdown}}
+						</menu.linkTo>
+					</menu.item>
+				</dd.menu>
+			</nav.dropdown>
 
-			{{#nav.item}}
-				{{#nav.link-to 'card-sets.new'}}
+			<nav.item>
+				<nav.linkTo @route='card-sets.new'>
 					New set
-				{{/nav.link-to}}
-			{{/nav.item}}
-		{{/navbar.nav}}
-	{{/navbar.content}}
-{{/bs-navbar}}
+				</nav.linkTo>
+			</nav.item>
+		</navbar.nav>
+	</navbar.content>
+</BsNavbar>
 
 <div class='container'>
 	<div class='row'>
