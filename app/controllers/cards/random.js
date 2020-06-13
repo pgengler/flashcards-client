@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 
 export default Controller.extend({
-	queryParams: [ 'side' ],
-	side: ''
+  queryParams: [ 'side' ],
+  side: ''
 });

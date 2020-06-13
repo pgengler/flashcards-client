@@ -1,13 +1,13 @@
 <form class='new_card' {{on 'submit' this.create}} >
-	<fieldset>
-		<label for='front'>Front</label>
-		<Textarea @value={{this.front}} id='front' />
+  <fieldset>
+    <label for='front'>Front</label>
+    <Textarea @value={{this.front}} id='front' />
 
-		<label for='back'>Back</label>
-		<Textarea @value={{this.back}} id='back' />
+    <label for='back'>Back</label>
+    <Textarea @value={{this.back}} id='back' />
 
-		<div>
-			<input type='submit' class='btn btn-default'>
-		</div>
-	</fieldset>
+    <div>
+      <input type='submit' class='btn btn-default'>
+    </div>
+  </fieldset>
 </form>

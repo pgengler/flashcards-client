@@ -1,19 +1,19 @@
 {{#if this.isEditing}}
-	<form class='edit_card' {{on 'submit' this.save}}>
-		<fieldset>
-			<label for='front'>Front</label>
-			<Textarea @value={{this.editFront}} id='front' />
+  <form class='edit_card' {{on 'submit' this.save}}>
+    <fieldset>
+      <label for='front'>Front</label>
+      <Textarea @value={{this.editFront}} id='front' />
 
-			<label for='back'>Back</label>
-			<Textarea @value={{this.editBack}} id='back' />
+      <label for='back'>Back</label>
+      <Textarea @value={{this.editBack}} id='back' />
 
-			<div>
-				<input type='submit' class='btn'>
-				<button type='button' {{on 'click' this.deleteCard}} class='btn btn-danger'>Delete</button>
-			</div>
-		</fieldset>
-	</form>
+      <div>
+        <input type='submit' class='btn'>
+        <button type='button' {{on 'click' this.deleteCard}} class='btn btn-danger'>Delete</button>
+      </div>
+    </fieldset>
+  </form>
 {{else}}
-	<FlippableCard @card={{this.card}} @side={{this.sideToDisplay}} @flipped={{this.flipped}} />
-	<button type='button' {{on 'click' this.edit}}>Edit</button>
+  <FlippableCard @card={{this.card}} @side={{this.sideToDisplay}} @flipped={{this.flipped}} />
+  <button type='button' {{on 'click' this.edit}}>Edit</button>
 {{/if}}
