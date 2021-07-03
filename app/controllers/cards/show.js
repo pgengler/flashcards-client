@@ -30,27 +30,31 @@ export default class CardShowController extends Controller {
     }
   }
 
-  @action deleteCard() {
+  @action
+  async deleteCard() {
     this.card.deleteRecord();
-    this.card.save().then(function () {
-      this.isEditing = false;
-      this.router.transitionTo('index');
-    });
+    await this.card.save();
+    this.isEditing = false;
+    this.router.transitionTo('index');
   }
 
-  @action edit() {
+  @action
+  edit() {
     this.editFront = this.card.front;
     this.editBack = this.card.back;
     this.isEditing = true;
   }
 
-  @action save() {
+  @action
+  async save() {
     this.card.editFront = this.editFront;
     this.card.editBack = this.editBack;
-    this.card.save().then(() => (this.isEditing = false));
+    await this.card.save();
+    this.isEditing = false;
   }
 
-  @action flipped(side) {
+  @action
+  flipped(side) {
     this.side = side;
   }
 }

@@ -9,14 +9,18 @@ export default class CardsNewController extends Controller {
   @tracked front;
   @tracked back;
 
-  @action create(event) {
+  @action
+  async create(event) {
     event.preventDefault();
     let card = this.store.createRecord('card', {
       front: this.front,
       back: this.back,
     });
-    card.save().then(() => {
+    try {
+      await card.save();
       this.router.transitionTo('cards.show', card.id);
-    });
+    } catch {
+      alert('Saving failed');
+    }
   }
 }

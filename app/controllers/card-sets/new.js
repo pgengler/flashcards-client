@@ -8,16 +8,17 @@ export default class CardSetsNewController extends Controller {
 
   @tracked setName = '';
 
-  @action createSet(event) {
+  @action
+  async createSet(event) {
     event.preventDefault();
     let name = this.setName;
     let set = this.store.createRecord('card-set', { name });
-    set
-      .save()
-      .then(() => {
-        this.setName = '';
-        this.router.transitionTo('index');
-      })
-      .catch(() => alert('Saving failed'));
+    try {
+      await set.save();
+      this.setName = '';
+      this.router.transitionTo('index');
+    } catch {
+      alert('Saving failed');
+    }
   }
 }
