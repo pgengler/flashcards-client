@@ -9,9 +9,12 @@ export default class CardSetsNewController extends Controller {
     event.preventDefault();
     let name = this.setName;
     let set = this.store.createRecord('card-set', { name });
-    set.save().then(() => {
-      this.setName = '';
-      this.transitionToRoute('index');
-    }).catch(() => alert('Saving failed'));
+    set
+      .save()
+      .then(() => {
+        this.setName = '';
+        this.transitionToRoute('index');
+      })
+      .catch(() => alert('Saving failed'));
   }
 }

@@ -9,7 +9,7 @@ export default class CardsNewController extends Controller {
     event.preventDefault();
     let card = this.store.createRecord('card', {
       front: this.front,
-      back: this.back
+      back: this.back,
     });
     card.save().then(() => {
       this.transitionToRoute('cards.show', card.id);

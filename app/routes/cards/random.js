@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 
 export default class CardsRandomRoute extends Route {
   queryParams = {
-    side: { reload: true }
+    side: { reload: true },
   };
 
   model(params) {

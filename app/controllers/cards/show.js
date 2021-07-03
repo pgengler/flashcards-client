@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class CardShowController extends Controller {
-  queryParams = [ 'side' ];
+  queryParams = ['side'];
 
   @tracked editFront;
   @tracked editBack;
@@ -29,7 +29,7 @@ export default class CardShowController extends Controller {
 
   @action deleteCard() {
     this.card.deleteRecord();
-    this.card.save().then(function() {
+    this.card.save().then(function () {
       this.isEditing = false;
       this.transitionToRoute('index');
     });
@@ -44,7 +44,7 @@ export default class CardShowController extends Controller {
   @action save() {
     this.card.editFront = this.editFront;
     this.card.editBack = this.editBack;
-    this.card.save().then(() => this.isEditing = false);
+    this.card.save().then(() => (this.isEditing = false));
   }
 
   @action flipped(side) {
