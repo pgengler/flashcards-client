@@ -1,9 +1,13 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 export default class CardsNewController extends Controller {
-  front = null;
-  back = null;
+  @service router;
+
+  @tracked front;
+  @tracked back;
 
   @action create(event) {
     event.preventDefault();
@@ -12,7 +16,7 @@ export default class CardsNewController extends Controller {
       back: this.back,
     });
     card.save().then(() => {
-      this.transitionToRoute('cards.show', card.id);
+      this.router.transitionTo('cards.show', card.id);
     });
   }
 }

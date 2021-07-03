@@ -1,6 +1,10 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default class CardsRandomRoute extends Route {
+  @service router;
+  @service store;
+
   queryParams = {
     side: { reload: true },
   };
@@ -15,15 +19,17 @@ export default class CardsRandomRoute extends Route {
     let card = cards.toArray()[pos];
 
     if (!card) {
-      this.transitionTo('cards.new');
+      this.router.transitionTo('cards.new');
       return;
     }
 
     let side = this.side;
     if (side) {
-      this.transitionTo('cards.show', card.id, { queryParams: { side } });
+      this.router.transitionTo('cards.show', card.id, {
+        queryParams: { side },
+      });
     } else {
-      this.transitionTo('cards.show', card.id);
+      this.router.transitionTo('cards.show', card.id);
     }
   }
 }

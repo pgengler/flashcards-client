@@ -1,8 +1,11 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class CardSetsNewController extends Controller {
+  @service router;
+
   @tracked setName = '';
 
   @action createSet(event) {
@@ -13,7 +16,7 @@ export default class CardSetsNewController extends Controller {
       .save()
       .then(() => {
         this.setName = '';
-        this.transitionToRoute('index');
+        this.router.transitionTo('index');
       })
       .catch(() => alert('Saving failed'));
   }
