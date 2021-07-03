@@ -17,5 +17,5 @@
   </form>
 {{else}}
   <FlippableCard @card={{this.card}} @side={{this.sideToDisplay}} @flipped={{this.flipped}} />
-  <button type='button' {{on 'click' this.edit}}>Edit</button>
+  <button type='button' class='btn btn-default' {{on 'click' this.edit}}>Edit</button>
 {{/if}}
