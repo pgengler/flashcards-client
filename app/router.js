@@ -18,6 +18,15 @@ Router.map(function () {
 
   this.route('collections', function () {
     this.route('new');
-    this.route('show', { path: '/:slug' });
   });
+  this.route(
+    'collection',
+    { path: 'collections/:slug', resetNamespace: true },
+    function () {
+      this.route('random');
+      this.route('card', { path: '/:id' }, function () {
+        // this.route('show');
+      });
+    }
+  );
 });

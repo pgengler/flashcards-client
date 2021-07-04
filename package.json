@@ -59,6 +59,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-qunit": "^6.1.1",
+    "faker": "^5.5.3",
     "glob": "^7.1.1",
     "http-proxy": "^1.12.0",
     "loader.js": "^4.7.0",

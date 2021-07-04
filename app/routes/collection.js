@@ -2,12 +2,16 @@ import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-export default class CollectionsShowRoute extends Route {
+export default class CollectionRoute extends Route {
   @service currentCollection;
   @service store;
 
-  model({ slug }) {
-    return this.store.peekAll('collection').findBy('slug', slug);
+  async model({ slug }) {
+    let result = await this.store.query('collection', {
+      filter: { slug },
+      include: 'cards',
+    });
+    return result.firstObject;
   }
 
   afterModel(collection) {

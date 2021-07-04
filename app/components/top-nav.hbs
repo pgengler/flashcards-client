@@ -13,20 +13,20 @@
       </nav.item>
 
       <nav.dropdown as |dd|>
-        <dd.toggle>
+        <dd.toggle data-test-collections-toggle>
           Collections
         </dd.toggle>
-        <dd.menu as |menu|>
+        <dd.menu data-test-collections-menu as |menu|>
           {{#each this.collections as |collection|}}
             <menu.item>
-              <menu.linkTo @route="collections.show" @model={{collection.slug}}>
+              <menu.linkTo @route="collection" @model={{collection.slug}} data-test-collection-item>
                 {{collection.name}}
               </menu.linkTo>
             </menu.item>
           {{/each}}
           <menu.item @disabled={{true}}><hr></menu.item>
           <menu.item>
-            <menu.linkTo @route="collections.new">
+            <menu.linkTo @route="collections.new" data-test-new-collection-item>
               Add new collection
             </menu.linkTo>
           </menu.item>
@@ -34,7 +34,7 @@
       </nav.dropdown>
 
       {{#if this.currentCollection}}
-        <nav.dropdown as |dd|>
+        <nav.dropdown data-test-random-card as |dd|>
           <dd.toggle>
             Random
           </dd.toggle>
@@ -57,7 +57,7 @@
           </dd.menu>
         </nav.dropdown>
 
-        <nav.item>
+        <nav.item data-test-card-sets>
           <nav.linkTo @route="card-sets.new">
             New set
           </nav.linkTo>

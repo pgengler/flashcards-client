@@ -3,7 +3,7 @@
 <ul>
   {{#each @model as |collection|}}
     <li data-test-collection>
-      <LinkTo @route="collections.show" @model={{collection.slug}}>
+      <LinkTo @route="collection" @model={{collection.slug}}>
         {{collection.name}}
       </LinkTo>
     </li>

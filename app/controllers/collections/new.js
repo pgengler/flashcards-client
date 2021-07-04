@@ -14,6 +14,6 @@ export default class CollectionsNewController extends Controller {
     if (!this.name) return;
     let collection = this.store.createRecord('collection', { name: this.name });
     await collection.save();
-    this.router.transitionTo('collections.show', collection.slug);
+    this.router.transitionTo('collection', collection.slug);
   }
 }

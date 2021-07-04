@@ -24,8 +24,16 @@ module('Acceptance | collections', function (hooks) {
 
     assert.equal(
       currentRouteName(),
-      'collections.show',
+      'collection.index',
       'redirects to collection page after creation'
     );
+  });
+
+  test('collection index page lists all cards in the collection', async function (assert) {
+    let collection = this.server.create('collection');
+    this.server.createList('card', 11, { collection });
+
+    await visit(`/collections/${collection.slug}`);
+    assert.dom('[data-test-card-list] [data-test-card]').exists({ count: 11 });
   });
 });
