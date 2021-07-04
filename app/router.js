@@ -15,4 +15,9 @@ Router.map(function () {
   this.route('card-sets', { path: '/sets' }, function () {
     this.route('new');
   });
+
+  this.route('collections', function () {
+    this.route('new');
+    this.route('show', { path: '/:slug' });
+  });
 });

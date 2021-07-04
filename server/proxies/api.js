@@ -1,6 +1,8 @@
 const proxyPath = '/api';
 
 module.exports = function (app) {
+  if (process.env.MIRAGE_ENABLED) return;
+
   // For options, see:
   // https://github.com/nodejitsu/node-http-proxy
   let proxy = require('http-proxy').createProxyServer({});

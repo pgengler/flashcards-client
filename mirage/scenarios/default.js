@@ -1,7 +1,10 @@
-export default function (/* server */) {
-  /*
-    Seed your development database using your factories.
-    This data will not be loaded in your tests.
-  */
-  // server.createList('post', 10);
+export default function (server) {
+  server.create('collection', {
+    name: 'First collection',
+    slug: 'first-collection',
+  });
+  server.create('collection', {
+    name: '2nd collection',
+    slug: '2nd-collection',
+  });
 }
