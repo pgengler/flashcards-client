@@ -1,0 +1,68 @@
+<BsNavbar as |navbar|>
+  <div class="navbar-header">
+    <LinkTo @route="index" class="navbar-brand">
+      Flashcards
+    </LinkTo>
+  </div>
+  <navbar.content>
+    <navbar.nav as |nav|>
+      <nav.item>
+        <nav.linkTo @route="cards.new">
+          New
+        </nav.linkTo>
+      </nav.item>
+
+      <nav.dropdown as |dd|>
+        <dd.toggle>
+          Collections
+        </dd.toggle>
+        <dd.menu as |menu|>
+          {{#each this.collections as |collection|}}
+            <menu.item>
+              <menu.linkTo @route="collections.show" @model={{collection.slug}}>
+                {{collection.name}}
+              </menu.linkTo>
+            </menu.item>
+          {{/each}}
+          <menu.item @disabled={{true}}><hr></menu.item>
+          <menu.item>
+            <menu.linkTo @route="collections.new">
+              Add new collection
+            </menu.linkTo>
+          </menu.item>
+        </dd.menu>
+      </nav.dropdown>
+
+      {{#if this.currentCollection}}
+        <nav.dropdown as |dd|>
+          <dd.toggle>
+            Random
+          </dd.toggle>
+          <dd.menu as |menu|>
+            <menu.item>
+              <menu.linkTo @route="cards.random" @query={{hash side="front"}}>
+                Random front
+              </menu.linkTo>
+            </menu.item>
+            <menu.item>
+              <menu.linkTo @route="cards.random" @query={{hash side="back"}}>
+                Random back
+              </menu.linkTo>
+            </menu.item>
+            <menu.item>
+              <menu.linkTo @route="cards.random" @query={{hash side=""}}>
+                Random front or back
+              </menu.linkTo>
+            </menu.item>
+          </dd.menu>
+        </nav.dropdown>
+
+        <nav.item>
+          <nav.linkTo @route="card-sets.new">
+            New set
+          </nav.linkTo>
+        </nav.item>
+        {{/if}}
+    </navbar.nav>
+  </navbar.content>
+</BsNavbar>

@@ -9,8 +9,7 @@ export default class CardSetsNewController extends Controller {
   @tracked setName = '';
 
   @action
-  async createSet(event) {
-    event.preventDefault();
+  async createSet() {
     let name = this.setName;
     let set = this.store.createRecord('card-set', { name });
     try {

@@ -1,7 +1,7 @@
-<form {{on 'submit' this.createSet}}>
+<form {{on "submit" (prevent-default this.createSet)}}>
   <label>
     Name:
-    <Input @type='text' @value={{this.setName}} />
+    <Input @type="text" @value={{this.setName}} />
   </label>
-  <button type='submit'>Create</button>
+  <button type="submit">Create</button>
 </form>

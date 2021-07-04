@@ -6,7 +6,7 @@ export default class CollectionsIndexRoute extends Route {
   @service store;
 
   model() {
-    return this.store.findAll('collection');
+    return this.modelFor('application');
   }
 
   redirect(collections) {
