@@ -9,8 +9,6 @@ export default class Router extends EmberRouter {
 Router.map(function () {
   this.route('cards', function () {
     this.route('new');
-    this.route('random');
-    this.route('show', { path: '/:id' });
   });
   this.route('card-sets', { path: '/sets' }, function () {
     this.route('new');
@@ -19,14 +17,11 @@ Router.map(function () {
   this.route('collections', function () {
     this.route('new');
   });
-  this.route(
-    'collection',
-    { path: 'collections/:slug', resetNamespace: true },
-    function () {
-      this.route('random');
-      this.route('card', { path: '/:id' }, function () {
-        // this.route('show');
-      });
-    }
-  );
+  this.route('collection', { path: 'collection/:slug' }, function () {
+    this.route('random');
+    this.route('card', function () {
+      this.route('new');
+      this.route('show', { path: '/:id' });
+    });
+  });
 });

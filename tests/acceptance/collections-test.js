@@ -33,7 +33,7 @@ module('Acceptance | collections', function (hooks) {
     let collection = this.server.create('collection');
     this.server.createList('card', 11, { collection });
 
-    await visit(`/collections/${collection.slug}`);
+    await visit(`/collection/${collection.slug}`);
     assert.dom('[data-test-card-list] [data-test-card]').exists({ count: 11 });
   });
 });

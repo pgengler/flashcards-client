@@ -28,7 +28,7 @@ module('Acceptance | top nav', function (hooks) {
   test('it displays collection-specific items when viewing a collection', async function (assert) {
     let collection = this.server.create('collection');
 
-    await visit(`/collections/${collection.slug}`);
+    await visit(`/collection/${collection.slug}`);
 
     assert.dom('[data-test-random-card]').exists();
     assert.dom('[data-test-card-sets]').exists();

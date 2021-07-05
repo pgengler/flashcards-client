@@ -4,20 +4,20 @@ import { inject as service } from '@ember/service';
 export default class CollectionRandomRoute extends Route {
   @service router;
 
-  redirect() {
+  model() {
     let collection = this.modelFor('collection');
     if (collection.cards.length > 0) {
       let cards = collection.cards;
       let pos = Math.floor(Math.random() * cards.length);
-      let card = cards.toArray()[pos];
-      // this.intermediateTransitionTo(
-      this.router.replaceWith(
-        'collection.card.index',
-        collection.slug,
-        card.id
-      );
-    } else {
-      this.router.transitionTo('collection', collection.slug);
+      return cards.toArray()[pos];
+    }
+    return null;
+  }
+
+  redirect(model) {
+    if (!model) {
+      let collection = this.modelFor('collection');
+      this.router.transitionTo('collection.card.new', collection.slug);
     }
   }
 }
