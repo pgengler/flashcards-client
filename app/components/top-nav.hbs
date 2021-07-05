@@ -1,68 +1,58 @@
 <BsNavbar as |navbar|>
-  <div class="navbar-header">
-    <LinkTo @route="index" class="navbar-brand">
-      Flashcards
-    </LinkTo>
-  </div>
-  <navbar.content>
-    <navbar.nav as |nav|>
-      <nav.dropdown as |dd|>
-        <dd.toggle data-test-collections-toggle>
-          Collections
-        </dd.toggle>
-        <dd.menu data-test-collections-menu as |menu|>
-          {{#each this.collections as |collection|}}
-            <menu.item>
-              <menu.linkTo @route="collection" @model={{collection.slug}} data-test-collection-item>
-                {{collection.name}}
-              </menu.linkTo>
-            </menu.item>
-          {{/each}}
-          <menu.item @disabled={{true}}><hr></menu.item>
-          <menu.item>
-            <menu.linkTo @route="collections.new" data-test-new-collection-item>
-              Add new collection
-            </menu.linkTo>
-          </menu.item>
-        </dd.menu>
-      </nav.dropdown>
-
-      {{#if this.currentCollection}}
-        <nav.item>
-          <nav.linkTo @route="collection.card.new" @model={{this.currentCollection.slug}}>
-            New
-          </nav.linkTo>
-        </nav.item>
-
-        <nav.dropdown data-test-random-card as |dd|>
-          <dd.toggle>
-            Random
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <LinkTo @route="index" class="navbar-brand">
+        Flashcards
+      </LinkTo>
+    </div>
+    <navbar.content>
+      <navbar.nav as |nav|>
+        <nav.dropdown as |dd|>
+          <dd.toggle data-test-collections-toggle>
+            Collections
           </dd.toggle>
-          <dd.menu as |menu|>
+          <dd.menu data-test-collections-menu as |menu|>
+            {{#each this.collections as |collection|}}
+              <menu.item>
+                <menu.linkTo @route="collection" @model={{collection.slug}} data-test-collection-item>
+                  {{collection.name}}
+                </menu.linkTo>
+              </menu.item>
+            {{/each}}
+            <menu.item @disabled={{true}}><hr></menu.item>
             <menu.item>
-              <menu.linkTo @route="collection.card.random" @model={{this.currentCollection.slug}} @query={{hash side="front"}}>
-                Random front
-              </menu.linkTo>
-            </menu.item>
-            <menu.item>
-              <menu.linkTo @route="collection.card.random" @model={{this.currentCollection.slug}} @query={{hash side="back"}}>
-                Random back
-              </menu.linkTo>
-            </menu.item>
-            <menu.item>
-              <menu.linkTo @route="collection.card.random" @model={{this.currentCollection.slug}} @query={{hash side=""}}>
-                Random front or back
+              <menu.linkTo @route="collections.new" data-test-new-collection-item>
+                Add new collection
               </menu.linkTo>
             </menu.item>
           </dd.menu>
         </nav.dropdown>
 
-        <nav.item data-test-card-sets>
-          <nav.linkTo @route="card-sets.new">
-            New set
-          </nav.linkTo>
-        </nav.item>
-        {{/if}}
-    </navbar.nav>
-  </navbar.content>
+        {{#if this.collection}}
+          <nav.item>
+            {{!--
+              ember-bootstrap has a bug where the <nav.linkTo> component does not
+              update the link when @model changes. To work around we use the regular
+              <LinkTo> component and just add the "nav-link" CSS class.
+            --}}
+            <LinkTo @route="collection.card.new" @model={{this.collection.slug}} class="nav-link">
+              New
+            </LinkTo>
+          </nav.item>
+
+          <nav.item data-test-random-card>
+            <LinkTo @route="collection.card.random" @model={{this.collection.slug}} class="nav-link">
+              Random card
+            </LinkTo>
+          </nav.item>
+
+          <nav.item data-test-card-sets>
+            <nav.linkTo @route="card-sets.new">
+              New set
+            </nav.linkTo>
+          </nav.item>
+          {{/if}}
+      </navbar.nav>
+    </navbar.content>
+  </div>
 </BsNavbar>
