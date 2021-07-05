@@ -16,5 +16,8 @@ export default function () {
   });
 
   this.get('/cards');
+  this.post('/cards');
   this.get('/cards/:id');
+
+  this.namespace = '';
 }

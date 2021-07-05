@@ -7,9 +7,6 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function () {
-  this.route('cards', function () {
-    this.route('new');
-  });
   this.route('card-sets', { path: '/sets' }, function () {
     this.route('new');
   });

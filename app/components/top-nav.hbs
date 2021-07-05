@@ -6,12 +6,6 @@
   </div>
   <navbar.content>
     <navbar.nav as |nav|>
-      <nav.item>
-        <nav.linkTo @route="cards.new">
-          New
-        </nav.linkTo>
-      </nav.item>
-
       <nav.dropdown as |dd|>
         <dd.toggle data-test-collections-toggle>
           Collections
@@ -34,6 +28,12 @@
       </nav.dropdown>
 
       {{#if this.currentCollection}}
+        <nav.item>
+          <nav.linkTo @route="collection.card.new" @model={{this.currentCollection}}>
+            New
+          </nav.linkTo>
+        </nav.item>
+
         <nav.dropdown data-test-random-card as |dd|>
           <dd.toggle>
             Random

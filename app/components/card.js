@@ -44,8 +44,8 @@ export default class CardComponent extends Component {
   @action
   async save() {
     let card = this.args.card;
-    card.editFront = this.editFront;
-    card.editBack = this.editBack;
+    card.front = this.editFront;
+    card.back = this.editBack;
     await card.save();
     this.isEditing = false;
   }
