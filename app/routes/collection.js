@@ -19,7 +19,9 @@ export default class CollectionRoute extends Route {
   }
 
   @action
-  willTransition() {
-    this.currentCollection.currentCollection = null;
+  willTransition(transition) {
+    if (!transition.to.name.startsWith('collection.')) {
+      this.currentCollection.currentCollection = null;
+    }
   }
 }

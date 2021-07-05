@@ -15,9 +15,9 @@ Router.map(function () {
     this.route('new');
   });
   this.route('collection', { path: 'collection/:slug' }, function () {
-    this.route('random');
     this.route('card', function () {
       this.route('new');
+      this.route('random');
       this.route('show', { path: '/:id' });
     });
   });

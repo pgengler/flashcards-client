@@ -29,7 +29,7 @@
 
       {{#if this.currentCollection}}
         <nav.item>
-          <nav.linkTo @route="collection.card.new" @model={{this.currentCollection}}>
+          <nav.linkTo @route="collection.card.new" @model={{this.currentCollection.slug}}>
             New
           </nav.linkTo>
         </nav.item>
@@ -40,17 +40,17 @@
           </dd.toggle>
           <dd.menu as |menu|>
             <menu.item>
-              <menu.linkTo @route="cards.random" @query={{hash side="front"}}>
+              <menu.linkTo @route="collection.card.random" @model={{this.currentCollection.slug}} @query={{hash side="front"}}>
                 Random front
               </menu.linkTo>
             </menu.item>
             <menu.item>
-              <menu.linkTo @route="cards.random" @query={{hash side="back"}}>
+              <menu.linkTo @route="collection.card.random" @model={{this.currentCollection.slug}} @query={{hash side="back"}}>
                 Random back
               </menu.linkTo>
             </menu.item>
             <menu.item>
-              <menu.linkTo @route="cards.random" @query={{hash side=""}}>
+              <menu.linkTo @route="collection.card.random" @model={{this.currentCollection.slug}} @query={{hash side=""}}>
                 Random front or back
               </menu.linkTo>
             </menu.item>
