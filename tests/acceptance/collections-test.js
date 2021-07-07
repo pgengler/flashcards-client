@@ -22,11 +22,7 @@ module('Acceptance | collections', function (hooks) {
     await fillIn('input[id="name"]', 'New collection');
     await click('button[type="submit"]');
 
-    assert.equal(
-      currentRouteName(),
-      'collection.index',
-      'redirects to collection page after creation'
-    );
+    assert.equal(currentRouteName(), 'collection.index', 'redirects to collection page after creation');
   });
 
   test('collection index page lists all cards in the collection', async function (assert) {

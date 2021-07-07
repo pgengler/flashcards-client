@@ -24,11 +24,7 @@ export default class CardsNewController extends Component {
     });
     try {
       await card.save();
-      this.router.transitionTo(
-        'collection.card.show',
-        this.args.collection.slug,
-        card.id
-      );
+      this.router.transitionTo('collection.card.show', this.args.collection.slug, card.id);
     } catch (e) {
       // alert('Saving failed');
       console.error(e);

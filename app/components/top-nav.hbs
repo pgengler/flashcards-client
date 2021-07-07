@@ -1,10 +1,9 @@
 <BsNavbar as |navbar|>
   <div class="container-fluid">
-    <div class="navbar-header">
-      <LinkTo @route="index" class="navbar-brand">
-        Flashcards
-      </LinkTo>
-    </div>
+    <LinkTo @route="index" class="navbar-brand">
+      Flashcards
+    </LinkTo>
+
     <navbar.content>
       <navbar.nav as |nav|>
         <nav.dropdown as |dd|>
@@ -40,11 +39,13 @@
             </LinkTo>
           </nav.item>
 
-          <nav.item data-test-random-card>
-            <LinkTo @route="collection.card.random" @model={{this.collection.slug}} class="nav-link">
-              Random card
-            </LinkTo>
-          </nav.item>
+          {{#if this.collection.cards}}
+            <nav.item data-test-random-card>
+              <form {{on "submit" (prevent-default this.randomCard)}}>
+                <button type="submit" class="btn btn-outline-success">Random card</button>
+              </form>
+            </nav.item>
+          {{/if}}
 
           <nav.item data-test-card-sets>
             <nav.linkTo @route="card-sets.new">
