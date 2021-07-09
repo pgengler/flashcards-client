@@ -10,6 +10,7 @@ export default class CardsNewController extends Component {
 
   @tracked front;
   @tracked back;
+  @tracked addAnother = false;
 
   get submitButtonDisabled() {
     return isEmpty(this.front) || isEmpty(this.back);
@@ -24,7 +25,12 @@ export default class CardsNewController extends Component {
     });
     try {
       await card.save();
-      this.router.transitionTo('collection.card.show', this.args.collection.slug, card.id);
+      if (this.addAnother) {
+        this.front = '';
+        this.back = '';
+      } else {
+        this.router.transitionTo('collection.card.show', this.args.collection.slug, card.id);
+      }
     } catch (e) {
       // alert('Saving failed');
       console.error(e);

@@ -1,15 +1,26 @@
 <form class="new_card" {{on "submit" (prevent-default this.create)}}>
-  <fieldset>
-    <label for="front">Front</label>
-    <Textarea @value={{this.front}} id="front" />
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col">
+        <label for="front" class="form-label">Front</label>
+        <Textarea @value={{this.front}} id="front" name="front" class="form-control" />
+      </div>
 
-    <label for="back">Back</label>
-    <Textarea @value={{this.back}} id="back" />
+      <div class="col">
+        <label for="back" class="form-label">Back</label>
+        <Textarea @value={{this.back}} id="back" name="back" class="form-control" />
+      </div>
+    </div>
+  </div>
 
-    <div>
+  <div class="row mt-4">
+    <div class="col">
       <button type="submit" class="btn btn-primary" disabled={{this.submitButtonDisabled}}>
         Create
       </button>
+
+      <label for="add-more" class="form-check-label">Add another?</label>
+      <Input @type="checkbox" @checked={{this.addAnother}} id="add-more" name="add-more" class="form-check-input" />
     </div>
-  </fieldset>
+  </div>
 </form>

@@ -1,4 +1,4 @@
-<div class="flip-container {{if this.isFlipped "flipped"}}" role="button" {{on "click" this.flipCard}}>
+<div class="flip-container {{if this.isFlipped "flipped"}}" role="button" {{on "click" this.flipCard}} ...attributes>
   <div class="flipper">
     <div class="flashcard front" data-test-card-front>
       <MarkdownToHtml @markdown={{@card.front}} />
