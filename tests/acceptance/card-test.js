@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, visit } from '@ember/test-helpers';
+import { click, triggerKeyEvent, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'flashcards/tests/helpers';
 
 module('Acceptance | card', function (hooks) {
@@ -24,5 +24,18 @@ module('Acceptance | card', function (hooks) {
 
     await click('[data-test-card-front]');
     assert.dom('[data-test-card]').hasClass('flipped');
+  });
+
+  test('pressing Space flips a card', async function (assert) {
+    let card = this.server.create('card', { collection: this.collection });
+
+    await visit(`/collection/${this.collection.slug}/card/${card.id}`);
+    assert.dom('[data-test-card]').doesNotHaveClass('flipped');
+
+    await triggerKeyEvent('[data-test-card-front]', 'keydown', 'Space');
+    assert.dom('[data-test-card]').hasClass('flipped');
+
+    await triggerKeyEvent('[data-test-card-front]', 'keydown', 'Space');
+    assert.dom('[data-test-card]').doesNotHaveClass('flipped');
   });
 });

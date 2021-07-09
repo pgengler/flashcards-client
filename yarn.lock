@@ -5566,6 +5566,16 @@ ember-in-element-polyfill@^1.0.0, ember-in-element-polyfill@^1.0.1:
   dependencies:
     ember-cli-babel "^7.26.5"
 
+ember-keyboard@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/ember-keyboard/-/ember-keyboard-6.0.3.tgz#71485e0c1cd7b8a330bde4c173ad1b9767e32777"
+  integrity sha512-1JAoiiuccLOXPttKC8xv2qixGACf1LmGI55k/+YUaP4T/+eIPcBUrtikiS/tzz1qO597BM/7UwOc1szdCB3IXQ==
+  dependencies:
+    ember-cli-babel "^7.26.6"
+    ember-cli-htmlbars "^5.7.1"
+    ember-compatibility-helpers "^1.2.4"
+    ember-modifier "^2.1.1"
+
 ember-load-initializers@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/ember-load-initializers/-/ember-load-initializers-2.1.2.tgz#8a47a656c1f64f9b10cecdb4e22a9d52ad9c7efa"

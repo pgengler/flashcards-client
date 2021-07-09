@@ -11,6 +11,6 @@ export default class extends Component {
   }
 
   @action flipCard() {
-    this.args.flipped(this.side === 'back' ? 'front' : 'back');
+    this.args.flip(this.side === 'back' ? 'front' : 'back');
   }
 }

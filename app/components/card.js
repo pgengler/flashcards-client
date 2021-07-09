@@ -10,19 +10,7 @@ export default class CardComponent extends Component {
   @tracked editFront;
   @tracked editBack;
   @tracked isEditing = false;
-  @tracked side = '';
-
-  get sideToDisplay() {
-    let selectedSide = this.side;
-    if (selectedSide === 'front' || selectedSide === 'back') {
-      return selectedSide;
-    }
-    if (Math.random() < 0.5) {
-      return 'front';
-    } else {
-      return 'back';
-    }
-  }
+  @tracked side = 'front';
 
   @action
   async deleteCard() {
@@ -51,7 +39,7 @@ export default class CardComponent extends Component {
   }
 
   @action
-  flipped(side) {
+  flip(side) {
     this.side = side;
   }
 }
