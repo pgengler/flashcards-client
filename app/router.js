@@ -7,18 +7,21 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function () {
-  this.route('card-sets', { path: '/sets' }, function () {
-    this.route('new');
-  });
-
   this.route('collections', function () {
     this.route('new');
   });
+
   this.route('collection', { path: 'collection/:slug' }, function () {
     this.route('list');
+
     this.route('card', function () {
       this.route('new');
       this.route('random');
+      this.route('show', { path: '/:id' });
+    });
+
+    this.route('sets', function () {
+      this.route('new');
       this.route('show', { path: '/:id' });
     });
   });

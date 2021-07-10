@@ -48,7 +48,7 @@
           {{/if}}
 
           <nav.item data-test-card-sets>
-            <nav.linkTo @route="card-sets.new">
+            <nav.linkTo @route="collection.sets.new" @model={{this.collection.slug}}>
               New set
             </nav.linkTo>
           </nav.item>

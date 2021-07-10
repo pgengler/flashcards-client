@@ -26,5 +26,7 @@ export default function () {
   this.post('/cards');
   this.get('/cards/:id');
 
+  this.post('/card-sets');
+
   this.namespace = '';
 }

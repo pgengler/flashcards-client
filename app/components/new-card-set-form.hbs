@@ -1,0 +1,10 @@
+<form {{on "submit" (prevent-default this.createSet)}}>
+  <div class="container">
+    <div class="row mb-4">
+      <label for="name" class="form-label">Name:</label>
+      <Input @type="text" @value={{this.name}} id="name" name="name" class="form-control" />
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary" disabled={{this.submitButtonDisabled}}>Create</button>
+</form>
