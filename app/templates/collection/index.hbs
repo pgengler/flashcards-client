@@ -1,22 +1,24 @@
 <h1>{{@model.name}}</h1>
 
-{{#if @model.cards}}
-  <table class="table" data-test-card-list>
-    <thead>
-      <tr>
-        <th>Front</th>
-        <th>Back</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each @model.cards as |card|}}
-        <tr data-test-card>
-          <td>{{card.front}}</td>
-          <td>{{card.back}}</td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-{{else}}
-  {{!-- link to "new card" page --}}
-{{/if}}
+<h3>Actions</h3>
+<ul class="list-group">
+  <li class="list-group-item">
+    <LinkTo @route="collection.card.new" @model={{@model.slug}}>
+      Add a new card
+    </LinkTo>
+  </li>
+
+  {{#if @model.cards}}
+    <li class="list-group-item">
+      <LinkTo @route="collection.list" @model={{@model.slug}}>
+        View a list of all {{pluralize @model.cards.length "card"}}.
+      </LinkTo>
+    </li>
+
+    <li class="list-group-item">
+      <LinkTo @route="collection.card.random" @model={{@model.slug}}>
+        View a random card
+      </LinkTo>
+    </li>
+  {{/if}}
+</ul>
