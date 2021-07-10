@@ -1,0 +1,7 @@
+<form {{on "submit" (prevent-default this.save)}}>
+  <div class="mb-3">
+    <label for="name" class="form-label">Name:</label>
+    <Input id="name" @value={{this.name}} />
+  </div>
+  <button class="btn btn-primary" type="submit">Create</button>
+</form>

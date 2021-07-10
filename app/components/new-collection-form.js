@@ -1,9 +1,9 @@
-import Controller from '@ember/controller';
+import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
-export default class CollectionsNewController extends Controller {
+export default class NewCollectionForm extends Component {
   @service router;
   @service store;
 
