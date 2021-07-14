@@ -24,6 +24,7 @@ Router.map(function () {
     this.route('sets', function () {
       this.route('new');
       this.route('show', { path: '/:id' });
+      this.route('study', { path: '/:id/study' });
     });
   });
 });

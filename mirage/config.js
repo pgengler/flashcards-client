@@ -27,6 +27,7 @@ export default function () {
   this.get('/cards/:id');
 
   this.post('/card-sets');
+  this.get('/card-sets/:id');
 
   this.namespace = '';
 }
