@@ -16,6 +16,6 @@
     </fieldset>
   </form>
 {{else}}
-  <FlippableCard @card={{@card}} @side={{this.side}} @flip={{this.flip}} data-test-card />
+  <FlippableCard @card={{@card}} @side={{this.side}} @flip={{this.flip}} data-test-card ...attributes/>
   <button type="button" class="btn btn-primary" {{on "click" this.edit}}>Edit</button>
 {{/if}}

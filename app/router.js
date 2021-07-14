@@ -13,6 +13,7 @@ Router.map(function () {
 
   this.route('collection', { path: 'collection/:slug' }, function () {
     this.route('list');
+    this.route('study');
 
     this.route('card', function () {
       this.route('new');

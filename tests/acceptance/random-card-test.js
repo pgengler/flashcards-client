@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, currentRouteName } from '@ember/test-helpers';
+import { currentRouteName, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'flashcards/tests/helpers';
 
 module('Acceptance | random card', function (hooks) {
