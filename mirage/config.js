@@ -13,9 +13,9 @@ export default function () {
     return result;
   });
   this.post('/collections', function ({ collections }) {
-    let collection = collections.create(this.normalizedRequestAttrs());
-    collection.slug = dasherize(collection.name);
-    collection.save();
+    const attrs = this.normalizedRequestAttrs();
+    attrs.slug = dasherize(attrs.name);
+    let collection = collections.create(attrs);
     return collection;
   });
   this.get('/collections/:slug', function ({ collections }, { params }) {

@@ -1,5 +1,3 @@
-<h1>{{@model.name}}</h1>
-
 <h3>Actions</h3>
 <ul class="list-group">
   <li class="list-group-item">
@@ -18,6 +16,12 @@
     <li class="list-group-item">
       <LinkTo @route="collection.card.random" @model={{@model.slug}}>
         View a random card
+      </LinkTo>
+    </li>
+
+    <li class="list-group-item">
+      <LinkTo @route="collection.study" @model={{@model.slug}}>
+        Start a study session
       </LinkTo>
     </li>
   {{/if}}
