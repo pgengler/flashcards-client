@@ -32,4 +32,13 @@ module('Acceptance | collections', function (hooks) {
     await visit(`/collection/${collection.slug}/list`);
     assert.dom('[data-test-card-list] [data-test-card]').exists({ count: 11 });
   });
+
+  test('collection page includes list of card sets', async function (assert) {
+    let collection = this.server.create('collection');
+    this.server.createList('card-set', 6, { collection });
+
+    await visit(`/collection/${collection.slug}`);
+
+    assert.dom('[data-test-card-set-list] [data-test-card-set]').exists({ count: 6 });
+  });
 });

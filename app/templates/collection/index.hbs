@@ -26,3 +26,23 @@
     </li>
   {{/if}}
 </ul>
+
+<h3>Card Sets</h3>
+{{#if @model.cardSets}}
+  <ul class="list-group" data-test-card-set-list>
+    {{#each @model.cardSets as |cardSet|}}
+      <li class="list-group-item" data-test-card-set>
+        <LinkTo @route="collection.sets.show" @models={{array @model.slug cardSet.id}}>
+          {{cardSet.name}}
+        </LinkTo>
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>
+    You haven't created any card sets.
+    <LinkTo @route="collection.sets.new" @model={{@model.slug}}>
+      Add one now.
+    </LinkTo>
+  </p>
+{{/if}}

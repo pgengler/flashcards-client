@@ -1,1 +1,17 @@
 <h2>{{@model.name}}</h2>
+
+{{#if this.showingManageCardsForm}}
+  <ManageCardsForm
+    @cardSet={{@model}}
+    @close={{this.hideManageCardsForm}}
+  />
+{{else}}
+  <button
+    type="button"
+    class="btn btn-outline-primary"
+    data-test-manage-cards
+    {{on "click" this.showManageCardsForm}}
+  >
+    Manage cards
+  </button>
+{{/if}}

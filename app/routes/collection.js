@@ -9,7 +9,7 @@ export default class CollectionRoute extends Route {
   async model({ slug }) {
     let result = await this.store.query('collection', {
       filter: { slug },
-      include: 'cards',
+      include: 'cards,card-sets',
     });
     return result.firstObject;
   }
