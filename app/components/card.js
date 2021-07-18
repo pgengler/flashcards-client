@@ -15,10 +15,9 @@ export default class CardComponent extends Component {
   @action
   async deleteCard() {
     let card = this.args.card;
-    card.deleteRecord();
-    await card.save();
-    this.isEditing = false;
-    this.router.transitionTo('index');
+    let collection = card.collection;
+    await card.destroyRecord();
+    this.router.transitionTo('collection.index', collection.get('slug'));
   }
 
   @action
@@ -27,6 +26,12 @@ export default class CardComponent extends Component {
     this.editFront = card.front;
     this.editBack = card.back;
     this.isEditing = true;
+  }
+
+  @action
+  cancelEdit() {
+    this.args.card.rollbackAttributes();
+    this.isEditing = false;
   }
 
   @action

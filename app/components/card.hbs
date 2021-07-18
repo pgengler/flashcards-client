@@ -1,21 +1,40 @@
 {{#if this.isEditing}}
-  <form class="edit_card" {{on "submit" (prevent-default this.save)}}>
+  <form class="edit_card" data-test-edit-form {{on "submit" (prevent-default this.save)}}>
     <fieldset>
       <label for="front">Front</label>
-      <Textarea @value={{this.editFront}} id="front" />
+      <Textarea @value={{this.editFront}} id="front" name="front" />
 
       <label for="back">Back</label>
-      <Textarea @value={{this.editBack}} id="back" />
+      <Textarea @value={{this.editBack}} id="back" name="back" />
 
       <div>
         <button type="submit" class="btn btn-primary">
           Save
         </button>
-        <button type="button" {{on "click" this.deleteCard}} class="btn btn-danger">Delete</button>
+        <button
+          type="button" class="btn btn-danger"
+          data-test-delete-button
+          {{on "click" this.deleteCard}}
+        >
+          Delete
+        </button>
+        <button
+          type="button" class="btn btn-outline-secondary"
+          data-test-cancel-button
+          {{on "click" this.cancelEdit}}
+        >
+          Cancel
+        </button>
       </div>
     </fieldset>
   </form>
 {{else}}
   <FlippableCard @card={{@card}} @side={{this.side}} @flip={{this.flip}} data-test-card ...attributes/>
-  <button type="button" class="btn btn-primary" {{on "click" this.edit}}>Edit</button>
+  <button
+    type="button" class="btn btn-primary"
+    data-test-edit-button
+    {{on "click" this.edit}}
+  >
+    Edit
+  </button>
 {{/if}}
