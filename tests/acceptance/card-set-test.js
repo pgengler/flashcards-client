@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentRouteName, fillIn, visit } from '@ember/test-helpers';
+import { click, currentRouteName, fillIn, findAll, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'flashcards/tests/helpers';
 
 module('Acceptance | card set', function (hooks) {
@@ -33,10 +33,11 @@ module('Acceptance | card set', function (hooks) {
       cards: cardsInSet,
     });
 
+    let newCardIds = [];
     this.server.patch('/api/card-sets/:id', function ({ cardSets }, { params }) {
       let set = cardSets.find(params.id);
       let attrs = this.normalizedRequestAttrs();
-      console.log({ attrs });
+      newCardIds = attrs.cardIds;
       set.update(attrs);
       return set;
     });
@@ -64,6 +65,42 @@ module('Acceptance | card set', function (hooks) {
     await click(`input[value="${cardToAdd.id}"]`);
     assert.dom(`input[value="${cardToAdd.id}"]`).isChecked();
 
-    await click('button[type=submit]');
+    await click('[data-test-manage-cards-form] button[type=submit]');
+    let expectedCardIds = [cards[1].id, cards[2].id, cards[4].id];
+    assert.deepEqual(newCardIds, expectedCardIds);
+  });
+
+  test('cancelling adding/removing cards leaves set unchanged', async function (assert) {
+    assert.expect(2);
+
+    let cards = this.server.createList('card', 15, { collection: this.collection });
+    let cardsInSet = cards.slice(0, 3);
+    let cardToRemove = cardsInSet[0];
+    let cardToAdd = cards[4];
+    let cardSet = this.server.create('card-set', {
+      collection: this.collection,
+      cards: cardsInSet,
+    });
+
+    this.server.patch('/api/card-sets/:id', function () {
+      assert.ok(false, 'card set should not have been saved');
+    });
+
+    await visit(`/collection/${this.collection.slug}/sets/${cardSet.id}`);
+    await click('button[data-test-manage-cards]');
+
+    // uncheck a card
+    await click(`input[value="${cardToRemove.id}"]`);
+
+    // check a new card to add
+    await click(`input[value="${cardToAdd.id}"]`);
+
+    await click('[data-test-manage-cards-form] button[data-test-cancel-button]');
+    assert.dom('[data-test-manage-cards-form]').doesNotExist('"manage cards" form is no longer displayed');
+
+    await click('button[data-test-manage-cards]');
+    const checkedCardIds = findAll('input:is(:checked)').map((e) => e.value);
+    const expectedCardIds = cardsInSet.map((c) => c.id);
+    assert.deepEqual(checkedCardIds, expectedCardIds, 'selection was reverted to cards originally in the set');
   });
 });

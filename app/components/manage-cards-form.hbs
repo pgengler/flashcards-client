@@ -1,4 +1,4 @@
-<form id="manage-cards" {{on "submit" (prevent-default this.saveCards)}}>
+<form id="manage-cards" {{on "submit" (prevent-default this.saveCards)}} data-test-manage-cards-form>
   <table class="table">
     <tbody>
       {{#each this.listItems as |item|}}
@@ -19,5 +19,13 @@
 
   <button type="submit" class="btn btn-primary">
     Save
+  </button>
+
+  <button
+    type="button" class="btn btn-outline-primary"
+    data-test-cancel-button
+    {{on "click" @close}}
+  >
+    Cancel
   </button>
 </form>
