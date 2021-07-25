@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentRouteName, fillIn, findAll, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'flashcards/tests/helpers';
+import { Response } from 'miragejs';
 
 module('Acceptance | card set', function (hooks) {
   setupApplicationTest(hooks);
@@ -102,5 +103,49 @@ module('Acceptance | card set', function (hooks) {
     const checkedCardIds = findAll('input:is(:checked)').map((e) => e.value);
     const expectedCardIds = cardsInSet.map((c) => c.id);
     assert.deepEqual(checkedCardIds, expectedCardIds, 'selection was reverted to cards originally in the set');
+  });
+
+  test('displays any validation errors while saving a new set', async function (assert) {
+    this.server.post('/api/card-sets', function () {
+      return new Response(
+        422,
+        {},
+        {
+          errors: [
+            {
+              title: 'must be awesome',
+              detail: 'name - must be something else',
+              code: '100',
+              source: {
+                pointer: '/data/attributes/name',
+              },
+              status: 422,
+            },
+          ],
+        }
+      );
+    });
+
+    await visit(`/collection/${this.collection.slug}/sets/new`);
+    await fillIn('input[name="name"]', 'New card set');
+    await click('button[type=submit]');
+
+    assert.equal(currentRouteName(), 'collection.sets.new', 'does not transition');
+    assert.dom('[data-test-errors-for="name"]').hasText('name - must be something else');
+    assert.dom('.flash-message').doesNotExist('does not show a flash message');
+  });
+
+  test('displays errors (other than validation errors) as a flash message', async function (assert) {
+    this.server.post('/api/card-sets', function () {
+      return new Response(500);
+    });
+
+    await visit(`/collection/${this.collection.slug}/sets/new`);
+    await fillIn('input[name="name"]', 'New card set');
+    await click('button[type=submit]');
+
+    assert.equal(currentRouteName(), 'collection.sets.new', 'does not transition');
+    assert.dom('.flash-message').hasText('Failed to save the new card set');
+    assert.dom('[data-test-errors-for="name"]').hasNoText();
   });
 });
