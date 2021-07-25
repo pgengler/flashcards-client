@@ -41,9 +41,9 @@
 
           {{#if this.collection.cards}}
             <nav.item data-test-random-card>
-              <form {{on "submit" (prevent-default this.randomCard)}}>
-                <button type="submit" class="btn btn-outline-success">Random card</button>
-              </form>
+              <button type="button" class="btn btn-outline-success" {{on "click" this.randomCard}}>
+                Random card
+              </button>
             </nav.item>
           {{/if}}
 

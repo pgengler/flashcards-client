@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { click, currentRouteName, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'flashcards/tests/helpers';
+import { Response } from 'miragejs';
 
-module('Acceptance | new ard', function (hooks) {
+module('Acceptance | new card', function (hooks) {
   setupApplicationTest(hooks);
 
   hooks.beforeEach(function () {
@@ -55,5 +56,51 @@ module('Acceptance | new ard', function (hooks) {
     assert.dom('textarea[name=front]').hasNoValue('textarea for front is cleared');
     assert.dom('textarea[name=back]').hasNoValue('textarea for back is cleared');
     assert.dom('input[name="add-more"]').isChecked('"add more" checkbox is still checked');
+  });
+
+  test('displays validation errors returned by the backend inline', async function (assert) {
+    this.server.post('/api/cards', function () {
+      return new Response(
+        422,
+        {},
+        {
+          errors: [
+            {
+              title: 'must be awesome',
+              detail: 'front - must be awesome',
+              code: '100',
+              source: {
+                pointer: '/data/attributes/front',
+              },
+              status: 422,
+            },
+          ],
+        }
+      );
+    });
+
+    await visit(`/collection/${this.collection.slug}/card/new`);
+    await fillIn('textarea[name=front]', 'Boring content');
+    await fillIn('textarea[name=back]', 'Awesome back side content');
+    await click('button[type="submit"]');
+
+    assert.equal(currentRouteName(), 'collection.card.new', 'we are still on the new card form');
+    assert.dom('[data-test-errors-for="front"]').hasText('front - must be awesome', 'displays validation error inline');
+    assert.dom('.flash-message').doesNotExist('does not show a flash message');
+  });
+
+  test('displays other errors from the backend in a flash message', async function (assert) {
+    this.server.post('/api/cards', function () {
+      return new Response(500);
+    });
+
+    await visit(`/collection/${this.collection.slug}/card/new`);
+    await fillIn('textarea[name=front]', 'Boring content');
+    await fillIn('textarea[name=back]', 'Awesome back side content');
+    await click('button[type="submit"]');
+
+    assert.equal(currentRouteName(), 'collection.card.new', 'we are still on the new card form');
+    assert.dom('.flash-message.alert-danger').exists('flash message is displayed');
+    assert.dom('.flash-message').hasText('Failed to save the new card');
   });
 });
