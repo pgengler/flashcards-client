@@ -43,6 +43,13 @@ module('Acceptance | collections', function (hooks) {
     assert.dom('[data-test-card-set-list] [data-test-card-set]').exists({ count: 6 });
   });
 
+  test('/collections/:slug redirects to collections page if no collection is found', async function (assert) {
+    this.server.create('collection', { name: 'This collection exists' });
+
+    await visit('/collection/non-existent-collection-foo-bar-baz');
+    assert.equal(currentRouteName(), 'collections.index');
+  });
+
   test('displays validation errors when adding a new collection inline, not as a flash message', async function (assert) {
     this.server.post('/api/collections', function () {
       return new Response(

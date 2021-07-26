@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 
 export default class CollectionRoute extends Route {
   @service currentCollection;
+  @service router;
   @service store;
 
   async model({ slug }) {
@@ -15,7 +16,11 @@ export default class CollectionRoute extends Route {
   }
 
   afterModel(collection) {
-    this.currentCollection.currentCollection = collection;
+    if (collection) {
+      this.currentCollection.currentCollection = collection;
+    } else {
+      this.router.transitionTo('collections.index');
+    }
   }
 
   @action
