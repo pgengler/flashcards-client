@@ -12,7 +12,7 @@ export default class TopNav extends Component {
   }
 
   get collections() {
-    return this.store.peekAll('collection');
+    return this.store.peekAll('collection').filter((collection) => !collection.isNew);
   }
 
   get collection() {

@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentRouteName, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'flashcards/tests/helpers';
+import { Response } from 'miragejs';
 
 module('Acceptance | collections', function (hooks) {
   setupApplicationTest(hooks);
@@ -40,5 +41,49 @@ module('Acceptance | collections', function (hooks) {
     await visit(`/collection/${collection.slug}`);
 
     assert.dom('[data-test-card-set-list] [data-test-card-set]').exists({ count: 6 });
+  });
+
+  test('displays validation errors when adding a new collection inline, not as a flash message', async function (assert) {
+    this.server.post('/api/collections', function () {
+      return new Response(
+        422,
+        {},
+        {
+          errors: [
+            {
+              title: 'is already taken',
+              detail: 'name - is already taken',
+              code: '100',
+              source: {
+                pointer: '/data/attributes/name',
+              },
+              status: 422,
+            },
+          ],
+        }
+      );
+    });
+
+    await visit('/collections/new');
+    await fillIn('input[name=name]', 'Already-used collection name');
+    await click('button[type=submit]');
+
+    assert.equal(currentRouteName(), 'collections.new', 'remains on the "new collection" page');
+    assert.dom('[data-test-errors-for="name"]').hasText('name - is already taken');
+    assert.dom('.flash-message').doesNotExist();
+  });
+
+  test('displays errors (other than validation errors) when adding a collection as a flash message', async function (assert) {
+    this.server.post('/api/collections', function () {
+      return new Response(500);
+    });
+
+    await visit('/collections/new');
+    await fillIn('input[name=name]', 'Collection name');
+    await click('button[type=submit]');
+
+    assert.equal(currentRouteName(), 'collections.new', 'remains on the "new collection" page');
+    assert.dom('.flash-message').hasText('Failed to save the new collection');
+    assert.dom('[data-test-errors-for="name"]').hasNoText();
   });
 });

@@ -135,7 +135,7 @@ module('Acceptance | card set', function (hooks) {
     assert.dom('.flash-message').doesNotExist('does not show a flash message');
   });
 
-  test('displays errors (other than validation errors) as a flash message', async function (assert) {
+  test('displays errors when adding a new card set (other than validation errors) as a flash message', async function (assert) {
     this.server.post('/api/card-sets', function () {
       return new Response(500);
     });
