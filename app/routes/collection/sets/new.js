@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class SetsNewRoute extends Route {
@@ -9,5 +10,13 @@ export default class SetsNewRoute extends Route {
     return this.store.createRecord('card-set', {
       collection,
     });
+  }
+
+  @action
+  willTransition() {
+    let cardSet = this.modelFor(this.routeName);
+    if (cardSet.isNew) {
+      cardSet.rollbackAttributes();
+    }
   }
 }
