@@ -1,33 +1,20 @@
 {{#if this.isEditing}}
-  <form class="edit_card" data-test-edit-form {{on "submit" (prevent-default this.save)}}>
-    <fieldset>
-      <label for="front">Front</label>
-      <Textarea @value={{this.editFront}} id="front" name="front" />
-
-      <label for="back">Back</label>
-      <Textarea @value={{this.editBack}} id="back" name="back" />
-
-      <div>
-        <button type="submit" class="btn btn-primary">
-          Save
-        </button>
-        <button
-          type="button" class="btn btn-danger"
-          data-test-delete-button
-          {{on "click" this.deleteCard}}
-        >
-          Delete
-        </button>
-        <button
-          type="button" class="btn btn-outline-secondary"
-          data-test-cancel-button
-          {{on "click" this.cancelEdit}}
-        >
-          Cancel
-        </button>
-      </div>
-    </fieldset>
-  </form>
+  <CardForm @card={{@card}} @submitLabel="Save" @onSave={{this.exitEdit}} data-test-edit-form>
+    <button
+      type="button" class="btn btn-danger"
+      data-test-delete-button
+      {{on "click" this.deleteCard}}
+    >
+      Delete
+    </button>
+    <button
+      type="button" class="btn btn-outline-secondary"
+      data-test-cancel-button
+      {{on "click" this.cancelEdit}}
+    >
+      Cancel
+    </button>
+  </CardForm>
 {{else}}
   <FlippableCard @card={{@card}} @side={{this.side}} @flip={{this.flip}} data-test-card ...attributes/>
   <button

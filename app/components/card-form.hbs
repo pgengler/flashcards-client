@@ -1,4 +1,4 @@
-<form class="new_card" {{on "submit" (prevent-default this.create)}}>
+<form class="card-form" {{on "submit" (prevent-default this.save)}} ...attributes>
   <div class="container">
     <div class="row mb-4">
       <div class="col">
@@ -22,11 +22,10 @@
   <div class="row mt-4">
     <div class="col">
       <button type="submit" class="btn btn-primary" disabled={{this.submitButtonDisabled}}>
-        Create
+        {{@submitLabel}}
       </button>
 
-      <label for="add-more" class="form-check-label">Add another?</label>
-      <Input @type="checkbox" @checked={{this.addAnother}} id="add-more" name="add-more" class="form-check-input" />
+      {{yield}}
     </div>
   </div>
 </form>

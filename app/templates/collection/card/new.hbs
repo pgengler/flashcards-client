@@ -1,1 +1,4 @@
-<NewCardForm @card={{@model}} />
+<CardForm @card={{@model}} @submitLabel="Create" @onSave={{this.onSave}}>
+  <label for="add-more" class="form-check-label">Add another?</label>
+  <Input @type="checkbox" @checked={{this.addAnother}} id="add-more" name="add-more" class="form-check-input" />
+</CardForm>

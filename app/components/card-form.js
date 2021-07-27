@@ -7,8 +7,6 @@ import { InvalidError } from '@ember-data/adapter/error';
 
 export default class NewCardForm extends Component {
   @service flashMessages;
-  @service router;
-  @service store;
 
   @tracked addAnother = false;
 
@@ -18,18 +16,11 @@ export default class NewCardForm extends Component {
   }
 
   @action
-  async create() {
+  async save() {
     let card = this.args.card;
     try {
       await card.save();
-      if (this.addAnother) {
-        // someday this will be possible:
-        // this.router.refresh();
-        // until then, here's a hack:
-        this.router._router._routerMicrolib.refresh(); // eslint-disable-line ember/no-private-routing-service
-      } else {
-        this.router.transitionTo('collection.card.show', card.collection.get('slug'), card.id);
-      }
+      this.args.onSave(card);
     } catch (e) {
       if (!(e instanceof InvalidError)) {
         this.flashMessages.danger('Failed to save the new card');
