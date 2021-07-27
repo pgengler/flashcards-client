@@ -47,12 +47,28 @@ module('Acceptance | card', function (hooks) {
       collection: this.collection,
     });
 
+    this.server.patch('/api/cards/:id', function ({ cards }, { params }) {
+      let c = cards.find(params.id);
+      let attrs = this.normalizedRequestAttrs();
+      assert.step(`updating front to "${attrs.front}"`);
+      assert.step(`updating back to "${attrs.back}"`);
+      c.update(attrs);
+      return c;
+    });
+
     await visit(`/collection/${this.collection.slug}/card/${card.id}`);
     await click('[data-test-edit-button]');
 
     assert.dom('form[data-test-edit-form]').exists('displays edit form');
-    assert.dom('textarea[name=front]').hasValue('Front content');
-    assert.dom('textarea[name=back]').hasValue('Back content');
+    assert.dom('textarea[name=front]').hasValue('Front content', 'displays current "front"');
+    assert.dom('textarea[name=back]').hasValue('Back content', 'displays current "back"');
+
+    await fillIn('textarea[name=front]', 'New front');
+    await fillIn('textarea[name=back]', 'New back');
+
+    await click('button[type=submit]');
+    assert.verifySteps(['updating front to "New front"', 'updating back to "New back"']);
+    assert.dom('form[data-test-edit-form]').doesNotExist('form is not displayed after save');
   });
 
   test('deleting a card', async function (assert) {

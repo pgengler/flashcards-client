@@ -2,13 +2,10 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
-import { tracked } from '@glimmer/tracking';
 import { InvalidError } from '@ember-data/adapter/error';
 
 export default class NewCardForm extends Component {
   @service flashMessages;
-
-  @tracked addAnother = false;
 
   get submitButtonDisabled() {
     let card = this.args.card;

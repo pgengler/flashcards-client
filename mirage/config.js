@@ -25,6 +25,8 @@ export default function () {
   this.get('/cards');
   this.post('/cards');
   this.get('/cards/:id');
+  this.patch('/cards/:id');
+  this.delete('/cards/:id');
 
   this.post('/card-sets');
   this.get('/card-sets/:id');
