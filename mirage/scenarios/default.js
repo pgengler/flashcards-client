@@ -3,7 +3,11 @@ export default function (server) {
     name: 'First collection',
     slug: 'first-collection',
   });
-  server.createList('card', 10, { collection });
+  let cards = server.createList('card', 10, { collection });
+  server.create('card-set', {
+    collection,
+    cards: cards.slice(5),
+  });
 
   server.create('collection', {
     name: '2nd collection',

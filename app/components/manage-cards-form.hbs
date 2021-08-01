@@ -4,7 +4,10 @@
       {{#each this.listItems as |item|}}
         <tr data-test-card>
           <td>
-            <input type="checkbox" value={{item.card.id}} checked={{item.checked}} />
+            <label for="include-{{item.card.id}}" class="visually-hidden">
+              Include
+            </label>
+            <input type="checkbox" value={{item.card.id}} checked={{item.checked}} id="include-{{item.card.id}}" />
           </td>
           <td>
             {{item.card.front}}
