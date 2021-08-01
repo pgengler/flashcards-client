@@ -14,6 +14,7 @@ export default class CardComponent extends Component {
 
   @action
   async deleteCard() {
+    if (!window.confirm('Are you sure you want to delete this card?')) return;
     let card = this.args.card;
     let collection = card.collection;
     await card.destroyRecord();

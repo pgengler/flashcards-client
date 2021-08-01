@@ -72,6 +72,7 @@ module('Acceptance | card', function (hooks) {
   });
 
   test('deleting a card', async function (assert) {
+    assert.expect(3);
     let card = this.server.create('card', { collection: this.collection });
 
     let deleteRequestMade = false;
@@ -82,11 +83,46 @@ module('Acceptance | card', function (hooks) {
       return new Response(204);
     });
 
+    let originalWindowConfirm = window.confirm;
+    window.confirm = () => {
+      assert.false(deleteRequestMade, 'required confirmation before hitting API');
+      return true;
+    };
+
     await visit(`/collection/${this.collection.slug}/card/${card.id}`);
     await click('[data-test-edit-button]');
     await click('[data-test-delete-button]');
     assert.ok(deleteRequestMade, 'made API request to delete card');
     assert.equal(currentRouteName(), 'collection.index', 'redirects to collection');
+
+    window.confirm = originalWindowConfirm;
+  });
+
+  test('does not delete a card if the user cancels', async function (assert) {
+    assert.expect(3);
+    let card = this.server.create('card', { collection: this.collection });
+
+    let deleteRequestMade = false;
+    this.server.delete('/api/cards/:id', function ({ cards }, { params }) {
+      let c = cards.find(params.id);
+      c.destroy();
+      deleteRequestMade = true;
+      return new Response(204);
+    });
+
+    let originalWindowConfirm = window.confirm;
+    window.confirm = () => {
+      assert.false(deleteRequestMade, 'required confirmation before hitting API');
+      return false;
+    };
+
+    await visit(`/collection/${this.collection.slug}/card/${card.id}`);
+    await click('[data-test-edit-button]');
+    await click('[data-test-delete-button]');
+    assert.false(deleteRequestMade, 'did not make API request to delete card');
+    assert.equal(currentRouteName(), 'collection.card.show', 'remains on current route');
+
+    window.confirm = originalWindowConfirm;
   });
 
   test('cancelling edits to a card', async function (assert) {
