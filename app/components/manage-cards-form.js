@@ -20,9 +20,7 @@ export default class ManageCardsForm extends Component {
     let form = event.target;
     let checked = form.querySelectorAll('input:is(:checked)');
     let ids = Array.from(checked).map((elem) => elem.value);
-    let cards = ids.map((id) => {
-      return this.store.peekRecord('card', id);
-    });
+    let cards = ids.map((id) => this.store.peekRecord('card', id));
 
     let cardSet = this.args.cardSet;
     cardSet.cards = cards;

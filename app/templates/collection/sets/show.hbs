@@ -1,17 +1,17 @@
 <h2>{{@model.name}}</h2>
 
-{{#if this.showingManageCardsForm}}
-  <ManageCardsForm
-    @cardSet={{@model}}
-    @close={{this.hideManageCardsForm}}
-  />
-{{else}}
-  <button
-    type="button"
-    class="btn btn-outline-primary"
-    data-test-manage-cards
-    {{on "click" this.showManageCardsForm}}
-  >
-    Manage cards
-  </button>
-{{/if}}
+<ul class="list-group">
+  <li class="list-group-item">
+    <LinkTo @route="collection.sets.manage" @models={{array @model.collection.slug @model.id}} data-test-manage-cards>
+      Manage
+    </LinkTo>
+  </li>
+
+  {{#if @model.cards}}
+    <li class="list-group-item">
+      <LinkTo @route="collection.sets.study" @models={{array @model.collection.slug @model.id}}>
+        Start a study session
+      </LinkTo>
+    </li>
+  {{/if}}
+</ul>

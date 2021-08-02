@@ -30,6 +30,7 @@ export default function () {
 
   this.post('/card-sets');
   this.get('/card-sets/:id');
+  this.patch('/card-sets/:id');
 
   this.namespace = '';
 }

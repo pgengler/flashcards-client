@@ -44,7 +44,8 @@ module('Acceptance | card set', function (hooks) {
     });
 
     await visit(`/collection/${this.collection.slug}/sets/${cardSet.id}`);
-    await click('button[data-test-manage-cards]');
+    await click('[data-test-manage-cards]');
+    assert.equal(currentRouteName(), 'collection.sets.manage', 'link goes to right page');
 
     assert.dom('tr[data-test-card]').exists({ count: 15 }, 'lists all cards in the collection');
 
@@ -69,10 +70,12 @@ module('Acceptance | card set', function (hooks) {
     await click('[data-test-manage-cards-form] button[type=submit]');
     let expectedCardIds = [cards[1].id, cards[2].id, cards[4].id];
     assert.deepEqual(newCardIds, expectedCardIds);
+
+    assert.equal(currentRouteName(), 'collection.sets.show', 'returns to set show page when done');
   });
 
   test('cancelling adding/removing cards leaves set unchanged', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
 
     let cards = this.server.createList('card', 15, { collection: this.collection });
     let cardsInSet = cards.slice(0, 3);
@@ -88,7 +91,7 @@ module('Acceptance | card set', function (hooks) {
     });
 
     await visit(`/collection/${this.collection.slug}/sets/${cardSet.id}`);
-    await click('button[data-test-manage-cards]');
+    await click('[data-test-manage-cards]');
 
     // uncheck a card
     await click(`input[value="${cardToRemove.id}"]`);
@@ -98,8 +101,9 @@ module('Acceptance | card set', function (hooks) {
 
     await click('[data-test-manage-cards-form] button[data-test-cancel-button]');
     assert.dom('[data-test-manage-cards-form]').doesNotExist('"manage cards" form is no longer displayed');
+    assert.equal(currentRouteName(), 'collection.sets.show', 'returns to set show page after cancelling');
 
-    await click('button[data-test-manage-cards]');
+    await click('[data-test-manage-cards]');
     const checkedCardIds = findAll('input:is(:checked)').map((e) => e.value);
     const expectedCardIds = cardsInSet.map((c) => c.id);
     assert.deepEqual(checkedCardIds, expectedCardIds, 'selection was reverted to cards originally in the set');
