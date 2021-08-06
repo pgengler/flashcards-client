@@ -79,7 +79,7 @@ module('Acceptance | collections', function (hooks) {
 
       assert.equal(currentRouteName(), 'collections.new', 'remains on the "new collection" page');
       assert.dom('[data-test-errors-for="name"]').hasText('name - is already taken');
-      assert.dom('.flash-message').doesNotExist();
+      assert.dom('.flash-message.alert-danger').doesNotExist();
     });
 
     test('displays errors (other than validation errors) as a flash message', async function (assert) {
@@ -92,7 +92,7 @@ module('Acceptance | collections', function (hooks) {
       await click('button[type=submit]');
 
       assert.equal(currentRouteName(), 'collections.new', 'remains on the "new collection" page');
-      assert.dom('.flash-message').hasText('Failed to save the collection');
+      assert.dom('.flash-message.alert-danger').hasText('Failed to save the collection');
       assert.dom('[data-test-errors-for="name"]').hasNoText();
     });
   });
@@ -152,7 +152,7 @@ module('Acceptance | collections', function (hooks) {
 
       assert.equal(currentRouteName(), 'collection.edit', 'remains on the "edit collection" page');
       assert.dom('[data-test-errors-for="name"]').hasText('name - is already taken');
-      assert.dom('.flash-message').doesNotExist();
+      assert.dom('.flash-message.alert-danger').doesNotExist();
     });
 
     test('displays errors (other than validation errors) as a flash message', async function (assert) {
@@ -165,13 +165,83 @@ module('Acceptance | collections', function (hooks) {
       await click('button[type=submit]');
 
       assert.equal(currentRouteName(), 'collection.edit', 'remains on the "edit collection" page');
-      assert.dom('.flash-message').hasText('Failed to save the collection');
+      assert.dom('.flash-message.alert-danger').hasText('Failed to save the collection');
       assert.dom('[data-test-errors-for="name"]').hasNoText();
     });
 
     test('does not show Edit icon in header when on edit page', async function (assert) {
       await visit(`/collection/${this.collection.slug}/edit`);
       assert.dom('header [data-test-edit]').doesNotExist();
+    });
+  });
+
+  module('deleting a collection', function (hooks) {
+    hooks.beforeEach(function () {
+      this.collection = this.server.create('collection', { name: 'A Collection' });
+      this.server.create('collection', { name: 'Another collection' }); // so that collections.index renders instead of redirects
+
+      this._originalWindowConfirm = window.confirm;
+      window.confirm = () => true;
+    });
+    hooks.afterEach(function () {
+      window.confirm = this._originalWindowConfirm;
+    });
+
+    test('requires confirmation before deleting collection', async function (assert) {
+      assert.expect(3);
+
+      this.server.del('/api/collections/:id', function ({ collections }, { params }) {
+        let collection = collections.find(params.id);
+        collection.destroy();
+        assert.step('made API request to delete collection');
+        return new Response(204);
+      });
+
+      window.confirm = () => {
+        assert.step('required confirmation to delete collection');
+        return true;
+      };
+
+      await visit(`/collection/${this.collection.slug}/edit`);
+      await click('button[data-test-action="delete"]');
+      assert.verifySteps(['required confirmation to delete collection', 'made API request to delete collection']);
+    });
+
+    test('does not delete collection is user does not confirm', async function (assert) {
+      assert.expect(1);
+
+      this.server.del('/api/collections/:id', function () {
+        assert.ok(false, 'should not make API request to delete collection');
+      });
+
+      window.confirm = () => false;
+
+      await visit(`/collection/${this.collection.slug}/edit`);
+      await click('button[data-test-action="delete"]');
+      assert.equal(currentRouteName(), 'collection.edit', 'remains on "edit" route');
+    });
+
+    test('redirects to collections.index after deleting a collection', async function (assert) {
+      await visit(`/collection/${this.collection.slug}/edit`);
+      await click('button[data-test-action="delete"]');
+      assert.equal(currentRouteName(), 'collections.index');
+    });
+
+    test('shows a flash message after deleting a collection', async function (assert) {
+      await visit(`/collection/${this.collection.slug}/edit`);
+      await click('button[data-test-action="delete"]');
+      assert.dom('.flash-message.alert-success').hasText('Deleted "A Collection"');
+    });
+
+    test('shows an error as a flash message if deletion fails', async function (assert) {
+      this.server.del('/api/collections/:id', function () {
+        return new Response(500);
+      });
+
+      await visit(`/collection/${this.collection.slug}/edit`);
+      await click('button[data-test-action="delete"]');
+      assert.equal(currentRouteName(), 'collection.edit', 'remains on the edit page');
+      assert.dom('.flash-message.alert-danger').hasText('Failed to delete "A Collection"');
     });
   });
 });

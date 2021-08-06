@@ -25,6 +25,7 @@ export default function () {
     collection.update(attrs);
     return collection;
   });
+  this.del('/collections/:id');
   this.get('/collections/:slug', function ({ collections }, { params }) {
     return collections.findBy({ slug: params.slug });
   });

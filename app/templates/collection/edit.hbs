@@ -1,4 +1,12 @@
 {{!-- @model isn't a Collection but it's got a `name` property so it works just as well here. Quack quack. --}}
 <CollectionHeader @collection={{@model}} @editable={{false}} />
 
-<CollectionForm @collection={{@model.collection}} @submitLabel="Save" />
+<CollectionForm @collection={{@model.collection}} @submitLabel="Save">
+  <button
+    type="button" class="btn btn-danger ms-5"
+    {{on "click" this.deleteCollection}}
+    data-test-action="delete"
+  >
+    Delete
+  </button>
+</CollectionForm>
