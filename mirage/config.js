@@ -18,6 +18,13 @@ export default function () {
     let collection = collections.create(attrs);
     return collection;
   });
+  this.patch('/collections/:id', function ({ collections }, { params }) {
+    let collection = collections.find(params.id);
+    let attrs = this.normalizedRequestAttrs();
+    attrs.slug = dasherize(attrs.name);
+    collection.update(attrs);
+    return collection;
+  });
   this.get('/collections/:slug', function ({ collections }, { params }) {
     return collections.findBy({ slug: params.slug });
   });

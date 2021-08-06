@@ -1,12 +1,12 @@
 <form {{on "submit" (prevent-default this.save)}}>
   <div class="mb-3">
     <label for="name" class="form-label">Name:</label>
-    <Input id="name" name="name" @value={{@collection.name}} class="form-control {{invalid-class @collection 'name'}}" required />
+    <Input id="name" name="name" @value={{this.name}} class="form-control {{invalid-class @collection 'name'}}" required />
     <div class="invalid-feedback" data-test-errors-for="name">
       {{validation-errors @collection.errors.name}}
     </div>
   </div>
   <button class="btn btn-primary" type="submit" disabled={{this.submitButtonDisabled}}>
-    Create
+    {{@submitLabel}}
   </button>
 </form>

@@ -117,7 +117,7 @@ module('Acceptance | card set', function (hooks) {
         {
           errors: [
             {
-              title: 'must be awesome',
+              title: 'must be something else',
               detail: 'name - must be something else',
               code: '100',
               source: {
