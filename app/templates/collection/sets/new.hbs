@@ -1,3 +1,7 @@
 <CollectionHeader @collection={{@model.collection}} @editable={{true}} />
 
-<CardSetForm @cardSet={{@model}} @close={{this.redirectToSet}} />
+<CardSetForm
+  @cardSet={{@model}}
+  @saved={{this.redirectToSet}}
+  @cancelled={{this.redirectToCollection}}
+/>

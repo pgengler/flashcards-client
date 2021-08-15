@@ -33,7 +33,7 @@ export default class CardSetForm extends Component {
     cardSet.name = name;
     try {
       await cardSet.save();
-      this.args.close();
+      this.args.saved();
     } catch (e) {
       if (!(e instanceof InvalidError)) {
         this.flashMessages.danger('Failed to save the new card set');

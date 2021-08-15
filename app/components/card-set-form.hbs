@@ -31,15 +31,21 @@
     </tbody>
   </table>
 
-  <button type="submit" class="btn btn-primary me-4" disabled={{this.submitButtonDisabled}}>
-    Save
-  </button>
+  <div class="row">
+    <div class="col d-flex align-items-center">
+      <button type="submit" class="btn btn-primary me-4">
+        Save
+      </button>
 
-  <button
-    type="button" class="btn btn-outline-primary"
-    data-test-cancel-button
-    {{on "click" @close}}
-  >
-    Cancel
-  </button>
+      <button
+        type="button" class="btn btn-outline-primary"
+        data-test-cancel-button
+        {{on "click" @cancelled}}
+      >
+        Cancel
+      </button>
+
+      {{yield}}
+    </div>
+  </div>
 </form>

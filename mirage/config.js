@@ -30,7 +30,6 @@ export default function () {
     return collections.findBy({ slug: params.slug });
   });
 
-  this.get('/cards');
   this.post('/cards');
   this.get('/cards/:id');
   this.patch('/cards/:id');
@@ -39,6 +38,7 @@ export default function () {
   this.post('/card-sets');
   this.get('/card-sets/:id');
   this.patch('/card-sets/:id');
+  this.del('/card-sets/:id');
 
   this.namespace = '';
 }
