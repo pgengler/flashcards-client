@@ -1,4 +1,4 @@
-import { module, skip, test } from 'qunit';
+import { module, test } from 'qunit';
 import { click, find, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'flashcards/tests/helpers';
 
@@ -31,7 +31,20 @@ module('Acceptance | study mode', function (hooks) {
       assert.deepEqual(actualCardIds, expectedCardIds, 'displayed all cards in the collection once');
     });
 
-    skip('can navigate back and forth between cards', async function (/* assert */) {});
+    test('can navigate back and forth between cards', async function (assert) {
+      await visit(`/collection/${this.collection.slug}/study`);
+
+      assert.dom('[data-test-card]').hasAttribute('data-test-id', this.cards[0].id, 'shows first card');
+
+      await click('[data-test-next]');
+      assert.dom('[data-test-card]').hasAttribute('data-test-id', this.cards[1].id, 'shows second card');
+
+      await click('[data-test-next]');
+      assert.dom('[data-test-card]').hasAttribute('data-test-id', this.cards[2].id, 'shows third card');
+
+      await click('[data-test-previous]');
+      assert.dom('[data-test-card]').hasAttribute('data-test-id', this.cards[1].id, 'shows second card');
+    });
   });
 
   module('for a card set', function (hooks) {
