@@ -1,8 +1,8 @@
-<header class="d-flex align-items-center mb-5">
+<header class="d-flex align-items-center mb-3">
   <h1>{{@collection.name}}</h1>
   {{#if @editable}}
     <LinkTo @route="collection.edit" @model={{@collection}} class="btn" data-test-edit>
-      <img src="/assets/images/pencil-square.svg">
+      <img src="/assets/images/pencil-square.svg" alt="pencil icon" title="Edit">
     </LinkTo>
   {{/if}}
 </header>

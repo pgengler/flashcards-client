@@ -19,4 +19,9 @@ export default class CollectionEditController extends Controller {
       console.error(e);
     }
   }
+
+  @action
+  redirectToCollection() {
+    this.router.transitionTo('collection', this.model.collection.slug);
+  }
 }

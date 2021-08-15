@@ -3,7 +3,15 @@
 
 <CollectionForm @collection={{@model.collection}} @submitLabel="Save">
   <button
-    type="button" class="btn btn-danger ms-5"
+    type="button" class="btn btn-outline-secondary ms-3"
+    {{on "click" this.redirectToCollection}}
+    data-test-action="cancel"
+  >
+    Cancel
+  </button>
+  <div class="flex-grow-1"></div>
+  <button
+    type="button" class="btn btn-danger"
     {{on "click" this.deleteCollection}}
     data-test-action="delete"
   >
