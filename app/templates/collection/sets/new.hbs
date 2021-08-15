@@ -1,1 +1,3 @@
-<NewCardSetForm @cardSet={{@model}} />
+<CollectionHeader @collection={{@model.collection}} @editable={{true}} />
+
+<CardSetForm @cardSet={{@model}} @close={{this.redirectToSet}} />

@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { InvalidError } from '@ember-data/adapter/error';
 
-export default class NewCardForm extends Component {
+export default class CardForm extends Component {
   @service flashMessages;
 
   get submitButtonDisabled() {

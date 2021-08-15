@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentRouteName, fillIn, findAll, visit } from '@ember/test-helpers';
+import { click, currentRouteName, currentURL, fillIn, findAll, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'flashcards/tests/helpers';
 import { Response } from 'miragejs';
 
@@ -10,146 +10,282 @@ module('Acceptance | card set', function (hooks) {
     this.collection = this.server.create('collection');
   });
 
-  test('adding a new card set to a collection', async function (assert) {
-    await visit(`/collection/${this.collection.slug}/sets/new`);
+  module('adding a new card set', function () {
+    test('requires a name to be able to save', async function (assert) {
+      this.server.post('/api/card-sets', ({ cardSets }) => {
+        assert.step('saved new card set');
+        return cardSets.create(this.normalizedRequestAttrs());
+      });
+      await visit(`/collection/${this.collection.slug}/sets/new`);
 
-    assert.dom('button[type=submit]').isDisabled('submit button is disabled initially');
-    await fillIn('input[name="name"]', 'New card set');
+      assert.dom('input[name="name"]').hasAttribute('required');
 
-    assert
-      .dom('button[type=submit]')
-      .isNotDisabled('submit button is not disabled once all required fields are filled');
-    await click('button[type=submit]');
+      await click('button[type="submit"]');
+      assert.equal(currentURL(), `/collection/${this.collection.slug}/sets/new`, 'does not save');
+      assert.verifySteps([]);
 
-    assert.equal(currentRouteName(), 'collection.sets.show', 'redirects to new set');
-  });
-
-  test('adding/removing cards from a card set', async function (assert) {
-    let cards = this.server.createList('card', 15, { collection: this.collection });
-    let cardsInSet = cards.slice(0, 3);
-    let cardToRemove = cardsInSet[0];
-    let cardToAdd = cards[4];
-    let cardSet = this.server.create('card-set', {
-      collection: this.collection,
-      cards: cardsInSet,
+      await fillIn('input[name="name"]', 'New card set');
+      await click('button[type="submit"]');
+      assert.verifySteps(['saved new card set']);
     });
 
-    let newCardIds = [];
-    this.server.patch('/api/card-sets/:id', function ({ cardSets }, { params }) {
-      let set = cardSets.find(params.id);
-      let attrs = this.normalizedRequestAttrs();
-      newCardIds = attrs.cardIds;
-      set.update(attrs);
-      return set;
+    test('redirects to new set on save', async function (assert) {
+      await visit(`/collection/${this.collection.slug}/sets/new`);
+      await fillIn('input[name="name"]', 'New card set');
+      await click('button[type=submit]');
+
+      assert.equal(currentRouteName(), 'collection.sets.show', 'redirects to new set');
     });
 
-    await visit(`/collection/${this.collection.slug}/sets/${cardSet.id}`);
-    await click('[data-test-manage-cards]');
-    assert.equal(currentRouteName(), 'collection.sets.manage', 'link goes to right page');
+    test('can add cards to a set when creating', async function (assert) {
+      let cards = this.server.createList('card', 15, { collection: this.collection });
+      let cardsToAdd = cards.slice(0, 5);
 
-    assert.dom('tr[data-test-card]').exists({ count: 15 }, 'lists all cards in the collection');
+      let cardIds = [];
+      this.server.post('/api/card-sets', function ({ cardSets }) {
+        let attrs = this.normalizedRequestAttrs();
+        cardIds = attrs.cardIds;
+        return cardSets.create(attrs);
+      });
 
-    // check that the right number of checkboxes are checked
-    assert
-      .dom('input[type=checkbox]:is(:checked)')
-      .exists({ count: 3 }, 'only checkboxes for cards already in the set are checked');
+      await visit(`/collection/${this.collection.slug}/sets/new`);
+      await fillIn('input[name="name"]', 'New card set');
 
-    // ensure that the checkboxes that are checked are the correct ones
-    cardSet.cards.models.forEach((card) => {
-      assert.dom(`input[value="${card.id}"]`).isChecked();
-    });
+      assert.dom('tr[data-test-card]').exists({ count: 15 }, 'lists all cards in the collection');
 
-    // uncheck a card
-    await click(`input[value="${cardToRemove.id}"]`);
-    assert.dom(`input[value="${cardToRemove.id}"]`).isNotChecked();
+      cardsToAdd.forEach(async (card) => {
+        await click(`input[value="${card.id}"]`);
+      });
 
-    // check a new card to add
-    await click(`input[value="${cardToAdd.id}"]`);
-    assert.dom(`input[value="${cardToAdd.id}"]`).isChecked();
+      await click('button[type=submit]');
 
-    await click('[data-test-manage-cards-form] button[type=submit]');
-    let expectedCardIds = [cards[1].id, cards[2].id, cards[4].id];
-    assert.deepEqual(newCardIds, expectedCardIds);
-
-    assert.equal(currentRouteName(), 'collection.sets.show', 'returns to set show page when done');
-  });
-
-  test('cancelling adding/removing cards leaves set unchanged', async function (assert) {
-    assert.expect(3);
-
-    let cards = this.server.createList('card', 15, { collection: this.collection });
-    let cardsInSet = cards.slice(0, 3);
-    let cardToRemove = cardsInSet[0];
-    let cardToAdd = cards[4];
-    let cardSet = this.server.create('card-set', {
-      collection: this.collection,
-      cards: cardsInSet,
-    });
-
-    this.server.patch('/api/card-sets/:id', function () {
-      assert.ok(false, 'card set should not have been saved');
-    });
-
-    await visit(`/collection/${this.collection.slug}/sets/${cardSet.id}`);
-    await click('[data-test-manage-cards]');
-
-    // uncheck a card
-    await click(`input[value="${cardToRemove.id}"]`);
-
-    // check a new card to add
-    await click(`input[value="${cardToAdd.id}"]`);
-
-    await click('[data-test-manage-cards-form] button[data-test-cancel-button]');
-    assert.dom('[data-test-manage-cards-form]').doesNotExist('"manage cards" form is no longer displayed');
-    assert.equal(currentRouteName(), 'collection.sets.show', 'returns to set show page after cancelling');
-
-    await click('[data-test-manage-cards]');
-    const checkedCardIds = findAll('input:is(:checked)').map((e) => e.value);
-    const expectedCardIds = cardsInSet.map((c) => c.id);
-    assert.deepEqual(checkedCardIds, expectedCardIds, 'selection was reverted to cards originally in the set');
-  });
-
-  test('displays any validation errors while saving a new set', async function (assert) {
-    this.server.post('/api/card-sets', function () {
-      return new Response(
-        422,
-        {},
-        {
-          errors: [
-            {
-              title: 'must be something else',
-              detail: 'name - must be something else',
-              code: '100',
-              source: {
-                pointer: '/data/attributes/name',
-              },
-              status: 422,
-            },
-          ],
-        }
+      assert.deepEqual(
+        cardIds,
+        cardsToAdd.map((x) => x.id)
       );
     });
 
-    await visit(`/collection/${this.collection.slug}/sets/new`);
-    await fillIn('input[name="name"]', 'New card set');
-    await click('button[type=submit]');
+    test('displays any validation errors inline', async function (assert) {
+      this.server.post('/api/card-sets', function () {
+        return new Response(
+          422,
+          {},
+          {
+            errors: [
+              {
+                title: 'must be something else',
+                detail: 'name - must be something else',
+                code: '100',
+                source: {
+                  pointer: '/data/attributes/name',
+                },
+                status: 422,
+              },
+            ],
+          }
+        );
+      });
 
-    assert.equal(currentRouteName(), 'collection.sets.new', 'does not transition');
-    assert.dom('[data-test-errors-for="name"]').hasText('name - must be something else');
-    assert.dom('.flash-message').doesNotExist('does not show a flash message');
-  });
+      await visit(`/collection/${this.collection.slug}/sets/new`);
+      await fillIn('input[name="name"]', 'New card set');
+      await click('button[type=submit]');
 
-  test('displays errors when adding a new card set (other than validation errors) as a flash message', async function (assert) {
-    this.server.post('/api/card-sets', function () {
-      return new Response(500);
+      assert.equal(currentRouteName(), 'collection.sets.new', 'does not transition');
+      assert.dom('[data-test-errors-for="name"]').hasText('name - must be something else');
+      assert.dom('.flash-message').doesNotExist('does not show a flash message');
     });
 
-    await visit(`/collection/${this.collection.slug}/sets/new`);
-    await fillIn('input[name="name"]', 'New card set');
-    await click('button[type=submit]');
+    test('displays errors (other than validation errors) as a flash message', async function (assert) {
+      this.server.post('/api/card-sets', function () {
+        return new Response(500);
+      });
 
-    assert.equal(currentRouteName(), 'collection.sets.new', 'does not transition');
-    assert.dom('.flash-message').hasText('Failed to save the new card set');
-    assert.dom('[data-test-errors-for="name"]').hasNoText();
+      await visit(`/collection/${this.collection.slug}/sets/new`);
+      await fillIn('input[name="name"]', 'New card set');
+      await click('button[type=submit]');
+
+      assert.equal(currentRouteName(), 'collection.sets.new', 'does not transition');
+      assert.dom('.flash-message').hasText('Failed to save the new card set');
+      assert.dom('[data-test-errors-for="name"]').hasNoText();
+    });
+  });
+
+  module('editing a card set', function (hooks) {
+    hooks.beforeEach(function () {
+      this.cardSet = this.server.create('card-set', { collection: this.collection });
+    });
+
+    test('name is a required field', async function (assert) {
+      assert.expect(2);
+
+      this.server.patch('/api/card-sets/:id', function () {
+        assert.ok(false, 'should not have made API request to save');
+      });
+
+      await visit(`/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`);
+
+      assert.dom('input[name="name"]').hasAttribute('required');
+      await fillIn('input[name="name"]', '');
+      await click('button[type=submit]');
+      assert.equal(
+        currentURL(),
+        `/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`,
+        'remains on edit form'
+      );
+    });
+
+    test('can change the name of a card set', async function (assert) {
+      this.server.patch('/api/card-sets/:id', function ({ cardSets }, { params }) {
+        let cardSet = cardSets.find(params.id);
+        let attrs = this.normalizedRequestAttrs();
+        assert.step(`changed card set name to "${attrs.name}"`);
+        cardSet.update(attrs);
+        return cardSet;
+      });
+
+      this.cardSet.update({ name: 'Original name' });
+      await visit(`/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`);
+
+      await fillIn('input[name="name"]', 'New name');
+      await click('button[type="submit"]');
+      assert.verifySteps(['changed card set name to "New name"']);
+    });
+
+    test('adding/removing cards from a card set', async function (assert) {
+      let cards = this.server.createList('card', 15, { collection: this.collection });
+      let cardsInSet = cards.slice(0, 3);
+      let cardToRemove = cardsInSet[0];
+      let cardToAdd = cards[4];
+      let cardSet = this.server.create('card-set', {
+        collection: this.collection,
+        cards: cardsInSet,
+      });
+
+      let newCardIds = [];
+      this.server.patch('/api/card-sets/:id', function ({ cardSets }, { params }) {
+        let set = cardSets.find(params.id);
+        let attrs = this.normalizedRequestAttrs();
+        newCardIds = attrs.cardIds;
+        set.update(attrs);
+        return set;
+      });
+
+      await visit(`/collection/${this.collection.slug}/sets/${cardSet.id}`);
+      await click('[data-test-manage-cards]');
+      assert.equal(currentRouteName(), 'collection.sets.manage', 'link goes to right page');
+
+      assert.dom('tr[data-test-card]').exists({ count: 15 }, 'lists all cards in the collection');
+
+      // check that the right number of checkboxes are checked
+      assert
+        .dom('input[type=checkbox]:is(:checked)')
+        .exists({ count: 3 }, 'only checkboxes for cards already in the set are checked');
+
+      // ensure that the checkboxes that are checked are the correct ones
+      cardSet.cards.models.forEach((card) => {
+        assert.dom(`input[value="${card.id}"]`).isChecked();
+      });
+
+      // uncheck a card
+      await click(`input[value="${cardToRemove.id}"]`);
+      assert.dom(`input[value="${cardToRemove.id}"]`).isNotChecked();
+
+      // check a new card to add
+      await click(`input[value="${cardToAdd.id}"]`);
+      assert.dom(`input[value="${cardToAdd.id}"]`).isChecked();
+
+      await click('[data-test-card-set-form] button[type=submit]');
+      let expectedCardIds = [cards[1].id, cards[2].id, cards[4].id];
+      assert.deepEqual(newCardIds, expectedCardIds);
+
+      assert.equal(currentRouteName(), 'collection.sets.show', 'returns to set show page when done');
+    });
+
+    test('cancelling adding/removing cards leaves set unchanged', async function (assert) {
+      assert.expect(3);
+
+      let cards = this.server.createList('card', 15, { collection: this.collection });
+      let cardsInSet = cards.slice(0, 3);
+      let cardToRemove = cardsInSet[0];
+      let cardToAdd = cards[4];
+      let cardSet = this.server.create('card-set', {
+        collection: this.collection,
+        cards: cardsInSet,
+      });
+
+      this.server.patch('/api/card-sets/:id', function () {
+        assert.ok(false, 'card set should not have been saved');
+      });
+
+      await visit(`/collection/${this.collection.slug}/sets/${cardSet.id}`);
+      await click('[data-test-manage-cards]');
+
+      // uncheck a card
+      await click(`input[value="${cardToRemove.id}"]`);
+
+      // check a new card to add
+      await click(`input[value="${cardToAdd.id}"]`);
+
+      await click('[data-test-card-set-form] button[data-test-cancel-button]');
+      assert.dom('[data-test-card-set-form]').doesNotExist('"manage cards" form is no longer displayed');
+      assert.equal(currentRouteName(), 'collection.sets.show', 'returns to set show page after cancelling');
+
+      await click('[data-test-manage-cards]');
+      const checkedCardIds = findAll('input:is(:checked)').map((e) => e.value);
+      const expectedCardIds = cardsInSet.map((c) => c.id);
+      assert.deepEqual(checkedCardIds, expectedCardIds, 'selection was reverted to cards originally in the set');
+    });
+
+    test('displays any validation errors inline', async function (assert) {
+      this.server.patch('/api/card-sets/:id', function () {
+        return new Response(
+          422,
+          {},
+          {
+            errors: [
+              {
+                title: 'must be something else',
+                detail: 'name - must be something else',
+                code: '100',
+                source: {
+                  pointer: '/data/attributes/name',
+                },
+                status: 422,
+              },
+            ],
+          }
+        );
+      });
+
+      await visit(`/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`);
+      await fillIn('input[name="name"]', 'Duplicate name');
+      await click('button[type=submit]');
+
+      assert.equal(
+        currentURL(),
+        `/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`,
+        'does not transition'
+      );
+      assert.dom('[data-test-errors-for="name"]').hasText('name - must be something else');
+      assert.dom('.flash-message').doesNotExist('does not show a flash message');
+    });
+
+    test('displays errors (other than validation errors) as a flash message', async function (assert) {
+      this.server.patch('/api/card-sets/:id', function () {
+        return new Response(500);
+      });
+
+      await visit(`/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`);
+      await fillIn('input[name="name"]', 'A name so cursed it causes backend errors');
+      await click('button[type=submit]');
+
+      assert.equal(
+        currentURL(),
+        `/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`,
+        'does not transition'
+      );
+      assert.dom('.flash-message').hasText('Failed to save the new card set');
+      assert.dom('[data-test-errors-for="name"]').hasNoText();
+    });
   });
 });

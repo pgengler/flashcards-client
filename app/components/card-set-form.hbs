@@ -1,4 +1,15 @@
-<form id="manage-cards" {{on "submit" (prevent-default this.saveCards)}} data-test-manage-cards-form>
+<form {{on "submit" (prevent-default this.save)}} data-test-card-set-form ...attributes>
+  <div class="container">
+    <div class="row mb-4">
+      <label for="name" class="form-label">Name:</label>
+      <input type="text" value={{@cardSet.name}} id="name" name="name" class="form-control {{invalid-class @cardSet 'name'}}" required />
+      <div class="invalid-feedback" data-test-errors-for="name">
+        {{validation-errors @cardSet.errors.name}}
+      </div>
+
+    </div>
+  </div>
+
   <table class="table">
     <tbody>
       {{#each this.listItems as |item|}}
@@ -20,7 +31,7 @@
     </tbody>
   </table>
 
-  <button type="submit" class="btn btn-primary me-4">
+  <button type="submit" class="btn btn-primary me-4" disabled={{this.submitButtonDisabled}}>
     Save
   </button>
 
