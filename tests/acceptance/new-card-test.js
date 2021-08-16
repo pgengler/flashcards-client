@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentRouteName, fillIn, visit } from '@ember/test-helpers';
+import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'flashcards/tests/helpers';
 import { Response } from 'miragejs';
 
@@ -14,20 +14,23 @@ module('Acceptance | new card', function (hooks) {
     assert.expect(4);
 
     let collectionId = this.collection.id;
+    let newCardId;
     this.server.post('/api/cards', function ({ cards }) {
       let attrs = this.normalizedRequestAttrs();
       assert.equal(attrs.front, 'Front side content', 'saves with entered front');
       assert.equal(attrs.back, 'Back side content', 'saves with entered back');
       assert.equal(attrs.collectionId, collectionId, 'saves to correct collection');
 
-      return cards.create(attrs);
+      let card = cards.create(attrs);
+      newCardId = card.id;
+      return card;
     });
     await visit(`/collection/${this.collection.slug}/card/new`);
     await fillIn('textarea[name=front]', 'Front side content');
     await fillIn('textarea[name=back]', 'Back side content');
     await click('button[type="submit"]');
 
-    assert.equal(currentRouteName(), 'collection.card.show', 'redirects to show new card');
+    assert.equal(currentURL(), `/collection/${this.collection.slug}/card/${newCardId}`, 'redirects to show new card');
   });
 
   test('requires both front and back content to save new card', async function (assert) {
@@ -52,7 +55,7 @@ module('Acceptance | new card', function (hooks) {
     await click('input[name="add-more"]');
     await click('button[type="submit"]');
 
-    assert.equal(currentRouteName(), 'collection.card.new', 'we are still on the new card form');
+    assert.equal(currentURL(), `/collection/${this.collection.slug}/card/new`, 'we are still on the new card form');
     assert.dom('textarea[name=front]').hasNoValue('textarea for front is cleared');
     assert.dom('textarea[name=back]').hasNoValue('textarea for back is cleared');
     assert.dom('input[name="add-more"]').isChecked('"add more" checkbox is still checked');
@@ -84,7 +87,7 @@ module('Acceptance | new card', function (hooks) {
     await fillIn('textarea[name=back]', 'Awesome back side content');
     await click('button[type="submit"]');
 
-    assert.equal(currentRouteName(), 'collection.card.new', 'we are still on the new card form');
+    assert.equal(currentURL(), `/collection/${this.collection.slug}/card/new`, 'we are still on the new card form');
     assert.dom('[data-test-errors-for="front"]').hasText('front - must be awesome', 'displays validation error inline');
     assert.dom('.flash-message').doesNotExist('does not show a flash message');
   });
@@ -99,7 +102,7 @@ module('Acceptance | new card', function (hooks) {
     await fillIn('textarea[name=back]', 'Awesome back side content');
     await click('button[type="submit"]');
 
-    assert.equal(currentRouteName(), 'collection.card.new', 'we are still on the new card form');
+    assert.equal(currentURL(), `/collection/${this.collection.slug}/card/new`, 'we are still on the new card form');
     assert.dom('.flash-message.alert-danger').exists('flash message is displayed');
     assert.dom('.flash-message').hasText('Failed to save the new card');
   });

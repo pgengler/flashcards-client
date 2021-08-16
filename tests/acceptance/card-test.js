@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentRouteName, fillIn, triggerKeyEvent, visit } from '@ember/test-helpers';
+import { click, currentURL, fillIn, triggerKeyEvent, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'flashcards/tests/helpers';
 import { Response } from 'miragejs';
 
@@ -93,7 +93,7 @@ module('Acceptance | card', function (hooks) {
     await click('[data-test-edit-button]');
     await click('[data-test-delete-button]');
     assert.ok(deleteRequestMade, 'made API request to delete card');
-    assert.equal(currentRouteName(), 'collection.index', 'redirects to collection');
+    assert.equal(currentURL(), `/collection/${this.collection.slug}`, 'redirects to collection');
 
     window.confirm = originalWindowConfirm;
   });
@@ -120,7 +120,7 @@ module('Acceptance | card', function (hooks) {
     await click('[data-test-edit-button]');
     await click('[data-test-delete-button]');
     assert.false(deleteRequestMade, 'did not make API request to delete card');
-    assert.equal(currentRouteName(), 'collection.card.show', 'remains on current route');
+    assert.equal(currentURL(), `/collection/${this.collection.slug}/card/${card.id}`, 'remains on current page');
 
     window.confirm = originalWindowConfirm;
   });
