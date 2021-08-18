@@ -18,14 +18,16 @@
   padding: 1em;
 }
 
-form.edit_card, form.new_card {
+form.card-form {
   textarea {
     height: 12em;
     width: 26em;
   }
+}
 
-  label {
-    vertical-align: top;
+form.import-form {
+  textarea {
+    height: 25vh;
   }
 }
 

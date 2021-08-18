@@ -1,0 +1,52 @@
+<form {{on "submit" (prevent-default this.save)}} data-test-card-set-form ...attributes>
+  <div class="container">
+    <div class="row mb-4">
+      <label for="name" class="form-label">Name:</label>
+      <input type="text" value={{@cardSet.name}} id="name" name="name" class="form-control {{invalid-class @cardSet 'name'}}" required />
+      <div class="invalid-feedback" data-test-errors-for="name">
+        {{validation-errors @cardSet.errors.name}}
+      </div>
+
+    </div>
+  </div>
+
+  <h3>Cards in this set</h3>
+  <table class="table">
+    <tbody>
+      {{#each this.listItems as |item|}}
+        <tr data-test-card>
+          <td>
+            <label for="include-{{item.card.id}}" class="visually-hidden">
+              Include
+            </label>
+            <input type="checkbox" value={{item.card.id}} checked={{item.checked}} id="include-{{item.card.id}}" />
+          </td>
+          <td>
+            {{item.card.front}}
+          </td>
+          <td>
+            {{item.card.back}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <div class="row">
+    <div class="col d-flex align-items-center">
+      <button type="submit" class="btn btn-primary me-4">
+        Save
+      </button>
+
+      <button
+        type="button" class="btn btn-outline-secondary"
+        data-test-cancel-button
+        {{on "click" @cancelled}}
+      >
+        Cancel
+      </button>
+
+      {{yield}}
+    </div>
+  </div>
+</form>

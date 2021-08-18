@@ -1,0 +1,27 @@
+<span data-test-progress>{{this.displayIndex}} / {{@cards.length}}</span>
+
+<Card
+  @card={{this.currentCard}}
+  data-test-id={{this.currentCard.id}}
+
+  {{on-key "ArrowLeft" this.goBack}}
+  {{on-key "ArrowRight" this.goForward}}
+
+  {{on-key "," this.goBack}}
+  {{on-key "." this.goForward}}
+
+  {{on-key "j" this.goForward}}
+  {{on-key "k" this.goBack}}
+/>
+
+<div class="row">
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-outline-primary" disabled={{this.disablePreviousButton}} data-test-previous {{on "click" this.goBack}}>
+      Previous
+    </button>
+
+    <button type="button" class="btn btn-outline-primary" disabled={{this.disableNextButton}} data-test-next {{on "click" this.goForward}}>
+      Next
+    </button>
+  </div>
+</div>

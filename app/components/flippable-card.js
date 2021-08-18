@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 
-export default class extends Component {
+export default class FlippableCard extends Component {
   get isFlipped() {
     return this.side === 'back';
   }
@@ -11,6 +11,6 @@ export default class extends Component {
   }
 
   @action flipCard() {
-    this.args.flipped(this.side === 'back' ? 'front' : 'back');
+    this.args.flip(this.side === 'back' ? 'front' : 'back');
   }
 }

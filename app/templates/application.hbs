@@ -1,53 +1,9 @@
-<BsNavbar as |navbar|>
-  <div class='navbar-header'>
-    <LinkTo @route='index' class='navbar-brand'>
-      Home
-    </LinkTo>
-  </div>
-  <navbar.content>
-    <navbar.nav as |nav|>
-      <nav.item>
-        <nav.linkTo @route='cards.new'>
-          New
-        </nav.linkTo>
-      </nav.item>
+<TopNav />
 
-      <nav.dropdown as |dd|>
-        <dd.toggle>
-          Random
-        </dd.toggle>
-        <dd.menu as |menu|>
-          <menu.item>
-            <menu.linkTo @route='cards.random' @query={{hash side='front'}}>
-              Random front
-            </menu.linkTo>
-          </menu.item>
-          <menu.item>
-            <menu.linkTo @route='cards.random' @query={{hash side='back'}}>
-              Random back
-            </menu.linkTo>
-          </menu.item>
-          <menu.item>
-            <menu.linkTo @route='cards.random' @query={{hash side=''}}>
-              Random front or back
-            </menu.linkTo>
-          </menu.item>
-        </dd.menu>
-      </nav.dropdown>
+<div class="container">
+  {{#each @model.queue as |flash|}}
+    <FlashMessage @flash={{flash}} />
+  {{/each}}
 
-      <nav.item>
-        <nav.linkTo @route='card-sets.new'>
-          New set
-        </nav.linkTo>
-      </nav.item>
-    </navbar.nav>
-  </navbar.content>
-</BsNavbar>
-
-<div class='container'>
-  <div class='row'>
-    <div class='col-md-12'>
-      {{outlet}}
-    </div>
-  </div>
+  {{outlet}}
 </div>

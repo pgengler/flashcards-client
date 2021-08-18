@@ -1,0 +1,17 @@
+<CardSetHeader @cardSet={{@model}} @editable={{false}} />
+
+<CardSetForm
+  @cardSet={{@model}}
+  @saved={{this.redirectToSet}}
+  @cancelled={{this.redirectToSet}}
+>
+  <div class="flex-grow-1"></div>
+  <button
+    type="button" class="btn btn-danger"
+    data-test-action="delete"
+    {{on "click" this.remove}}
+  >
+    Delete
+  </button>
+
+</CardSetForm>

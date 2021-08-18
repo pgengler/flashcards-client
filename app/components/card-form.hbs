@@ -1,0 +1,31 @@
+<form class="card-form" {{on "submit" (prevent-default this.save)}} ...attributes>
+  <div class="container mb-4">
+    <div class="row">
+      <div class="col">
+        <label for="front" class="form-label">Front</label>
+        <Textarea @value={{@card.front}} id="front" name="front" class="form-control {{invalid-class @card 'front'}}" required />
+        <div class="invalid-feedback" data-test-errors-for="front">
+          {{validation-errors @card.errors.front}}
+        </div>
+      </div>
+
+      <div class="col">
+        <label for="back" class="form-label">Back</label>
+        <Textarea @value={{@card.back}} id="back" name="back" class="form-control {{invalid-class @card 'back'}}" required />
+        <div class="invalid-feedback" data-test-errors-for="front">
+          {{validation-errors @card.errors.back}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col d-flex align-items-center">
+      <button type="submit" class="btn btn-primary" disabled={{this.submitButtonDisabled}}>
+        {{@submitLabel}}
+      </button>
+
+      {{yield}}
+    </div>
+  </div>
+</form>
