@@ -2,7 +2,13 @@
   <div class="container">
     <div class="row mb-4">
       <label for="name" class="form-label">Name:</label>
-      <input type="text" value={{@cardSet.name}} id="name" name="name" class="form-control {{invalid-class @cardSet 'name'}}" required />
+      <input
+        type="text" id="name" name="name"
+        value={{@cardSet.name}}
+        class="form-control {{invalid-class @cardSet 'name'}}"
+        required
+        {{autofocus}}
+      />
       <div class="invalid-feedback" data-test-errors-for="name">
         {{validation-errors @cardSet.errors.name}}
       </div>

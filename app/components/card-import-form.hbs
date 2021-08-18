@@ -1,7 +1,13 @@
 <form class="import-form" {{on "submit" (prevent-default this.import)}} ...attributes>
   <div class="mb-3">
     <label for="csv" class="form-label">CSV:</label>
-    <textarea id="csv" name="csv" class="form-control" required aria-describedby="csv-help"></textarea>
+    <textarea
+      id="csv" name="csv"
+      class="form-control"
+      required
+      aria-describedby="csv-help"
+      {{autofocus}}
+    ></textarea>
     <div id="csv-help" class="form-text">
       Input should be CSV, with one card per line. The order should be "front,back". Do not include a header row&mdash;it will be treated as a data row and added as a card.
     </div>

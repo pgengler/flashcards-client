@@ -1,7 +1,13 @@
 <form {{on "submit" (prevent-default this.save)}}>
   <div class="mb-3">
     <label for="name" class="form-label">Name:</label>
-    <Input id="name" name="name" @value={{this.name}} class="form-control {{invalid-class @collection 'name'}}" required />
+    <Input
+      id="name" name="name"
+      class="form-control {{invalid-class @collection 'name'}}"
+      @value={{this.name}}
+      required
+      {{autofocus}}
+    />
     <div class="invalid-feedback" data-test-errors-for="name">
       {{validation-errors @collection.errors.name}}
     </div>
