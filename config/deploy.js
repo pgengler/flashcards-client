@@ -1,0 +1,29 @@
+module.exports = function (deployTarget) {
+  let ENV = {
+    build: {},
+    // include other plugin configuration that applies to all deploy targets here
+  };
+
+  ENV['with-rsync'] = {
+    username: 'flashcards',
+    root: '/srv/apps/flashcards/client',
+  };
+
+  if (deployTarget === 'development') {
+    ENV.build.environment = 'development';
+  }
+
+  if (deployTarget === 'staging') {
+    ENV.build.environment = 'production';
+  }
+
+  if (deployTarget === 'production') {
+    ENV.build.environment = 'production';
+    ENV['with-rsync'].host = 'hyperion.pgengler.net';
+  }
+
+  // Note: if you need to build some configuration asynchronously, you can return
+  // a promise that resolves with the ENV object instead of returning the
+  // ENV object synchronously.
+  return ENV;
+};
