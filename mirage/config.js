@@ -26,8 +26,24 @@ export default function () {
     return collection;
   });
   this.del('/collections/:id');
-  this.get('/collections/:slug', function ({ collections }, { params }) {
-    return collections.findBy({ slug: params.slug });
+  this.get('/collections/:id');
+  this.post('/collections/:id/import', function (schema, request) {
+    let collection = schema.collections.find(request.params.id);
+    let body = request.requestBody;
+    // perform naïve CSV parsing; since this is just a dev-and-test-only handler it doesn't need to be fully robust
+    let lines = body.split(/\n/);
+    lines.forEach((line) => {
+      let [front, back] = line.split(',');
+      schema.cards.create({ front, back, collection });
+    });
+
+    // Add fake "include" query param so mirage serializes the "cards" relationship along with the collection.
+    // This makes the response match what the real backend returns.
+    request.queryParams['include'] = 'cards';
+
+    let json = this.serialize(collection);
+    json.meta = { cards_imported: lines.length };
+    return json;
   });
 
   this.post('/cards');

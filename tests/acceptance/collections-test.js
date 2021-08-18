@@ -244,4 +244,59 @@ module('Acceptance | collections', function (hooks) {
       assert.dom('.flash-message.alert-danger').hasText('Failed to delete "A Collection"');
     });
   });
+
+  module('bulk-importing cards', function (hooks) {
+    hooks.beforeEach(function () {
+      this.collection = this.server.create('collection', { name: 'A Collection' });
+    });
+
+    test('can import cards', async function (assert) {
+      this.server.post('/api/collections/:id/import', function (schema, request) {
+        assert.step(`imported cards into collection ID ${request.params.id}`);
+        // create three new cards and return them to simulate what the real backend does
+        let collection = schema.collections.find(request.params.id);
+        [
+          schema.cards.create({ collection }),
+          schema.cards.create({ collection }),
+          schema.cards.create({ collection }),
+        ].map((c) => c.id);
+        collection.reload();
+        // Add fake "include" query param so mirage serializes the "cards" relationship along with the collection.
+        // This makes the response match what the real backend returns.
+        request.queryParams['include'] = 'cards';
+
+        let json = this.serialize(collection);
+        json.meta = { cards_imported: 3.14159 };
+        return json;
+      });
+
+      this.server.createList('card', 5, { collection: this.collection });
+
+      await visit(`/collection/${this.collection.slug}/import`);
+      await fillIn('textarea[name="csv"]', 'a,b\nc,d\ne,f');
+
+      let store = this.owner.lookup('service:store');
+      assert.equal(store.peekAll('card').length, 5, 'store contains the cards for the collection');
+      await click('button[type=submit]');
+
+      assert.verifySteps([`imported cards into collection ID ${this.collection.id}`]);
+      assert.equal(currentURL(), `/collection/${this.collection.slug}`, 'redirects to collection page');
+      assert
+        .dom('.flash-message.alert-success')
+        .hasText('Imported 3.14159 cards', 'displays flash message with count returned from backend');
+      assert.equal(store.peekAll('card').length, 8, 'new cards are added to the store');
+    });
+
+    test('displays a flash message if import fails', async function (assert) {
+      this.server.post('/api/collections/:id/import', function () {
+        return new Response(500);
+      });
+      await visit(`/collection/${this.collection.slug}/import`);
+      await fillIn('textarea[name="csv"]', 'a,b\nc,d\ne,f');
+      await click('button[type=submit]');
+
+      assert.equal(currentURL(), `/collection/${this.collection.slug}/import`, 'remains on import page');
+      assert.dom('.flash-message.alert-danger').hasText('Failed to import cards');
+    });
+  });
 });

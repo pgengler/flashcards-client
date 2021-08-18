@@ -12,9 +12,10 @@ Router.map(function () {
   });
 
   this.route('collection', { path: 'collection/:slug' }, function () {
+    this.route('edit');
+    this.route('import');
     this.route('list');
     this.route('study');
-    this.route('edit');
 
     this.route('card', function () {
       this.route('new');
