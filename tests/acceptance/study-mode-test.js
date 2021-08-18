@@ -32,18 +32,22 @@ module('Acceptance | study mode', function (hooks) {
     });
 
     test('can navigate back and forth between cards', async function (assert) {
+      let cardsShown = [];
+      let currentCardId = () => find('[data-test-card]').getAttribute('data-test-id');
+
       await visit(`/collection/${this.collection.slug}/study`);
-
-      assert.dom('[data-test-card]').hasAttribute('data-test-id', this.cards[0].id, 'shows first card');
-
-      await click('[data-test-next]');
-      assert.dom('[data-test-card]').hasAttribute('data-test-id', this.cards[1].id, 'shows second card');
+      cardsShown.push(currentCardId());
 
       await click('[data-test-next]');
-      assert.dom('[data-test-card]').hasAttribute('data-test-id', this.cards[2].id, 'shows third card');
+      assert.false(cardsShown.includes(currentCardId()), 'moving "next" displays a different card');
+      cardsShown.push(currentCardId());
+
+      await click('[data-test-next]');
+      assert.false(cardsShown.includes(currentCardId()), 'moving "next" displays a different card');
+      cardsShown.push(currentCardId());
 
       await click('[data-test-previous]');
-      assert.dom('[data-test-card]').hasAttribute('data-test-id', this.cards[1].id, 'shows second card');
+      assert.equal(cardsShown[1], currentCardId(), 'moving "previous" displays last-shown card');
     });
   });
 
