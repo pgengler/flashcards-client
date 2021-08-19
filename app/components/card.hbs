@@ -18,7 +18,15 @@
 
   </CardForm>
 {{else}}
-  <FlippableCard @card={{@card}} @side={{this.side}} @flip={{this.flip}} class="mb-4" data-test-card ...attributes/>
+  <FlippableCard
+    @card={{@card}}
+    @side={{this.side}}
+    @flip={{this.flip}}
+    class="mb-4"
+    data-test-card
+    {{did-update this.resetToFront @card}}
+    ...attributes
+  />
   <button
     type="button" class="btn btn-primary"
     data-test-edit-button

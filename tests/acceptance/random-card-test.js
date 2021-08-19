@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'flashcards/tests/helpers';
 
 module('Acceptance | random card', function (hooks) {
@@ -21,5 +21,18 @@ module('Acceptance | random card', function (hooks) {
     await visit(`/collection/${this.collection.slug}/card/random`);
 
     assert.equal(currentURL(), `/collection/${this.collection.slug}/card/new`);
+  });
+
+  test('getting a new random card resets view to the front', async function (assert) {
+    this.server.createList('card', 7, { collection: this.collection });
+
+    await visit(`/collection/${this.collection.slug}/card/random`);
+    assert.dom('[data-test-card]').doesNotHaveClass('flipped', 'displays front of card initially');
+
+    await click('[data-test-card]');
+    assert.dom('[data-test-card]').hasClass('flipped', 'card is flipped');
+
+    await click('[data-test-random-card] button');
+    assert.dom('[data-test-card]').doesNotHaveClass('flipped', 'card resets to displaying front');
   });
 });

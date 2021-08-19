@@ -44,4 +44,9 @@ export default class CardComponent extends Component {
   flip(side) {
     this.side = side;
   }
+
+  @action
+  resetToFront() {
+    this.side = 'front';
+  }
 }
