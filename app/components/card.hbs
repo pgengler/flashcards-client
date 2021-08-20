@@ -22,7 +22,7 @@
     @card={{@card}}
     @side={{this.side}}
     @flip={{this.flip}}
-    class="mb-4"
+    class="mb-4 {{if this.isResetting 'no-transition'}}"
     data-test-card
     {{did-update this.resetToFront @card}}
     ...attributes

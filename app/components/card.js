@@ -10,6 +10,7 @@ export default class CardComponent extends Component {
   @tracked editFront;
   @tracked editBack;
   @tracked isEditing = false;
+  @tracked isResetting = false;
   @tracked side = 'front';
 
   @action
@@ -47,6 +48,8 @@ export default class CardComponent extends Component {
 
   @action
   resetToFront() {
+    this.isResetting = true;
     this.side = 'front';
+    window.requestAnimationFrame(() => (this.isResetting = false));
   }
 }

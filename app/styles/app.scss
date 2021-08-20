@@ -62,4 +62,10 @@ form.import-form {
   transform: rotateY(-180deg);
 }
 
+.flip-container.no-transition {
+  .flipper, .front, .back {
+    transition: 0s !important;
+  }
+}
+
 @import "ember-bootstrap/bootstrap";
