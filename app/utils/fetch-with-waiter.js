@@ -1,6 +1,6 @@
 import { buildWaiter } from '@ember/test-waiters';
 
-let waiter = buildWaiter('ember-friendz:friend-waiter');
+let waiter = buildWaiter('flashcards:fetch-waiter');
 
 export default async function _fetch() {
   let token = waiter.beginAsync();

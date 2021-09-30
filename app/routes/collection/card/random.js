@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-export default class CollectionRandomRoute extends Route {
+export default class CollectionRandomCardRoute extends Route {
   @service router;
 
   model() {

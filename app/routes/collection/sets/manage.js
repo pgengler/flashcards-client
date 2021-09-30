@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-export default class SetsManageRoute extends Route {
+export default class CollectionManageSetsRoute extends Route {
   @service store;
 
   model(params) {

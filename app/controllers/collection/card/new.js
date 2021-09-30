@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import refreshRoute from 'flashcards/utils/refresh-route';
 
-export default class CardNewController extends Controller {
+export default class CollectionNewCardController extends Controller {
   @service router;
 
   @tracked addAnother = false;
