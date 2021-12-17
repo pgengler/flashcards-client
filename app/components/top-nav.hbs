@@ -1,64 +1,57 @@
-<BsNavbar as |navbar|>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <LinkTo @route="index" class="navbar-brand">
       Flashcards
     </LinkTo>
 
-    <navbar.content>
-      <navbar.nav as |nav|>
-        <nav.dropdown as |dd|>
-          <dd.toggle data-test-collections-toggle>
-            Collections
-          </dd.toggle>
-          <dd.menu data-test-collections-menu as |menu|>
-            {{#each this.collections as |collection|}}
-              <menu.item>
-                <menu.linkTo @route="collection" @model={{collection.slug}} data-test-collection-item>
-                  {{collection.name}}
-                </menu.linkTo>
-              </menu.item>
-            {{/each}}
-            <menu.item @disabled={{true}}><hr></menu.item>
-            <menu.item>
-              <menu.linkTo @route="collections.new" data-test-new-collection-item>
-                Add new collection
-              </menu.linkTo>
-            </menu.item>
-          </dd.menu>
-        </nav.dropdown>
-
-        {{#if this.collection}}
-          <nav.item>
-            {{!--
-              ember-bootstrap has a bug where the <nav.linkTo> component does not
-              update the link when @model changes. To work around we use the regular
-              <LinkTo> component and just add the "nav-link" CSS class.
-            --}}
-            <LinkTo @route="collection.card.new" @model={{this.collection.slug}} class="nav-link">
-              New
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-test-collections-toggle>
+          Collections
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" data-test-collections-menu>
+          {{#each this.collections as |collection|}}
+            <li>
+              <LinkTo @route="collection" @model={{collection.slug}} class="dropdown-item" data-test-collection-item>
+                {{collection.name}}
+              </LinkTo>
+            </li>
+          {{/each}}
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <LinkTo @route="collections.new" class="dropdown-item" data-test-new-collection-item>
+              Add new collection
             </LinkTo>
-          </nav.item>
+          </li>
+        </ul>
+      </li>
 
-          {{#if this.collection.cards}}
-            <nav.item data-test-random-card>
-              <button
-                type="button"
-                class="btn btn-link nav-link border-0"
-                {{on "click" this.randomCard}}
-                {{on-key "r" this.randomCard}}
-              >
-                Random card
-              </button>
-            </nav.item>
-          {{/if}}
+      {{#if this.collection}}
+        <li class="nav-item">
+          <LinkTo @route="collection.card.new" @model={{this.collection.slug}} class="nav-link">
+            New
+          </LinkTo>
+        </li>
 
-          <nav.item data-test-card-sets>
-            <nav.linkTo @route="collection.sets.new" @model={{this.collection.slug}}>
-              New set
-            </nav.linkTo>
-          </nav.item>
-          {{/if}}
-      </navbar.nav>
-    </navbar.content>
+        {{#if this.collection.cards}}
+          <li class="nav-item" data-test-random-card>
+            <button
+              type="button"
+              class="btn btn-link nav-link border-0"
+              {{on "click" this.randomCard}}
+              {{on-key "r" this.randomCard}}
+            >
+              Random card
+            </button>
+          </li>
+        {{/if}}
+
+        <li class="nav-item" data-test-card-sets>
+          <LinkTo @route="collection.sets.new" @model={{this.collection.slug}} class="nav-link">
+            New set
+          </LinkTo>
+        </li>
+      {{/if}}
+    </ul>
   </div>
-</BsNavbar>
+</nav>
