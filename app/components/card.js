@@ -17,7 +17,7 @@ export default class CardComponent extends Component {
   async deleteCard() {
     if (!window.confirm('Are you sure you want to delete this card?')) return;
     let card = this.args.card;
-    let collection = card.collection;
+    let collection = await card.collection;
     await card.destroyRecord();
     this.router.transitionTo('collection.index', collection.get('slug'));
   }

@@ -47,7 +47,7 @@ module('Acceptance | study mode', function (hooks) {
       cardsShown.push(currentCardId());
 
       await click('[data-test-previous]');
-      assert.equal(cardsShown[1], currentCardId(), 'moving "previous" displays last-shown card');
+      assert.strictEqual(cardsShown[1], currentCardId(), 'moving "previous" displays last-shown card');
     });
   });
 

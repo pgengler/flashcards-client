@@ -16,7 +16,7 @@ module('Acceptance | collections', function (hooks) {
 
   test('redirects to "new collection" page if no collections exist', async function (assert) {
     await visit('/');
-    assert.equal(currentURL(), '/collections/new');
+    assert.strictEqual(currentURL(), '/collections/new');
   });
 
   test('can see a list of all cards in a collection', async function (assert) {
@@ -40,7 +40,7 @@ module('Acceptance | collections', function (hooks) {
     this.server.create('collection', { name: 'This collection exists' });
 
     await visit('/collection/non-existent-collection-foo-bar-baz');
-    assert.equal(currentURL(), '/collections');
+    assert.strictEqual(currentURL(), '/collections');
   });
 
   module('adding a collection', function () {
@@ -49,7 +49,7 @@ module('Acceptance | collections', function (hooks) {
       await fillIn('input[id="name"]', 'New collection');
       await click('button[type="submit"]');
 
-      assert.equal(currentURL(), `/collection/new-collection`, 'redirects to collection page after creation');
+      assert.strictEqual(currentURL(), `/collection/new-collection`, 'redirects to collection page after creation');
     });
 
     test('displays validation errors inline, not as a flash message', async function (assert) {
@@ -77,7 +77,7 @@ module('Acceptance | collections', function (hooks) {
       await fillIn('input[name=name]', 'Already-used collection name');
       await click('button[type=submit]');
 
-      assert.equal(currentURL(), '/collections/new', 'remains on the "new collection" page');
+      assert.strictEqual(currentURL(), '/collections/new', 'remains on the "new collection" page');
       assert.dom('[data-test-errors-for="name"]').hasText('name - is already taken');
       assert.dom('.flash-message.alert-danger').doesNotExist();
     });
@@ -91,7 +91,7 @@ module('Acceptance | collections', function (hooks) {
       await fillIn('input[name=name]', 'Collection name');
       await click('button[type=submit]');
 
-      assert.equal(currentURL(), '/collections/new', 'remains on the "new collection" page');
+      assert.strictEqual(currentURL(), '/collections/new', 'remains on the "new collection" page');
       assert.dom('.flash-message.alert-danger').hasText('Failed to save the collection');
       assert.dom('[data-test-errors-for="name"]').hasNoText();
     });
@@ -115,14 +115,14 @@ module('Acceptance | collections', function (hooks) {
       });
       await visit(`/collection/${this.collection.slug}`);
       await click('header [data-test-edit]');
-      assert.equal(currentURL(), `/collection/${this.collection.slug}/edit`);
+      assert.strictEqual(currentURL(), `/collection/${this.collection.slug}/edit`);
 
       assert.dom('input[name=name]').hasValue('Original name');
       await fillIn('input[name=name]', 'New name');
       assert.dom('header h1').hasText('Original name', 'collection name is header does not change');
       await click('button[type=submit]');
       assert.verifySteps(['changing collection name to "New name"'], 'hit API to update name with correct value');
-      assert.equal(currentURL(), '/collection/new-name', 'redirects to collection page, with updated slug');
+      assert.strictEqual(currentURL(), '/collection/new-name', 'redirects to collection page, with updated slug');
     });
 
     test('displays validation errors inline, not as a flash message', async function (assert) {
@@ -150,7 +150,11 @@ module('Acceptance | collections', function (hooks) {
       await fillIn('input[name=name]', 'Already-used collection name');
       await click('button[type=submit]');
 
-      assert.equal(currentURL(), `/collection/${this.collection.slug}/edit`, 'remains on the "edit collection" page');
+      assert.strictEqual(
+        currentURL(),
+        `/collection/${this.collection.slug}/edit`,
+        'remains on the "edit collection" page'
+      );
       assert.dom('[data-test-errors-for="name"]').hasText('name - is already taken');
       assert.dom('.flash-message.alert-danger').doesNotExist();
     });
@@ -164,7 +168,11 @@ module('Acceptance | collections', function (hooks) {
       await fillIn('input[name=name]', 'Collection name');
       await click('button[type=submit]');
 
-      assert.equal(currentURL(), `/collection/${this.collection.slug}/edit`, 'remains on the "edit collection" page');
+      assert.strictEqual(
+        currentURL(),
+        `/collection/${this.collection.slug}/edit`,
+        'remains on the "edit collection" page'
+      );
       assert.dom('.flash-message.alert-danger').hasText('Failed to save the collection');
       assert.dom('[data-test-errors-for="name"]').hasNoText();
     });
@@ -218,13 +226,13 @@ module('Acceptance | collections', function (hooks) {
 
       await visit(`/collection/${this.collection.slug}/edit`);
       await click('button[data-test-action="delete"]');
-      assert.equal(currentURL(), `/collection/${this.collection.slug}/edit`, 'remains on "edit" page');
+      assert.strictEqual(currentURL(), `/collection/${this.collection.slug}/edit`, 'remains on "edit" page');
     });
 
     test('redirects to collections.index after deleting a collection', async function (assert) {
       await visit(`/collection/${this.collection.slug}/edit`);
       await click('button[data-test-action="delete"]');
-      assert.equal(currentURL(), '/collections');
+      assert.strictEqual(currentURL(), '/collections');
     });
 
     test('shows a flash message after deleting a collection', async function (assert) {
@@ -240,7 +248,7 @@ module('Acceptance | collections', function (hooks) {
 
       await visit(`/collection/${this.collection.slug}/edit`);
       await click('button[data-test-action="delete"]');
-      assert.equal(currentURL(), `/collection/${this.collection.slug}/edit`, 'remains on "edit" page');
+      assert.strictEqual(currentURL(), `/collection/${this.collection.slug}/edit`, 'remains on "edit" page');
       assert.dom('.flash-message.alert-danger').hasText('Failed to delete "A Collection"');
     });
   });
@@ -276,15 +284,15 @@ module('Acceptance | collections', function (hooks) {
       await fillIn('textarea[name="csv"]', 'a,b\nc,d\ne,f');
 
       let store = this.owner.lookup('service:store');
-      assert.equal(store.peekAll('card').length, 5, 'store contains the cards for the collection');
+      assert.strictEqual(store.peekAll('card').length, 5, 'store contains the cards for the collection');
       await click('button[type=submit]');
 
       assert.verifySteps([`imported cards into collection ID ${this.collection.id}`]);
-      assert.equal(currentURL(), `/collection/${this.collection.slug}`, 'redirects to collection page');
+      assert.strictEqual(currentURL(), `/collection/${this.collection.slug}`, 'redirects to collection page');
       assert
         .dom('.flash-message.alert-success')
         .hasText('Imported 3.14159 cards', 'displays flash message with count returned from backend');
-      assert.equal(store.peekAll('card').length, 8, 'new cards are added to the store');
+      assert.strictEqual(store.peekAll('card').length, 8, 'new cards are added to the store');
     });
 
     test('displays a flash message if import fails', async function (assert) {
@@ -295,7 +303,7 @@ module('Acceptance | collections', function (hooks) {
       await fillIn('textarea[name="csv"]', 'a,b\nc,d\ne,f');
       await click('button[type=submit]');
 
-      assert.equal(currentURL(), `/collection/${this.collection.slug}/import`, 'remains on import page');
+      assert.strictEqual(currentURL(), `/collection/${this.collection.slug}/import`, 'remains on import page');
       assert.dom('.flash-message.alert-danger').hasText('Failed to import cards');
     });
   });

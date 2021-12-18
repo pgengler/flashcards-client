@@ -93,7 +93,7 @@ module('Acceptance | card', function (hooks) {
     await click('[data-test-edit-button]');
     await click('[data-test-delete-button]');
     assert.ok(deleteRequestMade, 'made API request to delete card');
-    assert.equal(currentURL(), `/collection/${this.collection.slug}`, 'redirects to collection');
+    assert.strictEqual(currentURL(), `/collection/${this.collection.slug}`, 'redirects to collection');
 
     window.confirm = originalWindowConfirm;
   });
@@ -120,7 +120,7 @@ module('Acceptance | card', function (hooks) {
     await click('[data-test-edit-button]');
     await click('[data-test-delete-button]');
     assert.false(deleteRequestMade, 'did not make API request to delete card');
-    assert.equal(currentURL(), `/collection/${this.collection.slug}/card/${card.id}`, 'remains on current page');
+    assert.strictEqual(currentURL(), `/collection/${this.collection.slug}/card/${card.id}`, 'remains on current page');
 
     window.confirm = originalWindowConfirm;
   });

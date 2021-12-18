@@ -14,13 +14,13 @@ module('Acceptance | random card', function (hooks) {
 
     await visit(`/collection/${this.collection.slug}/card/random`);
 
-    assert.equal(currentURL(), `/collection/${this.collection.slug}/card/random`);
+    assert.strictEqual(currentURL(), `/collection/${this.collection.slug}/card/random`);
   });
 
   test('visiting /collections/:slug/random redirects to new card form when no cards exist', async function (assert) {
     await visit(`/collection/${this.collection.slug}/card/random`);
 
-    assert.equal(currentURL(), `/collection/${this.collection.slug}/card/new`);
+    assert.strictEqual(currentURL(), `/collection/${this.collection.slug}/card/new`);
   });
 
   test('getting a new random card resets view to the front', async function (assert) {
