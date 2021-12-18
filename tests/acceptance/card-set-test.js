@@ -21,7 +21,7 @@ module('Acceptance | card set', function (hooks) {
       assert.dom('input[name="name"]').hasAttribute('required');
 
       await click('button[type="submit"]');
-      assert.equal(currentURL(), `/collection/${this.collection.slug}/sets/new`, 'does not save');
+      assert.strictEqual(currentURL(), `/collection/${this.collection.slug}/sets/new`, 'does not save');
       assert.verifySteps([]);
 
       await fillIn('input[name="name"]', 'New card set');
@@ -40,7 +40,7 @@ module('Acceptance | card set', function (hooks) {
       await fillIn('input[name="name"]', 'New card set');
       await click('button[type=submit]');
 
-      assert.equal(currentURL(), `/collection/${this.collection.slug}/sets/${newId}`, 'redirects to new set');
+      assert.strictEqual(currentURL(), `/collection/${this.collection.slug}/sets/${newId}`, 'redirects to new set');
     });
 
     test('can add cards to a set when creating', async function (assert) {
@@ -96,7 +96,7 @@ module('Acceptance | card set', function (hooks) {
       await fillIn('input[name="name"]', 'New card set');
       await click('button[type=submit]');
 
-      assert.equal(currentURL(), `/collection/${this.collection.slug}/sets/new`, 'does not transition');
+      assert.strictEqual(currentURL(), `/collection/${this.collection.slug}/sets/new`, 'does not transition');
       assert.dom('[data-test-errors-for="name"]').hasText('name - must be something else');
       assert.dom('.flash-message').doesNotExist('does not show a flash message');
     });
@@ -110,7 +110,7 @@ module('Acceptance | card set', function (hooks) {
       await fillIn('input[name="name"]', 'New card set');
       await click('button[type=submit]');
 
-      assert.equal(currentURL(), `/collection/${this.collection.slug}/sets/new`, 'does not transition');
+      assert.strictEqual(currentURL(), `/collection/${this.collection.slug}/sets/new`, 'does not transition');
       assert.dom('.flash-message').hasText('Failed to save the new card set');
       assert.dom('[data-test-errors-for="name"]').hasNoText();
     });
@@ -133,7 +133,7 @@ module('Acceptance | card set', function (hooks) {
       assert.dom('input[name="name"]').hasAttribute('required');
       await fillIn('input[name="name"]', '');
       await click('button[type=submit]');
-      assert.equal(
+      assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`,
         'remains on edit form'
@@ -178,7 +178,7 @@ module('Acceptance | card set', function (hooks) {
 
       await visit(`/collection/${this.collection.slug}/sets/${cardSet.id}`);
       await click('[data-test-manage-cards]');
-      assert.equal(
+      assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${cardSet.id}/manage`,
         'link goes to right page'
@@ -208,7 +208,7 @@ module('Acceptance | card set', function (hooks) {
       let expectedCardIds = [cards[1].id, cards[2].id, cards[4].id];
       assert.deepEqual(newCardIds, expectedCardIds);
 
-      assert.equal(
+      assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${cardSet.id}`,
         'returns to set show page when done'
@@ -242,7 +242,7 @@ module('Acceptance | card set', function (hooks) {
 
       await click('[data-test-card-set-form] button[data-test-cancel-button]');
       assert.dom('[data-test-card-set-form]').doesNotExist('"manage cards" form is no longer displayed');
-      assert.equal(
+      assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${cardSet.id}`,
         'returns to set show page after cancelling'
@@ -279,7 +279,7 @@ module('Acceptance | card set', function (hooks) {
       await fillIn('input[name="name"]', 'Duplicate name');
       await click('button[type=submit]');
 
-      assert.equal(
+      assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`,
         'does not transition'
@@ -297,7 +297,7 @@ module('Acceptance | card set', function (hooks) {
       await fillIn('input[name="name"]', 'A name so cursed it causes backend errors');
       await click('button[type=submit]');
 
-      assert.equal(
+      assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`,
         'does not transition'
@@ -335,7 +335,7 @@ module('Acceptance | card set', function (hooks) {
       this.windowConfirmReturnValue = true;
       await click('button[data-test-action="delete"]');
       assert.verifySteps(['deleted card set "The Set of Cards"']);
-      assert.equal(currentURL(), `/collection/${this.collection.slug}`, 'redirects to collection after deleting');
+      assert.strictEqual(currentURL(), `/collection/${this.collection.slug}`, 'redirects to collection after deleting');
       assert.dom('.flash-message.alert-success').hasText('Card set "The Set of Cards" was removed');
     });
 
@@ -351,7 +351,7 @@ module('Acceptance | card set', function (hooks) {
       this.windowConfirmReturnValue = false;
       await click('button[data-test-action="delete"]');
       assert.verifySteps([]);
-      assert.equal(currentURL(), this.cardSetEditURL, 'does not redirect');
+      assert.strictEqual(currentURL(), this.cardSetEditURL, 'does not redirect');
       assert.dom('.flash-message').doesNotExist();
     });
 
@@ -365,7 +365,7 @@ module('Acceptance | card set', function (hooks) {
       this.windowConfirmReturnValue = true;
       await click('button[data-test-action="delete"]');
       assert.dom('.flash-message.alert-danger').hasText('Could not remove "The Set of Cards"');
-      assert.equal(currentURL(), this.cardSetEditURL, 'does not redirect');
+      assert.strictEqual(currentURL(), this.cardSetEditURL, 'does not redirect');
     });
   });
 });
