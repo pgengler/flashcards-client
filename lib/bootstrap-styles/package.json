@@ -1,0 +1,10 @@
+{
+  "name": "bootstrap-styles",
+  "keywords": [
+    "ember-addon"
+  ],
+  "dependencies": {
+    "broccoli-funnel": "^3.0.8",
+    "resolve": "^1.20.0"
+  }
+}
