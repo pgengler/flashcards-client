@@ -3,6 +3,14 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import refreshRoute from 'flashcards/utils/refresh-route';
 
+function isInput(element) {
+  let tagName = element.tagName;
+  if (tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA') {
+    return true;
+  }
+  return false;
+}
+
 export default class TopNav extends Component {
   @service currentCollection;
   @service router;
@@ -21,7 +29,11 @@ export default class TopNav extends Component {
   }
 
   @action
-  randomCard() {
+  randomCard(event) {
+    if (isInput(event.target)) {
+      return;
+    }
+
     if (this.router.currentRouteName === 'collection.card.random') {
       // once RouterService#refresh lands in a release, use that instead:
       // this.router.refresh();
