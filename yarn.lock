@@ -5839,10 +5839,9 @@ ember-cli-deprecation-workflow@^2.0.0:
     broccoli-plugin "^4.0.5"
     ember-cli-htmlbars "^5.3.2"
 
-ember-cli-flash@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/ember-cli-flash/-/ember-cli-flash-3.0.0.tgz#ca914b18427472608805a82e6737fa45f5945a9f"
-  integrity sha512-AIJJm+Kg7qFkQLnNxNkiIypi7m8MK8Ix4ZA1DCPyuZbjI8JBc3Q0rqQcCd0AflxH2/X5bhYG+ej0885XtH1svQ==
+ember-cli-flash@pgengler/ember-cli-flash#2949e134f96ceb8727404284478cc72afa9f96ab:
+  version "2.2.1"
+  resolved "https://codeload.github.com/pgengler/ember-cli-flash/tar.gz/2949e134f96ceb8727404284478cc72afa9f96ab"
   dependencies:
     "@ember/render-modifiers" "^2.0.2"
     ember-auto-import "^2.2.4"
