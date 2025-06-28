@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
-import refreshRoute from 'flashcards/utils/refresh-route';
+import { service } from '@ember/service';
 
 function isInput(element) {
   let tagName = element.tagName;
@@ -36,8 +35,7 @@ export default class TopNav extends Component {
 
     if (this.router.currentRouteName === 'collection.card.random') {
       // once RouterService#refresh lands in a release, use that instead:
-      // this.router.refresh();
-      refreshRoute(this.router);
+      this.router.refresh();
     } else {
       this.router.transitionTo('collection.card.random', this.collection.slug);
     }
