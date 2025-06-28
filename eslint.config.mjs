@@ -81,6 +81,7 @@ export default [
     files: [
       '**/*.cjs',
       'config/**/*.js',
+      'server/**/*.js',
       'tests/dummy/config/**/*.js',
       'testem.js',
       'testem*.js',
