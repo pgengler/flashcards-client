@@ -9,7 +9,7 @@ export default class CollectionRandomCardRoute extends Route {
     if (collection.cards.length > 0) {
       let cards = collection.cards;
       let pos = Math.floor(Math.random() * cards.length);
-      return cards.toArray()[pos];
+      return cards[pos];
     }
     return null;
   }

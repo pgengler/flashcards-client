@@ -12,7 +12,7 @@ export default class CollectionRoute extends Route {
       filter: { slug },
       include: 'cards,card-sets',
     });
-    return result.firstObject;
+    return result[0];
   }
 
   afterModel(collection) {
