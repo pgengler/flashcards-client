@@ -7,6 +7,13 @@ settings:
 importers:
 
   .:
+    dependencies:
+      broccoli-funnel:
+        specifier: ^3.0.8
+        version: 3.0.8
+      resolve:
+        specifier: ^1.22.10
+        version: 1.22.10
     devDependencies:
       '@babel/core':
         specifier: ^7.27.4
@@ -87,8 +94,8 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0(ember-source@6.5.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
       ember-cli-flash:
-        specifier: pgengler/ember-cli-flash#2949e134f96ceb8727404284478cc72afa9f96ab
-        version: https://codeload.github.com/pgengler/ember-cli-flash/tar.gz/2949e134f96ceb8727404284478cc72afa9f96ab(@babel/core@7.27.7)(ember-source@6.5.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(webpack@5.99.9)
+        specifier: 6.0.0
+        version: 6.0.0(@ember/string@4.0.1)(@embroider/macros@1.18.0)(ember-modifier@4.2.2(@babel/core@7.27.7))
       ember-cli-htmlbars:
         specifier: ^6.3.0
         version: 6.3.0
@@ -173,6 +180,9 @@ importers:
       loader.js:
         specifier: ^4.7.0
         version: 4.7.0
+      miragejs:
+        specifier: ^0.1.48
+        version: 0.1.48
       morgan:
         specifier: ^1.6.1
         version: 1.10.0
@@ -937,16 +947,6 @@ packages:
   '@ember/optional-features@2.2.0':
     resolution: {integrity: sha512-a1OQ+w9vDvMXd9BNA9r779yr8MAPguGaMGbIeTMPWACeWBdD6bACBB5iKE3gNyrJAYKMq2wab6BKmRFS3Qw3hw==}
     engines: {node: 10.* || 12.* || >= 14}
-
-  '@ember/render-modifiers@2.1.0':
-    resolution: {integrity: sha512-LruhfoDv2itpk0fA0IC76Sxjcnq/7BC6txpQo40hOko8Dn6OxwQfxkPIbZGV0Cz7df+iX+VJrcYzNIvlc3w2EQ==}
-    engines: {node: 12.* || 14.* || >= 16}
-    peerDependencies:
-      '@glint/template': ^1.0.2
-      ember-source: ^3.8 || ^4.0.0 || ^5.0.0
-    peerDependenciesMeta:
-      '@glint/template':
-        optional: true
 
   '@ember/render-modifiers@3.0.0':
     resolution: {integrity: sha512-gJztS8dI7Jt8ohFQptEDJAgpl9DG84IpqwQoR1JDpVIBy2uLbf8KFD6S3h3LfyMsgJce6G38cOvyQv6BDgcnsA==}
@@ -2847,10 +2847,12 @@ packages:
     peerDependencies:
       ember-source: '>= 4.0.0'
 
-  ember-cli-flash@https://codeload.github.com/pgengler/ember-cli-flash/tar.gz/2949e134f96ceb8727404284478cc72afa9f96ab:
-    resolution: {tarball: https://codeload.github.com/pgengler/ember-cli-flash/tar.gz/2949e134f96ceb8727404284478cc72afa9f96ab}
-    version: 2.2.1
-    engines: {node: 12.* || 14.* || >= 16}
+  ember-cli-flash@6.0.0:
+    resolution: {integrity: sha512-ig8V5HKqXyTobJgHsIfnViPAmmyqx1c8T77LB5qmarPlVrx1G+EhSjlRcTr/y16Kg/EZalSBldHiLvv9M/5t6g==}
+    peerDependencies:
+      '@ember/string': '>= 3.0.0'
+      '@embroider/macros': ^1.13.2
+      ember-modifier: '>= 4.0.0'
 
   ember-cli-get-component-path-option@1.0.0:
     resolution: {integrity: sha512-k47TDwcJ2zPideBCZE8sCiShSxQSpebY2BHcX2DdipMmBox5gsfyVrbKJWIHeSTTKyEUgmBIvQkqTOozEziCZA==}
@@ -7292,16 +7294,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@ember/render-modifiers@2.1.0(@babel/core@7.27.7)(ember-source@6.5.0(@glimmer/component@2.0.0)(rsvp@4.8.5))':
-    dependencies:
-      '@embroider/macros': 1.18.0
-      ember-cli-babel: 7.26.11
-      ember-modifier-manager-polyfill: 1.2.0(@babel/core@7.27.7)
-      ember-source: 6.5.0(@glimmer/component@2.0.0)(rsvp@4.8.5)
-    transitivePeerDependencies:
-      - '@babel/core'
-      - supports-color
-
   '@ember/render-modifiers@3.0.0(ember-source@6.5.0(@glimmer/component@2.0.0)(rsvp@4.8.5))':
     dependencies:
       '@babel/core': 7.27.7
@@ -9744,18 +9736,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-cli-flash@https://codeload.github.com/pgengler/ember-cli-flash/tar.gz/2949e134f96ceb8727404284478cc72afa9f96ab(@babel/core@7.27.7)(ember-source@6.5.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(webpack@5.99.9):
+  ember-cli-flash@6.0.0(@ember/string@4.0.1)(@embroider/macros@1.18.0)(ember-modifier@4.2.2(@babel/core@7.27.7)):
     dependencies:
-      '@ember/render-modifiers': 2.1.0(@babel/core@7.27.7)(ember-source@6.5.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
-      ember-auto-import: 2.10.0(webpack@5.99.9)
-      ember-cli-babel: 7.26.11
-      ember-cli-htmlbars: 6.3.0
+      '@ember/string': 4.0.1
+      '@embroider/addon-shim': 1.10.0
+      '@embroider/macros': 1.18.0
+      ember-modifier: 4.2.2(@babel/core@7.27.7)
     transitivePeerDependencies:
-      - '@babel/core'
-      - '@glint/template'
-      - ember-source
       - supports-color
-      - webpack
 
   ember-cli-get-component-path-option@1.0.0: {}
 

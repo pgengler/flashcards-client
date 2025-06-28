@@ -4,6 +4,6 @@ export default class Card extends Model {
   @attr('string') front;
   @attr('string') back;
 
-  @belongsTo collection;
-  @hasMany('cardSet') cardSets;
+  @belongsTo('collection', { async: false, inverse: 'cards' }) collection;
+  @hasMany('cardSet', { async: false, inverse: 'cards' }) cardSets;
 }

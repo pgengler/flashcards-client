@@ -4,6 +4,6 @@ export default class Collection extends Model {
   @attr('string') name;
   @attr('string') slug; // read-only on backend; not serialized
 
-  @hasMany cardSets;
-  @hasMany cards;
+  @hasMany('card-set', { async: false, inverse: 'collection' }) cardSets;
+  @hasMany('card', { async: false, inverse: 'collection' }) cards;
 }
