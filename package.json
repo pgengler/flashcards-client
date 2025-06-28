@@ -55,7 +55,7 @@
     "ember-cli-flash": "pgengler/ember-cli-flash#2949e134f96ceb8727404284478cc72afa9f96ab",
     "ember-cli-htmlbars": "^6.3.0",
     "ember-cli-inject-live-reload": "^2.1.0",
-    "ember-cli-mirage": "^2.1.0",
+    "ember-cli-mirage": "^3.0.4",
     "ember-cli-sass": "^10.0.1",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
