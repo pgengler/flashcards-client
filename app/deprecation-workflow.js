@@ -10,6 +10,9 @@ setupDeprecationWorkflow({
   */
   throwOnUnhandled: false,
   workflow: [
+    // This seems to be coming from the ember-inspector browser extension.
+    // Tests pass in CI (and when running `ember test`) but fail when running via
+    // `http://localhost:4200/tests` when the Ember Inspector extension is installed/enabled.
     {
       handler: 'silence',
       matchId: 'deprecate-import-libraries-from-ember',
