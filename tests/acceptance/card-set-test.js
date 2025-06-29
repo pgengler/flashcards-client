@@ -67,7 +67,7 @@ module('Acceptance | card set', function (hooks) {
 
       assert.deepEqual(
         cardIds,
-        cardsToAdd.map((x) => x.id)
+        cardsToAdd.map((x) => x.id),
       );
     });
 
@@ -88,7 +88,7 @@ module('Acceptance | card set', function (hooks) {
                 status: 422,
               },
             ],
-          }
+          },
         );
       });
 
@@ -136,7 +136,7 @@ module('Acceptance | card set', function (hooks) {
       assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`,
-        'remains on edit form'
+        'remains on edit form',
       );
     });
 
@@ -181,7 +181,7 @@ module('Acceptance | card set', function (hooks) {
       assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${cardSet.id}/manage`,
-        'link goes to right page'
+        'link goes to right page',
       );
 
       assert.dom('tr[data-test-card]').exists({ count: 15 }, 'lists all cards in the collection');
@@ -211,7 +211,7 @@ module('Acceptance | card set', function (hooks) {
       assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${cardSet.id}`,
-        'returns to set show page when done'
+        'returns to set show page when done',
       );
     });
 
@@ -245,7 +245,7 @@ module('Acceptance | card set', function (hooks) {
       assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${cardSet.id}`,
-        'returns to set show page after cancelling'
+        'returns to set show page after cancelling',
       );
 
       await click('[data-test-manage-cards]');
@@ -271,7 +271,7 @@ module('Acceptance | card set', function (hooks) {
                 status: 422,
               },
             ],
-          }
+          },
         );
       });
 
@@ -282,7 +282,7 @@ module('Acceptance | card set', function (hooks) {
       assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`,
-        'does not transition'
+        'does not transition',
       );
       assert.dom('[data-test-errors-for="name"]').hasText('name - must be something else');
       assert.dom('.flash-message').doesNotExist('does not show a flash message');
@@ -300,7 +300,7 @@ module('Acceptance | card set', function (hooks) {
       assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`,
-        'does not transition'
+        'does not transition',
       );
       assert.dom('.flash-message').hasText('Failed to save the new card set');
       assert.dom('[data-test-errors-for="name"]').hasNoText();

@@ -11,7 +11,8 @@
   {{#if @model.cards}}
     <li class="list-group-item">
       <LinkTo @route="collection.list" @model={{@model.slug}}>
-        View a list of all {{pluralize @model.cards.length "card"}}.
+        View a list of all
+        {{pluralize @model.cards.length "card"}}.
       </LinkTo>
     </li>
 
@@ -40,7 +41,10 @@
   <ul class="list-group" data-test-card-set-list>
     {{#each @model.cardSets as |cardSet|}}
       <li class="list-group-item" data-test-card-set>
-        <LinkTo @route="collection.sets.show" @models={{array @model.slug cardSet.id}}>
+        <LinkTo
+          @route="collection.sets.show"
+          @models={{array @model.slug cardSet.id}}
+        >
           {{cardSet.name}}
         </LinkTo>
       </li>

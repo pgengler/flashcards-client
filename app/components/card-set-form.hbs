@@ -1,9 +1,15 @@
-<form {{on "submit" (prevent-default this.save)}} data-test-card-set-form ...attributes>
+<form
+  {{on "submit" (prevent-default this.save)}}
+  data-test-card-set-form
+  ...attributes
+>
   <div class="container">
     <div class="row mb-4">
       <label for="name" class="form-label">Name:</label>
       <input
-        type="text" id="name" name="name"
+        type="text"
+        id="name"
+        name="name"
         value={{@cardSet.name}}
         class="form-control {{invalid-class @cardSet 'name'}}"
         required
@@ -25,7 +31,12 @@
             <label for="include-{{item.card.id}}" class="visually-hidden">
               Include
             </label>
-            <input type="checkbox" value={{item.card.id}} checked={{item.checked}} id="include-{{item.card.id}}" />
+            <input
+              type="checkbox"
+              value={{item.card.id}}
+              checked={{item.checked}}
+              id="include-{{item.card.id}}"
+            />
           </td>
           <td>
             {{item.card.front}}
@@ -45,7 +56,8 @@
       </button>
 
       <button
-        type="button" class="btn btn-outline-secondary"
+        type="button"
+        class="btn btn-outline-secondary"
         data-test-cancel-button
         {{on "click" @cancelled}}
       >

@@ -1,0 +1,3 @@
+add|ember-template-lint|no-at-ember-render-modifiers|34|4|34|4|18acb09c9679f0a565ecc6d397d39dcf513bd10b|1751155200000|||app/components/card.hbs
+add|ember-template-lint|require-presentational-children|10|6|10|6|efd3265aa7092760b0b68ef6f9a60d2c46660995|1751155200000|||app/components/flippable-card.hbs
+add|ember-template-lint|require-presentational-children|14|6|14|6|613e4ad19bcc8a2408757994616dd1e672deca2a|1751155200000|||app/components/flippable-card.hbs

@@ -1,7 +1,13 @@
 {{#if this.isEditing}}
-  <CardForm @card={{@card}} @submitLabel="Save" @onSave={{this.exitEdit}} data-test-edit-form>
+  <CardForm
+    @card={{@card}}
+    @submitLabel="Save"
+    @onSave={{this.exitEdit}}
+    data-test-edit-form
+  >
     <button
-      type="button" class="btn btn-outline-secondary ms-3"
+      type="button"
+      class="btn btn-outline-secondary ms-3"
       data-test-cancel-button
       {{on "click" this.cancelEdit}}
     >
@@ -9,7 +15,8 @@
     </button>
     <div class="flex-grow-1"></div>
     <button
-      type="button" class="btn btn-danger"
+      type="button"
+      class="btn btn-danger"
       data-test-delete-button
       {{on "click" this.deleteCard}}
     >
@@ -28,7 +35,8 @@
     ...attributes
   />
   <button
-    type="button" class="btn btn-primary"
+    type="button"
+    class="btn btn-primary"
     data-test-edit-button
     {{on "click" this.edit}}
   >

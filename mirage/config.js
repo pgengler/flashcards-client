@@ -1,7 +1,5 @@
 import { dasherize } from '@ember/string';
-import {
-  discoverEmberDataModels,
-} from 'ember-cli-mirage';
+import { discoverEmberDataModels } from 'ember-cli-mirage';
 import { createServer } from 'miragejs';
 
 export default function (config) {
@@ -9,7 +7,7 @@ export default function (config) {
     ...config,
     models: {
       ...discoverEmberDataModels(config.store),
-      ...config.models
+      ...config.models,
     },
     routes,
   };

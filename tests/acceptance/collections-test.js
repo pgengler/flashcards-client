@@ -69,7 +69,7 @@ module('Acceptance | collections', function (hooks) {
                 status: 422,
               },
             ],
-          }
+          },
         );
       });
 
@@ -142,7 +142,7 @@ module('Acceptance | collections', function (hooks) {
                 status: 422,
               },
             ],
-          }
+          },
         );
       });
 
@@ -153,7 +153,7 @@ module('Acceptance | collections', function (hooks) {
       assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/edit`,
-        'remains on the "edit collection" page'
+        'remains on the "edit collection" page',
       );
       assert.dom('[data-test-errors-for="name"]').hasText('name - is already taken');
       assert.dom('.flash-message.alert-danger').doesNotExist();
@@ -171,7 +171,7 @@ module('Acceptance | collections', function (hooks) {
       assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/edit`,
-        'remains on the "edit collection" page'
+        'remains on the "edit collection" page',
       );
       assert.dom('.flash-message.alert-danger').hasText('Failed to save the collection');
       assert.dom('[data-test-errors-for="name"]').hasNoText();

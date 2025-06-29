@@ -1,3 +1,5 @@
+@import url("bootstrap/bootstrap");
+
 .random-menu {
   & > a {
     display: inline-block !important;
@@ -8,13 +10,14 @@
   }
 }
 
-.flip-container, .flashcard {
+.flip-container,
+.flashcard {
   height: 12em;
   width: 26em;
 }
 
 .flashcard {
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  border: 1px solid rgba(0 0 0 / 12.5%);
   padding: 1em;
 }
 
@@ -31,24 +34,24 @@ form.import-form {
   }
 }
 
-.flip-container {
-  &.flipped .flipper {
-    transform: rotateY(180deg);
-  }
-}
-
 .flipper {
   transition: 0.6s;
   transform-style: preserve-3d;
   position: relative;
 }
 
-.front, .back {
+.flip-container {
+  &.flipped .flipper {
+    transform: rotateY(180deg);
+  }
+}
+
+.front,
+.back {
   backface-visibility: hidden;
   position: absolute;
   top: 0;
   left: 0;
-
   transition: 0.6s;
   transform-style: preserve-3d;
   transform: rotateY(0deg);
@@ -63,9 +66,9 @@ form.import-form {
 }
 
 .flip-container.no-transition {
-  .flipper, .front, .back {
+  .flipper,
+  .front,
+  .back {
     transition: 0s !important;
   }
 }
-
-@import "bootstrap/bootstrap";

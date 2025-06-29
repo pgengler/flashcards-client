@@ -33,7 +33,7 @@ module('Acceptance | new card', function (hooks) {
     assert.strictEqual(
       currentURL(),
       `/collection/${this.collection.slug}/card/${newCardId}`,
-      'redirects to show new card'
+      'redirects to show new card',
     );
   });
 
@@ -62,7 +62,7 @@ module('Acceptance | new card', function (hooks) {
     assert.strictEqual(
       currentURL(),
       `/collection/${this.collection.slug}/card/new`,
-      'we are still on the new card form'
+      'we are still on the new card form',
     );
     assert.dom('textarea[name=front]').hasNoValue('textarea for front is cleared');
     assert.dom('textarea[name=back]').hasNoValue('textarea for back is cleared');
@@ -86,7 +86,7 @@ module('Acceptance | new card', function (hooks) {
               status: 422,
             },
           ],
-        }
+        },
       );
     });
 
@@ -98,7 +98,7 @@ module('Acceptance | new card', function (hooks) {
     assert.strictEqual(
       currentURL(),
       `/collection/${this.collection.slug}/card/new`,
-      'we are still on the new card form'
+      'we are still on the new card form',
     );
     assert.dom('[data-test-errors-for="front"]').hasText('front - must be awesome', 'displays validation error inline');
     assert.dom('.flash-message').doesNotExist('does not show a flash message');
@@ -117,7 +117,7 @@ module('Acceptance | new card', function (hooks) {
     assert.strictEqual(
       currentURL(),
       `/collection/${this.collection.slug}/card/new`,
-      'we are still on the new card form'
+      'we are still on the new card form',
     );
     assert.dom('.flash-message.alert-danger').exists('flash message is displayed');
     assert.dom('.flash-message').hasText('Failed to save the new card');

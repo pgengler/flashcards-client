@@ -1,9 +1,10 @@
-{{!-- @model isn't a Collection but it's got a `name` property so it works just as well here. Quack quack. --}}
+{{! @model isn't a Collection but it's got a `name` property so it works just as well here. Quack quack. }}
 <CollectionHeader @collection={{@model}} @editable={{false}} />
 
 <CollectionForm @collection={{@model.collection}} @submitLabel="Save">
   <button
-    type="button" class="btn btn-outline-secondary ms-3"
+    type="button"
+    class="btn btn-outline-secondary ms-3"
     {{on "click" this.redirectToCollection}}
     data-test-action="cancel"
   >
@@ -11,7 +12,8 @@
   </button>
   <div class="flex-grow-1"></div>
   <button
-    type="button" class="btn btn-danger"
+    type="button"
+    class="btn btn-danger"
     {{on "click" this.deleteCollection}}
     data-test-action="delete"
   >
