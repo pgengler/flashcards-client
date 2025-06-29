@@ -124,8 +124,8 @@ importers:
         specifier: ^8.1.2
         version: 8.1.2
       ember-keyboard:
-        specifier: ^6.0.4
-        version: 6.0.4(@babel/core@7.27.7)
+        specifier: ^9.0.2
+        version: 9.0.2(@babel/core@7.27.7)(@ember/test-helpers@5.2.2(@babel/core@7.27.7))
       ember-load-initializers:
         specifier: ^3.0.1
         version: 3.0.1(ember-source@6.5.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
@@ -2879,10 +2879,6 @@ packages:
     resolution: {integrity: sha512-0iKTZ+/wH6UB/VTWKvGuXlmwiE8HSIGcxHamwNhEC5x1mN3z8RfvsFZdQWYUzIWFN2Tek0gmepGRPTwWdBYl/A==}
     engines: {node: 10.* || >= 12.*}
 
-  ember-cli-typescript@5.3.0:
-    resolution: {integrity: sha512-gFA+ZwmsvvFwo2Jz/B9GMduEn+fPoGb69qWGP0Tp3+Tu5xypDtIKVSZ5086I3Cr19cLXD4HkrOR3YQvdUKzAkQ==}
-    engines: {node: '>= 12.*'}
-
   ember-cli-version-checker@2.2.0:
     resolution: {integrity: sha512-G+KtYIVlSOWGcNaTFHk76xR4GdzDLzAS4uxZUKdASuFX0KJE43C6DaqL+y3VTpUFLI2FIkAS6HZ4I1YBi+S3hg==}
     engines: {node: '>= 4'}
@@ -2924,6 +2920,10 @@ packages:
       qunit:
         optional: true
 
+  ember-destroyable-polyfill@2.0.3:
+    resolution: {integrity: sha512-TovtNqCumzyAiW0/OisSkkVK93xnVF4NRU6+FN0ubpfwEOpRrmM2RqDwXI6YAChCgSHON1cz0DfQStpA1Gjuuw==}
+    engines: {node: 10.* || >= 12}
+
   ember-eslint-parser@0.5.9:
     resolution: {integrity: sha512-IW4/3cEiFp49M2LiKyzi7VcT1egogOe8UxQ9eUKTooenC7Q4qNhzTD6rOZ8j51m8iJC+8hCzjbNCa3K4CN0Hhg==}
     engines: {node: '>=16.0.0'}
@@ -2948,9 +2948,13 @@ packages:
     peerDependencies:
       ember-source: ^3.16.0 || ^4.0.0 || ^5.0.0
 
-  ember-keyboard@6.0.4:
-    resolution: {integrity: sha512-Mkg5TG6KBTtxjOUBdyLADajyj/mJo3ua2mSHw20UtG2MxKxMyO+Bs4tttMlEmmrR3XMrQ9qVBLkq2dIuuQku3w==}
-    engines: {node: 12.* || 14.* || >= 16}
+  ember-keyboard@9.0.2:
+    resolution: {integrity: sha512-+CT3k3Wj1rd/eluijOWxDZdHxrjZa08+jtNop60jclGcxIaMlZahesVRBk3XU3yX/Z+VyoyQ6/7N1P5GWGvLug==}
+    peerDependencies:
+      '@ember/test-helpers': ^2.6.0 || ^3.0.0 || >= 4.0.0
+    peerDependenciesMeta:
+      '@ember/test-helpers':
+        optional: true
 
   ember-load-initializers@3.0.1:
     resolution: {integrity: sha512-qV3vxJKw5+7TVDdtdLPy8PhVsh58MlK8jwzqh5xeOwJPNP7o0+BlhvwoIlLYTPzGaHdfjEIFCgVSyMRGd74E1g==}
@@ -2961,10 +2965,6 @@ packages:
   ember-modifier-manager-polyfill@1.2.0:
     resolution: {integrity: sha512-bnaKF1LLKMkBNeDoetvIJ4vhwRPKIIumWr6dbVuW6W6p4QV8ZiO+GdF8J7mxDNlog9CeL9Z/7wam4YS86G8BYA==}
     engines: {node: 6.* || 8.* || >= 10.*}
-
-  ember-modifier@3.2.7:
-    resolution: {integrity: sha512-ezcPQhH8jUfcJQbbHji4/ZG/h0yyj1jRDknfYue/ypQS8fM8LrGcCMo0rjDZLzL1Vd11InjNs3BD7BdxFlzGoA==}
-    engines: {node: 12.* || >= 14}
 
   ember-modifier@4.2.2:
     resolution: {integrity: sha512-pPYBAGyczX0hedGWQFQOEiL9s45KS9efKxJxUQkMLjQyh+1Uef1mcmAGsdw2KmvNupITkE/nXxmVO1kZ9tt3ag==}
@@ -9722,21 +9722,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-cli-typescript@5.3.0:
-    dependencies:
-      ansi-to-html: 0.6.15
-      broccoli-stew: 3.0.0
-      debug: 4.4.1
-      execa: 4.1.0
-      fs-extra: 9.1.0
-      resolve: 1.22.10
-      rsvp: 4.8.5
-      semver: 7.7.2
-      stagehand: 1.0.1
-      walk-sync: 2.2.0
-    transitivePeerDependencies:
-      - supports-color
-
   ember-cli-version-checker@2.2.0:
     dependencies:
       resolve: 1.22.10
@@ -9945,6 +9930,15 @@ snapshots:
       - ember-provide-consume-context
       - supports-color
 
+  ember-destroyable-polyfill@2.0.3(@babel/core@7.27.7):
+    dependencies:
+      ember-cli-babel: 7.26.11
+      ember-cli-version-checker: 5.1.2
+      ember-compatibility-helpers: 1.2.7(@babel/core@7.27.7)
+    transitivePeerDependencies:
+      - '@babel/core'
+      - supports-color
+
   ember-eslint-parser@0.5.9(@babel/core@7.27.7)(eslint@9.30.0):
     dependencies:
       '@babel/core': 7.27.7
@@ -9993,13 +9987,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-keyboard@6.0.4(@babel/core@7.27.7):
+  ember-keyboard@9.0.2(@babel/core@7.27.7)(@ember/test-helpers@5.2.2(@babel/core@7.27.7)):
     dependencies:
-      ember-cli-babel: 7.26.11
-      ember-cli-htmlbars: 5.7.2
-      ember-compatibility-helpers: 1.2.7(@babel/core@7.27.7)
-      ember-modifier: 3.2.7(@babel/core@7.27.7)
+      '@embroider/addon-shim': 1.10.0
+      ember-destroyable-polyfill: 2.0.3(@babel/core@7.27.7)
+      ember-modifier: 4.2.2(@babel/core@7.27.7)
       ember-modifier-manager-polyfill: 1.2.0(@babel/core@7.27.7)
+    optionalDependencies:
+      '@ember/test-helpers': 5.2.2(@babel/core@7.27.7)
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
@@ -10012,17 +10007,6 @@ snapshots:
     dependencies:
       ember-cli-babel: 7.26.11
       ember-cli-version-checker: 2.2.0
-      ember-compatibility-helpers: 1.2.7(@babel/core@7.27.7)
-    transitivePeerDependencies:
-      - '@babel/core'
-      - supports-color
-
-  ember-modifier@3.2.7(@babel/core@7.27.7):
-    dependencies:
-      ember-cli-babel: 7.26.11
-      ember-cli-normalize-entity-name: 1.0.0
-      ember-cli-string-utils: 1.1.0
-      ember-cli-typescript: 5.3.0
       ember-compatibility-helpers: 1.2.7(@babel/core@7.27.7)
     transitivePeerDependencies:
       - '@babel/core'
