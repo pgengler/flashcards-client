@@ -105,8 +105,8 @@ importers:
         specifier: ^3.0.4
         version: 3.0.4(@ember-data/model@5.5.0(70557500ba2635840ff6f3fc2992e049))(@ember/test-helpers@5.2.2(@babel/core@7.27.7))(ember-data@5.5.0(@ember/string@4.0.1)(@ember/test-helpers@5.2.2(@babel/core@7.27.7))(@ember/test-waiters@4.1.0)(ember-inflector@4.0.3(ember-source@6.5.0(@glimmer/component@2.0.0)(rsvp@4.8.5)))(ember-source@6.5.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(qunit@2.24.1))(ember-qunit@9.0.3(@ember/test-helpers@5.2.2(@babel/core@7.27.7))(qunit@2.24.1))(ember-source@6.5.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(miragejs@0.1.48)(webpack@5.99.9)
       ember-cli-sass:
-        specifier: ^10.0.1
-        version: 10.0.1
+        specifier: ^11.0.1
+        version: 11.0.1
       ember-cli-sri:
         specifier: ^2.1.1
         version: 2.1.1
@@ -2883,9 +2883,9 @@ packages:
     resolution: {integrity: sha512-Jb2zbE5Kfe56Nf4IpdaQ10zZ72p/RyLdgE5j5/lKG3I94QHlq+7AkAd18nPpb5OUeRUT13yQTAYpU+MbjpKTtg==}
     engines: {node: 16.* || >= 18}
 
-  ember-cli-sass@10.0.1:
-    resolution: {integrity: sha512-dWVoX03O2Mot1dEB1AN3ofC8DDZb6iU4Kfkbr3WYi9S9bGVHrpR/ngsR7tuVBuTugTyG53FPtLLqYdqx7XjXdA==}
-    engines: {node: 6.* || 8.* || >= 10.*}
+  ember-cli-sass@11.0.1:
+    resolution: {integrity: sha512-RMlFPMK4kaB+67seF/IIoY3EC4rRd+L58q+lyElrxB3FcQTgph/qmGwtqf9Up7m3SDbPiA7cccCOSmgReMgCXA==}
+    engines: {node: '>= 10.*'}
 
   ember-cli-sri@2.1.1:
     resolution: {integrity: sha512-YG/lojDxkur9Bnskt7xB6gUOtJ6aPl/+JyGYm9HNDk3GECVHB3SMN3rlGhDKHa1ndS5NK2W2TSLb9bzRbGlMdg==}
@@ -9785,7 +9785,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-cli-sass@10.0.1:
+  ember-cli-sass@11.0.1:
     dependencies:
       broccoli-funnel: 2.0.2
       broccoli-merge-trees: 3.0.2
