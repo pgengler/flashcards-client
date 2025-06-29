@@ -17,7 +17,6 @@ export default function (config) {
 
 function routes() {
   this.namespace = 'api';
-  this.logging = true;
 
   this.get('/collections', function ({ collections }, { queryParams }) {
     let result = collections.all();
