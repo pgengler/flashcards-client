@@ -9,7 +9,7 @@ export default class CardSetForm extends Component {
 
   get listItems() {
     let cardSet = this.args.cardSet;
-    let cards = cardSet.collection.get('cards') || [];
+    let cards = cardSet.collection.cards || [];
     return cards.map((card) => {
       return {
         checked: cardSet.cards.includes(card),

@@ -9,13 +9,13 @@ export default class CollectionManageSetController extends Controller {
   @action
   redirectToCollection() {
     let cardSet = this.model;
-    this.router.transitionTo('collection', cardSet.collection.get('slug'));
+    this.router.transitionTo('collection', cardSet.collection.slug);
   }
 
   @action
   redirectToSet() {
     let cardSet = this.model;
-    this.router.transitionTo('collection.sets.show', cardSet.collection.get('slug'), cardSet.id);
+    this.router.transitionTo('collection.sets.show', cardSet.collection.slug, cardSet.id);
   }
 
   @action

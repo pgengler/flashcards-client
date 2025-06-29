@@ -19,7 +19,7 @@ export default class CardComponent extends Component {
     let card = this.args.card;
     let collection = await card.collection;
     await card.destroyRecord();
-    this.router.transitionTo('collection.index', collection.get('slug'));
+    this.router.transitionTo('collection.index', collection.slug);
   }
 
   @action

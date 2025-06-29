@@ -13,7 +13,7 @@ export default class CollectionNewCardController extends Controller {
     if (this.addAnother) {
       this.router.refresh();
     } else {
-      this.router.transitionTo('collection.card.show', card.collection.get('slug'), card.id);
+      this.router.transitionTo('collection.card.show', card.collection.slug, card.id);
     }
   }
 }
