@@ -122,10 +122,8 @@ module('Acceptance | card set', function (hooks) {
     });
 
     test('name is a required field', async function (assert) {
-      assert.expect(2);
-
       this.server.patch('/api/card-sets/:id', function () {
-        assert.ok(false, 'should not have made API request to save');
+        assert.step('made API request to save');
       });
 
       await visit(`/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`);
@@ -138,6 +136,7 @@ module('Acceptance | card set', function (hooks) {
         `/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`,
         'remains on edit form',
       );
+      assert.verifySteps([], 'should not have made API request to save');
     });
 
     test('can change the name of a card set', async function (assert) {
@@ -216,8 +215,6 @@ module('Acceptance | card set', function (hooks) {
     });
 
     test('cancelling adding/removing cards leaves set unchanged', async function (assert) {
-      assert.expect(3);
-
       let cards = this.server.createList('card', 15, { collection: this.collection });
       let cardsInSet = cards.slice(0, 3);
       let cardToRemove = cardsInSet[0];
@@ -228,7 +225,7 @@ module('Acceptance | card set', function (hooks) {
       });
 
       this.server.patch('/api/card-sets/:id', function () {
-        assert.ok(false, 'card set should not have been saved');
+        assert.step('card set was saved');
       });
 
       await visit(`/collection/${this.collection.slug}/sets/${cardSet.id}`);
@@ -247,6 +244,7 @@ module('Acceptance | card set', function (hooks) {
         `/collection/${this.collection.slug}/sets/${cardSet.id}`,
         'returns to set show page after cancelling',
       );
+      assert.verifySteps([], 'card ser should not have been saved');
 
       await click('[data-test-manage-cards]');
       const checkedCardIds = findAll('input:is(:checked)').map((e) => e.value);

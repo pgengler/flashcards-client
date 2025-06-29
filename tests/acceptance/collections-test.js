@@ -196,8 +196,6 @@ module('Acceptance | collections', function (hooks) {
     });
 
     test('requires confirmation before deleting collection', async function (assert) {
-      assert.expect(3);
-
       this.server.del('/api/collections/:id', function ({ collections }, { params }) {
         let collection = collections.find(params.id);
         collection.destroy();
@@ -216,16 +214,15 @@ module('Acceptance | collections', function (hooks) {
     });
 
     test('does not delete collection is user does not confirm', async function (assert) {
-      assert.expect(1);
-
       this.server.del('/api/collections/:id', function () {
-        assert.ok(false, 'should not make API request to delete collection');
+        assert.step('made API request to delete collection');
       });
 
       window.confirm = () => false;
 
       await visit(`/collection/${this.collection.slug}/edit`);
       await click('button[data-test-action="delete"]');
+      assert.verifySteps([], 'should not make API request to delete collection');
       assert.strictEqual(currentURL(), `/collection/${this.collection.slug}/edit`, 'remains on "edit" page');
     });
 
