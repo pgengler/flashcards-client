@@ -1,4 +1,6 @@
 export default function (server) {
+  server.logging = true;
+
   let collection = server.create('collection', {
     name: 'First collection',
     slug: 'first-collection',

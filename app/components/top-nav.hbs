@@ -6,20 +6,41 @@
 
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-test-collections-toggle>
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdown"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          data-test-collections-toggle
+        >
           Collections
         </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" data-test-collections-menu>
+        <ul
+          class="dropdown-menu"
+          aria-labelledby="navbarDropdown"
+          data-test-collections-menu
+        >
           {{#each this.collections as |collection|}}
             <li>
-              <LinkTo @route="collection" @model={{collection.slug}} class="dropdown-item" data-test-collection-item>
+              <LinkTo
+                @route="collection"
+                @model={{collection.slug}}
+                class="dropdown-item"
+                data-test-collection-item
+              >
                 {{collection.name}}
               </LinkTo>
             </li>
           {{/each}}
-          <li><hr class="dropdown-divider"></li>
+          <li><hr class="dropdown-divider" /></li>
           <li>
-            <LinkTo @route="collections.new" class="dropdown-item" data-test-new-collection-item>
+            <LinkTo
+              @route="collections.new"
+              class="dropdown-item"
+              data-test-new-collection-item
+            >
               Add new collection
             </LinkTo>
           </li>
@@ -28,7 +49,11 @@
 
       {{#if this.collection}}
         <li class="nav-item">
-          <LinkTo @route="collection.card.new" @model={{this.collection.slug}} class="nav-link">
+          <LinkTo
+            @route="collection.card.new"
+            @model={{this.collection.slug}}
+            class="nav-link"
+          >
             New
           </LinkTo>
         </li>
@@ -47,7 +72,11 @@
         {{/if}}
 
         <li class="nav-item" data-test-card-sets>
-          <LinkTo @route="collection.sets.new" @model={{this.collection.slug}} class="nav-link">
+          <LinkTo
+            @route="collection.sets.new"
+            @model={{this.collection.slug}}
+            class="nav-link"
+          >
             New set
           </LinkTo>
         </li>

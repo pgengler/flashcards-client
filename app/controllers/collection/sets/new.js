@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class CollectionNewSetController extends Controller {
   @service router;
@@ -8,12 +8,12 @@ export default class CollectionNewSetController extends Controller {
   @action
   redirectToCollection() {
     let cardSet = this.model;
-    this.router.transitionTo('collection', cardSet.collection.get('slug'));
+    this.router.transitionTo('collection', cardSet.collection.slug);
   }
 
   @action
   redirectToSet() {
     let cardSet = this.model;
-    this.router.transitionTo('collection.sets.show', cardSet.collection.get('slug'), cardSet.id);
+    this.router.transitionTo('collection.sets.show', cardSet.collection.slug, cardSet.id);
   }
 }

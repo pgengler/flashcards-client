@@ -7,12 +7,16 @@
 //   });
 // };
 
+const path = require('path');
+
 module.exports = function (app) {
-  var globSync = require('glob').sync;
-  var proxies = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);
+  const globSync = require('glob').globSync;
+  const paths = globSync('./proxies/**/*.js', { cwd: __dirname }).map((p) => path.join(__dirname, p));
+
+  const proxies = paths.map(require);
 
   // Log proxy requests
-  var morgan = require('morgan');
+  const morgan = require('morgan');
   app.use(morgan('dev'));
 
   proxies.forEach(function (route) {

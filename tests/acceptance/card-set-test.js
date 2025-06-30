@@ -67,7 +67,7 @@ module('Acceptance | card set', function (hooks) {
 
       assert.deepEqual(
         cardIds,
-        cardsToAdd.map((x) => x.id)
+        cardsToAdd.map((x) => x.id),
       );
     });
 
@@ -88,7 +88,7 @@ module('Acceptance | card set', function (hooks) {
                 status: 422,
               },
             ],
-          }
+          },
         );
       });
 
@@ -122,10 +122,8 @@ module('Acceptance | card set', function (hooks) {
     });
 
     test('name is a required field', async function (assert) {
-      assert.expect(2);
-
       this.server.patch('/api/card-sets/:id', function () {
-        assert.ok(false, 'should not have made API request to save');
+        assert.step('made API request to save');
       });
 
       await visit(`/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`);
@@ -136,8 +134,9 @@ module('Acceptance | card set', function (hooks) {
       assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`,
-        'remains on edit form'
+        'remains on edit form',
       );
+      assert.verifySteps([], 'should not have made API request to save');
     });
 
     test('can change the name of a card set', async function (assert) {
@@ -181,7 +180,7 @@ module('Acceptance | card set', function (hooks) {
       assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${cardSet.id}/manage`,
-        'link goes to right page'
+        'link goes to right page',
       );
 
       assert.dom('tr[data-test-card]').exists({ count: 15 }, 'lists all cards in the collection');
@@ -211,13 +210,11 @@ module('Acceptance | card set', function (hooks) {
       assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${cardSet.id}`,
-        'returns to set show page when done'
+        'returns to set show page when done',
       );
     });
 
     test('cancelling adding/removing cards leaves set unchanged', async function (assert) {
-      assert.expect(3);
-
       let cards = this.server.createList('card', 15, { collection: this.collection });
       let cardsInSet = cards.slice(0, 3);
       let cardToRemove = cardsInSet[0];
@@ -228,7 +225,7 @@ module('Acceptance | card set', function (hooks) {
       });
 
       this.server.patch('/api/card-sets/:id', function () {
-        assert.ok(false, 'card set should not have been saved');
+        assert.step('card set was saved');
       });
 
       await visit(`/collection/${this.collection.slug}/sets/${cardSet.id}`);
@@ -245,8 +242,9 @@ module('Acceptance | card set', function (hooks) {
       assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${cardSet.id}`,
-        'returns to set show page after cancelling'
+        'returns to set show page after cancelling',
       );
+      assert.verifySteps([], 'card ser should not have been saved');
 
       await click('[data-test-manage-cards]');
       const checkedCardIds = findAll('input:is(:checked)').map((e) => e.value);
@@ -271,7 +269,7 @@ module('Acceptance | card set', function (hooks) {
                 status: 422,
               },
             ],
-          }
+          },
         );
       });
 
@@ -282,7 +280,7 @@ module('Acceptance | card set', function (hooks) {
       assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`,
-        'does not transition'
+        'does not transition',
       );
       assert.dom('[data-test-errors-for="name"]').hasText('name - must be something else');
       assert.dom('.flash-message').doesNotExist('does not show a flash message');
@@ -300,7 +298,7 @@ module('Acceptance | card set', function (hooks) {
       assert.strictEqual(
         currentURL(),
         `/collection/${this.collection.slug}/sets/${this.cardSet.id}/manage`,
-        'does not transition'
+        'does not transition',
       );
       assert.dom('.flash-message').hasText('Failed to save the new card set');
       assert.dom('[data-test-errors-for="name"]').hasNoText();

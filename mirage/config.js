@@ -1,8 +1,22 @@
 import { dasherize } from '@ember/string';
+import { discoverEmberDataModels } from 'ember-cli-mirage';
+import { createServer } from 'miragejs';
 
-export default function () {
+export default function (config) {
+  let finalConfig = {
+    ...config,
+    models: {
+      ...discoverEmberDataModels(config.store),
+      ...config.models,
+    },
+    routes,
+  };
+
+  return createServer(finalConfig);
+}
+
+function routes() {
   this.namespace = 'api';
-  this.logging = true;
 
   this.get('/collections', function ({ collections }, { queryParams }) {
     let result = collections.all();

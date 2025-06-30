@@ -13,5 +13,5 @@ export default setModifierManager(
     updateModifier() {},
     destroyModifier() {},
   }),
-  class AutofocusModifier {}
+  class AutofocusModifier {},
 );

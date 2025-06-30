@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 import { tracked } from '@glimmer/tracking';
 
@@ -19,7 +19,7 @@ export default class CardComponent extends Component {
     let card = this.args.card;
     let collection = await card.collection;
     await card.destroyRecord();
-    this.router.transitionTo('collection.index', collection.get('slug'));
+    this.router.transitionTo('collection.index', collection.slug);
   }
 
   @action

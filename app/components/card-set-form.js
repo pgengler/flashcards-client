@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { InvalidError } from '@ember-data/adapter/error';
 
 export default class CardSetForm extends Component {
@@ -9,7 +9,7 @@ export default class CardSetForm extends Component {
 
   get listItems() {
     let cardSet = this.args.cardSet;
-    let cards = cardSet.collection.get('cards') || [];
+    let cards = cardSet.collection.cards || [];
     return cards.map((card) => {
       return {
         checked: cardSet.cards.includes(card),

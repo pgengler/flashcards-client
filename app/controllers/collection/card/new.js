@@ -1,8 +1,7 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import refreshRoute from 'flashcards/utils/refresh-route';
 
 export default class CollectionNewCardController extends Controller {
   @service router;
@@ -12,11 +11,9 @@ export default class CollectionNewCardController extends Controller {
   @action
   onSave(card) {
     if (this.addAnother) {
-      // once RouterService#refresh lands in a release, use that instead:
-      // this.router.refresh();
-      refreshRoute(this.router);
+      this.router.refresh();
     } else {
-      this.router.transitionTo('collection.card.show', card.collection.get('slug'), card.id);
+      this.router.transitionTo('collection.card.show', card.collection.slug, card.id);
     }
   }
 }

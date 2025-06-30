@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class CollectionRandomCardRoute extends Route {
   @service router;
@@ -9,7 +9,7 @@ export default class CollectionRandomCardRoute extends Route {
     if (collection.cards.length > 0) {
       let cards = collection.cards;
       let pos = Math.floor(Math.random() * cards.length);
-      return cards.toArray()[pos];
+      return cards[pos];
     }
     return null;
   }

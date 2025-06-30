@@ -8,8 +8,7 @@ export default class StudySession extends Component {
 
   @cached
   get cards() {
-    let originalCards = this.args.cards.toArray();
-    let cards = [...originalCards];
+    let cards = [...this.args.cards];
 
     for (let i = cards.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1));
@@ -19,7 +18,7 @@ export default class StudySession extends Component {
   }
 
   get currentCard() {
-    return this.cards.objectAt(this.currentIndex);
+    return this.cards[this.currentIndex];
   }
 
   get displayIndex() {

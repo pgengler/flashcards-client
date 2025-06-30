@@ -1,15 +1,15 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { InvalidError } from '@ember-data/adapter/error';
-import { tracked } from '@glimmer/tracking';
+import { localCopy } from 'tracked-toolbox';
 
 export default class CollectionForm extends Component {
   @service flashMessages;
   @service router;
 
-  @tracked name = this.args.collection.name;
+  @localCopy('args.collection.name') name;
 
   get submitButtonDisabled() {
     return isEmpty(this.name);
