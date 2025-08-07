@@ -3,12 +3,67 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { InvalidError } from '@ember-data/adapter/error';
 import { on } from '@ember/modifier';
-import preventDefault from '../helpers/prevent-default.ts';
-import invalidClass from '../helpers/invalid-class.ts';
-import autofocus from '../modifiers/autofocus.ts';
-import validationErrors from '../helpers/validation-errors.ts';
+import preventDefault from '../helpers/prevent-default';
+import invalidClass from '../helpers/invalid-class';
+import autofocus from '../modifiers/autofocus';
+import validationErrors from '../helpers/validation-errors';
+import type CardSet from 'flashcards/models/card-set';
+import type FlashMessagesService from 'ember-flash-messages/services/flash-messages';
+import type Store from '@ember-data/store';
+import type Card from 'flashcards/models/card';
 
-export default class CardSetForm extends Component {
+interface CardSetFormSignature {
+  Args: {
+    cardSet: CardSet;
+    cancelled: () => void;
+    saved: () => void;
+  };
+  Blocks: {
+    default: [];
+  };
+  Element: HTMLFormElement;
+}
+
+export default class CardSetForm extends Component<CardSetFormSignature> {
+  @service declare flashMessages: FlashMessagesService;
+  @service declare store: Store;
+
+  get listItems() {
+    let cardSet = this.args.cardSet;
+    let cards = cardSet.collection.cards || [];
+    return cards.map((card) => {
+      return {
+        checked: cardSet.cards.includes(card),
+        card,
+      };
+    });
+  }
+
+  @action
+  async save(event: Event) {
+    let form = <HTMLFormElement>event.target!;
+
+    let name = (<HTMLInputElement>form.querySelector('input[name=name]')).value;
+    if (!name) return;
+
+    let checked = <NodeListOf<HTMLInputElement>>form.querySelectorAll('input:is(:checked)');
+    let ids = Array.from(checked).map((elem) => elem.value);
+    let cards = <Card[]>ids.map((id) => this.store.peekRecord('card', id));
+
+    let cardSet = this.args.cardSet;
+    cardSet.cards = cards;
+    cardSet.name = name;
+    try {
+      await cardSet.save();
+      this.args.saved();
+    } catch (e) {
+      if (!(e instanceof InvalidError)) {
+        this.flashMessages.danger('Failed to save the new card set');
+      }
+      console.error(e);
+    }
+  }
+
   <template>
     <form {{on "submit" (preventDefault this.save)}} data-test-card-set-form ...attributes>
       <div class="container">
@@ -67,42 +122,4 @@ export default class CardSetForm extends Component {
       </div>
     </form>
   </template>
-  @service flashMessages;
-  @service store;
-
-  get listItems() {
-    let cardSet = this.args.cardSet;
-    let cards = cardSet.collection.cards || [];
-    return cards.map((card) => {
-      return {
-        checked: cardSet.cards.includes(card),
-        card,
-      };
-    });
-  }
-
-  @action
-  async save(event) {
-    let form = event.target;
-
-    let name = form.querySelector('input[name=name]').value;
-    if (!name) return;
-
-    let checked = form.querySelectorAll('input:is(:checked)');
-    let ids = Array.from(checked).map((elem) => elem.value);
-    let cards = ids.map((id) => this.store.peekRecord('card', id));
-
-    let cardSet = this.args.cardSet;
-    cardSet.cards = cards;
-    cardSet.name = name;
-    try {
-      await cardSet.save();
-      this.args.saved();
-    } catch (e) {
-      if (!(e instanceof InvalidError)) {
-        this.flashMessages.danger('Failed to save the new card set');
-      }
-      console.error(e);
-    }
-  }
 }
