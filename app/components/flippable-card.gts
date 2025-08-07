@@ -11,6 +11,7 @@ interface FlippableCardSignature {
     flip: (side: 'front' | 'back') => void;
     side: 'front' | 'back';
   };
+  Element: HTMLDivElement;
 }
 
 export default class FlippableCard extends Component<FlippableCardSignature> {
