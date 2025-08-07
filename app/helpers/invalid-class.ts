@@ -1,9 +1,9 @@
-import { helper } from '@ember/component/helper';
 import { get } from '@ember/object';
+import type Model from '@ember-data/model';
 
-export default helper(function invalidClass([model, field]) {
+export default function invalidClass(model: Model, field: string) {
   if (model.errors && get(model.errors, field)) {
     return 'is-invalid';
   }
   return null;
-});
+}
