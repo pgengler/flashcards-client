@@ -4,6 +4,10 @@ import { service } from '@ember/service';
 import { LinkTo } from '@ember/routing';
 import { on } from '@ember/modifier';
 import onKey from 'ember-keyboard/modifiers/on-key';
+import type CurrentCollectionService from 'flashcards/services/current-collection';
+import type RouterService from '@ember/routing/router-service';
+import type Store from '@ember-data/store';
+import type Collection from 'flashcards/models/collection';
 
 function isInput(element) {
   let tagName = element.tagName;
@@ -14,6 +18,31 @@ function isInput(element) {
 }
 
 export default class TopNav extends Component {
+  @service declare currentCollection: CurrentCollectionService;
+  @service declare router: RouterService;
+  @service declare store: Store;
+
+  get collections() {
+    return <Collection[]>this.store.peekAll('collection').filter((collection) => !collection.isNew);
+  }
+
+  get collection() {
+    return this.currentCollection.currentCollection;
+  }
+
+  @action
+  randomCard(event) {
+    if (isInput(event.target)) {
+      return;
+    }
+
+    if (this.router.currentRouteName === 'collection.card.random') {
+      this.router.refresh();
+    } else {
+      this.router.transitionTo('collection.card.random', this.collection.slug);
+    }
+  }
+
   <template>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
@@ -86,33 +115,4 @@ export default class TopNav extends Component {
       </div>
     </nav>
   </template>
-  @service currentCollection;
-  @service router;
-  @service store;
-
-  get topNavElement() {
-    return document.getElementById('top-nav');
-  }
-
-  get collections() {
-    return this.store.peekAll('collection').filter((collection) => !collection.isNew);
-  }
-
-  get collection() {
-    return this.currentCollection.currentCollection;
-  }
-
-  @action
-  randomCard(event) {
-    if (isInput(event.target)) {
-      return;
-    }
-
-    if (this.router.currentRouteName === 'collection.card.random') {
-      // once RouterService#refresh lands in a release, use that instead:
-      this.router.refresh();
-    } else {
-      this.router.transitionTo('collection.card.random', this.collection.slug);
-    }
-  }
 }
