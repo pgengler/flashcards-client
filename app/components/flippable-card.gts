@@ -3,8 +3,30 @@ import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import onKey from 'ember-keyboard/modifiers/on-key';
 import MarkdownToHtml from 'ember-showdown/components/markdown-to-html';
+import type Card from 'flashcards/models/card';
 
-export default class FlippableCard extends Component {
+interface FlippableCardSignature {
+  Args: {
+    card: Card;
+    flip: (side: 'front' | 'back') => void;
+    side: 'front' | 'back';
+  };
+}
+
+export default class FlippableCard extends Component<FlippableCardSignature> {
+  get isFlipped() {
+    return this.side === 'back';
+  }
+
+  get side() {
+    return this.args.side || 'front';
+  }
+
+  @action
+  flipCard() {
+    this.args.flip(this.side === 'back' ? 'front' : 'back');
+  }
+
   <template>
     <div
       class="flip-container {{if this.isFlipped 'flipped'}}"
@@ -24,15 +46,4 @@ export default class FlippableCard extends Component {
       </div>
     </div>
   </template>
-  get isFlipped() {
-    return this.side === 'back';
-  }
-
-  get side() {
-    return this.args.side || 'front';
-  }
-
-  @action flipCard() {
-    this.args.flip(this.side === 'back' ? 'front' : 'back');
-  }
 }
