@@ -1,0 +1,10 @@
+import { LinkTo } from "@ember/routing";
+import type { TemplateOnlyComponent } from '@ember/component/template-only';
+export default <template><header class="d-flex align-items-center mb-3">
+  <h1>{{@collection.name}}</h1>
+  {{#if @editable}}
+    <LinkTo @route="collection.edit" @model={{@collection}} class="btn" data-test-edit>
+      <img src="/assets/images/pencil-square.svg" alt="pencil icon" title="Edit" />
+    </LinkTo>
+  {{/if}}
+</header></template> satisfies TemplateOnlyComponent<{ Args: {} }>

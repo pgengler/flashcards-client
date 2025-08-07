@@ -128,5 +128,9 @@
     "paths": [
       "lib/bootstrap-styles"
     ]
+  },
+  "exports": {
+    "./tests/*": "./tests/*",
+    "./*": "./app/*"
   }
 }
