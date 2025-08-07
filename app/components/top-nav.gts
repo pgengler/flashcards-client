@@ -31,7 +31,7 @@ export default class TopNav extends Component {
   }
 
   @action
-  randomCard(event) {
+  randomCard(event: Event) {
     if (isInput(event.target)) {
       return;
     }
