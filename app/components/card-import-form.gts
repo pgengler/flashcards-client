@@ -3,12 +3,15 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import fetch from 'flashcards/utils/fetch-with-waiter';
 import { on } from '@ember/modifier';
-import preventDefault from '../helpers/prevent-default';
-import autofocus from '../modifiers/autofocus';
+import preventDefault from 'flashcards/helpers/prevent-default';
+import autofocus from 'flashcards/modifiers/autofocus';
 import type Collection from 'flashcards/models/collection';
-import type FlashMessagesService from 'ember-flash-messages/services/flash-messages';
+import type FlashMessagesService from 'ember-cli-flash/services/flash-messages';
 import type RouterService from '@ember/routing/router-service';
 import type Store from '@ember-data/store';
+import { pluralize } from 'ember-inflector';
+
+import type { CollectionResourceDocument } from '@warp-drive/core-types/spec/json-api-raw';
 
 interface CardImportFormSignature {
   Args: {
@@ -24,12 +27,12 @@ export default class CardImportForm extends Component<CardImportFormSignature> {
 
   @action
   async import(event: Event) {
-    let form = event.target;
-    let csvData = form.querySelector('#csv').value;
+    const form = <HTMLFormElement>event.target!;
+    const csvData = (form.querySelector('#csv') as HTMLTextAreaElement).value;
 
-    let url = `/api/collections/${this.args.collection.id}/import`;
+    const url = `/api/collections/${this.args.collection.id}/import`;
     try {
-      let response = await fetch(url, {
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'text/csv',
@@ -39,10 +42,11 @@ export default class CardImportForm extends Component<CardImportFormSignature> {
       if (!response.ok) {
         throw new Error(`Import failed: got code ${response.status}`);
       }
-      let data = await response.json();
+      const data = <CollectionResourceDocument>await response.json();
       this.store.push(data);
 
-      this.flashMessages.success(`Imported ${data.meta.cards_imported} cards`);
+      const count = data.meta!['cards_imported'] as number;
+      this.flashMessages.success(`Imported ${pluralize(count, 'card')}`);
       this.router.transitionTo('collection', this.args.collection.slug);
     } catch (e) {
       this.flashMessages.danger('Failed to import cards');

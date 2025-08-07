@@ -3,12 +3,12 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { InvalidError } from '@ember-data/adapter/error';
 import { on } from '@ember/modifier';
-import preventDefault from '../helpers/prevent-default';
-import invalidClass from '../helpers/invalid-class';
-import autofocus from '../modifiers/autofocus';
-import validationErrors from '../helpers/validation-errors';
+import preventDefault from 'flashcards/helpers/prevent-default';
+import invalidClass from 'flashcards/helpers/invalid-class';
+import autofocus from 'flashcards/modifiers/autofocus';
+import validationErrors from 'flashcards/helpers/validation-errors';
 import type CardSet from 'flashcards/models/card-set';
-import type FlashMessagesService from 'ember-flash-messages/services/flash-messages';
+import type FlashMessagesService from 'ember-cli-flash/services/flash-messages';
 import type Store from '@ember-data/store';
 import type Card from 'flashcards/models/card';
 
@@ -29,8 +29,8 @@ export default class CardSetForm extends Component<CardSetFormSignature> {
   @service declare store: Store;
 
   get listItems() {
-    let cardSet = this.args.cardSet;
-    let cards = cardSet.collection.cards || [];
+    const cardSet = this.args.cardSet;
+    const cards = cardSet.collection.cards || [];
     return cards.map((card) => {
       return {
         checked: cardSet.cards.includes(card),
@@ -41,16 +41,16 @@ export default class CardSetForm extends Component<CardSetFormSignature> {
 
   @action
   async save(event: Event) {
-    let form = <HTMLFormElement>event.target!;
+    const form = <HTMLFormElement>event.target!;
 
-    let name = (<HTMLInputElement>form.querySelector('input[name=name]')).value;
+    const name = (<HTMLInputElement>form.querySelector('input[name=name]')).value;
     if (!name) return;
 
-    let checked = <NodeListOf<HTMLInputElement>>form.querySelectorAll('input:is(:checked)');
-    let ids = Array.from(checked).map((elem) => elem.value);
-    let cards = <Card[]>ids.map((id) => this.store.peekRecord('card', id));
+    const checked = form.querySelectorAll('input:is(:checked)');
+    const ids = Array.from(checked).map((elem) => (elem as HTMLInputElement).value);
+    const cards = <Card[]>ids.map((id) => this.store.peekRecord('card', id));
 
-    let cardSet = this.args.cardSet;
+    const cardSet = this.args.cardSet;
     cardSet.cards = cards;
     cardSet.name = name;
     try {
@@ -79,7 +79,7 @@ export default class CardSetForm extends Component<CardSetFormSignature> {
             {{autofocus}}
           />
           <div class="invalid-feedback" data-test-errors-for="name">
-            {{validationErrors @cardSet.errors.name}}
+            {{validationErrors @cardSet.errors "name"}}
           </div>
 
         </div>

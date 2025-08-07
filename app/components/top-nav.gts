@@ -9,8 +9,9 @@ import type RouterService from '@ember/routing/router-service';
 import type Store from '@ember-data/store';
 import type Collection from 'flashcards/models/collection';
 
-function isInput(element) {
-  let tagName = element.tagName;
+function isInput(element: Element | null) {
+  if (!element) return false;
+  const tagName = element.tagName;
   if (tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA') {
     return true;
   }
@@ -27,12 +28,12 @@ export default class TopNav extends Component {
   }
 
   get collection() {
-    return this.currentCollection.currentCollection;
+    return this.currentCollection.currentCollection!;
   }
 
   @action
   randomCard(event: Event) {
-    if (isInput(event.target)) {
+    if (isInput(<Element | null>event.target)) {
       return;
     }
 

@@ -1,8 +1,16 @@
-import type { TemplateOnlyComponent } from '@ember/component/template-only';
-import CardSetHeader from '../../../components/card-set-header.js';
-import StudySession from '../../../components/study-session.js';
-export default <template>
-  <CardSetHeader @cardSet={{@model}} @editable={{true}} />
+import type { TOC } from '@ember/component/template-only';
+import CardSetHeader from 'flashcards/components/card-set-header';
+import StudySession from 'flashcards/components/study-session';
+import type { CollectionSetsStudyRouteModel } from 'flashcards/routes/collection/sets/study';
 
-  <StudySession @cards={{@model.cards}} />
-</template> satisfies TemplateOnlyComponent<{ Args: { model: unknown; controller: unknown } }>;
+interface CollectionSetsStudySignature {
+  Args: {
+    model: CollectionSetsStudyRouteModel;
+  };
+}
+
+export default <template>
+  <CardSetHeader @cardSet={{@model.cardSet}} @editable={{true}} />
+
+  <StudySession @cards={{@model.cardSet.cards}} />
+</template> satisfies TOC<CollectionSetsStudySignature>;

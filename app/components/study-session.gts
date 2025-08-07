@@ -18,11 +18,11 @@ export default class StudySession extends Component<StudySessionSignature> {
 
   @cached
   get cards() {
-    let cards = [...this.args.cards];
+    const cards = [...this.args.cards];
 
     for (let i = cards.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1));
-      [cards[i], cards[j]] = [cards[j], cards[i]];
+      const j = Math.floor(Math.random() * (i + 1));
+      [cards[i], cards[j]] = [cards[j]!, cards[i]!];
     }
     return cards;
   }

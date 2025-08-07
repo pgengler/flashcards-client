@@ -36,7 +36,7 @@ export default class CollectionForm extends Component<CollectionFormSignature> {
 
   @action
   async save() {
-    let collection = this.args.collection;
+    const collection = this.args.collection;
     collection.name = this.name;
     if (!collection.name) return;
     try {
@@ -65,7 +65,7 @@ export default class CollectionForm extends Component<CollectionFormSignature> {
         />
         {{! template-lint-enable no-builtin-form-components }}
         <div class="invalid-feedback" data-test-errors-for="name">
-          {{validationErrors @collection.errors.name}}
+          {{validationErrors @collection.errors "name"}}
         </div>
       </div>
 

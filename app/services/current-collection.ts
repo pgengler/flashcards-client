@@ -3,5 +3,5 @@ import { tracked } from '@glimmer/tracking';
 import type Collection from 'flashcards/models/collection';
 
 export default class CurrentCollectionService extends Service {
-  @tracked declare currentCollection?: Collection;
+  @tracked currentCollection: Collection | null = null;
 }

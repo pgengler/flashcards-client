@@ -1,9 +1,16 @@
-import type { TemplateOnlyComponent } from '@ember/component/template-only';
-import CollectionHeader from '../../components/collection-header.js';
-import CardImportForm from '../../components/card-import-form.js';
+import type { TOC } from '@ember/component/template-only';
+import CollectionHeader from 'flashcards/components/collection-header';
+import CardImportForm from 'flashcards/components/card-import-form';
+import type { CollectionRouteModel } from 'flashcards/routes/collection';
+
+interface CollectionImportSignature {
+  Args: {
+    model: CollectionRouteModel;
+  };
+}
 export default <template>
-  <CollectionHeader @collection={{@model}} @editable={{true}} />
+  <CollectionHeader @collection={{@model.collection}} @editable={{true}} />
 
   <h2>Import cards</h2>
-  <CardImportForm @collection={{@model}} />
-</template> satisfies TemplateOnlyComponent<{ Args: { model: unknown; controller: unknown } }>;
+  <CardImportForm @collection={{@model.collection}} />
+</template> satisfies TOC<CollectionImportSignature>;

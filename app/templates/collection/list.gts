@@ -1,10 +1,18 @@
-import type { TemplateOnlyComponent } from '@ember/component/template-only';
-import CollectionHeader from '../../components/collection-header.js';
+import type { TOC } from '@ember/component/template-only';
+import CollectionHeader from 'flashcards/components/collection-header';
 import { LinkTo } from '@ember/routing';
-export default <template>
-  <CollectionHeader @collection={{@model}} @editable={{true}} />
+import type { CollectionRouteModel } from 'flashcards/routes/collection';
 
-  {{#if @model.cards}}
+interface CollectionListSignature {
+  Args: {
+    model: CollectionRouteModel;
+  };
+}
+
+export default <template>
+  <CollectionHeader @collection={{@model.collection}} @editable={{true}} />
+
+  {{#if @model.collection.cards}}
     <table class="table" data-test-card-list>
       <thead>
         <tr>
@@ -14,7 +22,7 @@ export default <template>
         </tr>
       </thead>
       <tbody>
-        {{#each @model.cards as |card|}}
+        {{#each @model.collection.cards as |card|}}
           <tr data-test-card>
             <td>{{card.front}}</td>
             <td>{{card.back}}</td>
@@ -27,8 +35,8 @@ export default <template>
     </table>
   {{else}}
     There are no cards in this collection.
-    <LinkTo @route="collection.card.new" @model={{@model.slug}}>
+    <LinkTo @route="collection.card.new" @model={{@model.collection.slug}}>
       Add some now!
     </LinkTo>
   {{/if}}
-</template> satisfies TemplateOnlyComponent<{ Args: { model: unknown; controller: unknown } }>;
+</template> satisfies TOC<CollectionListSignature>;

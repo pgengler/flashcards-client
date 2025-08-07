@@ -4,7 +4,8 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import CardForm from './card-form.js';
 import { on } from '@ember/modifier';
-import FlippableCard from './flippable-card.gjs';
+import FlippableCard from 'flashcards/components/flippable-card';
+// eslint-disable-next-line ember/no-at-ember-render-modifiers
 import didUpdate from '@ember/render-modifiers/modifiers/did-update';
 import type Card from 'flashcards/models/card';
 import type RouterService from '@ember/routing/router-service';
@@ -19,8 +20,8 @@ interface CardComponentSignature {
 export default class CardComponent extends Component<CardComponentSignature> {
   @service declare router: RouterService;
 
-  @tracked editFront;
-  @tracked editBack;
+  @tracked declare editFront: string;
+  @tracked declare editBack: string;
   @tracked isEditing = false;
   @tracked isResetting = false;
   @tracked side: 'front' | 'back' = 'front';
@@ -28,15 +29,15 @@ export default class CardComponent extends Component<CardComponentSignature> {
   @action
   async deleteCard() {
     if (!window.confirm('Are you sure you want to delete this card?')) return;
-    let card = this.args.card;
-    let collection = await card.collection;
+    const card = this.args.card;
+    const collection = card.collection;
     await card.destroyRecord();
     this.router.transitionTo('collection.index', collection.slug);
   }
 
   @action
   edit() {
-    let card = this.args.card;
+    const card = this.args.card;
     this.editFront = card.front;
     this.editBack = card.back;
     this.isEditing = true;

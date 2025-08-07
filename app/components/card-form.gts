@@ -28,13 +28,13 @@ export default class CardForm extends Component<CardFormSignature> {
   @service declare flashMessages: FlashMessagesService;
 
   get submitButtonDisabled() {
-    let card = this.args.card;
+    const card = this.args.card;
     return isEmpty(card.front) || isEmpty(card.back);
   }
 
   @action
   async save() {
-    let card = this.args.card;
+    const card = this.args.card;
     try {
       await card.save();
       this.args.onSave(card);
@@ -63,7 +63,7 @@ export default class CardForm extends Component<CardFormSignature> {
             />
             {{! template-lint-enable no-builtin-form-components }}
             <div class="invalid-feedback" data-test-errors-for="front">
-              {{validationErrors @card.errors.front}}
+              {{validationErrors @card.errors "front"}}
             </div>
           </div>
 
@@ -79,7 +79,7 @@ export default class CardForm extends Component<CardFormSignature> {
             />
             {{! template-lint-enable no-builtin-form-components }}
             <div class="invalid-feedback" data-test-errors-for="front">
-              {{validationErrors @card.errors.back}}
+              {{validationErrors @card.errors "back"}}
             </div>
           </div>
         </div>

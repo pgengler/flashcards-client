@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'flashcards/tests/helpers';
 import { click, render } from '@ember/test-helpers';
-import Card from '../../../app/components/card.js';
+import Card from 'flashcards/components/card';
 
 module('Integration | Component | card', function (hooks) {
   setupRenderingTest(hooks);
