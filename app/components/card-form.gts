@@ -4,13 +4,48 @@ import { service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { InvalidError } from '@ember-data/adapter/error';
 import { on } from '@ember/modifier';
-import preventDefault from '../helpers/prevent-default.ts';
+import preventDefault from 'flashcards/helpers/prevent-default';
 import { Textarea } from '@ember/component';
-import invalidClass from '../helpers/invalid-class.ts';
-import autofocus from '../modifiers/autofocus.ts';
-import validationErrors from '../helpers/validation-errors.ts';
+import invalidClass from 'flashcards/helpers/invalid-class';
+import autofocus from 'flashcards/modifiers/autofocus';
+import validationErrors from 'flashcards/helpers/validation-errors';
+import type FlashMessagesService from 'ember-cli-flash/services/flash-messages';
+import type Card from 'flashcards/models/card';
 
-export default class CardForm extends Component {
+interface CardFormSignature {
+  Args: {
+    card: Card;
+    onSave: (card: Card) => void;
+    submitLabel: string;
+  };
+  Blocks: {
+    default: [];
+  };
+  Element: HTMLFormElement;
+}
+
+export default class CardForm extends Component<CardFormSignature> {
+  @service declare flashMessages: FlashMessagesService;
+
+  get submitButtonDisabled() {
+    let card = this.args.card;
+    return isEmpty(card.front) || isEmpty(card.back);
+  }
+
+  @action
+  async save() {
+    let card = this.args.card;
+    try {
+      await card.save();
+      this.args.onSave(card);
+    } catch (e) {
+      if (!(e instanceof InvalidError)) {
+        this.flashMessages.danger('Failed to save the new card');
+      }
+      console.error(e);
+    }
+  }
+
   <template>
     <form class="card-form" {{on "submit" (preventDefault this.save)}} ...attributes>
       <div class="container mb-4">
@@ -61,24 +96,4 @@ export default class CardForm extends Component {
       </div>
     </form>
   </template>
-  @service flashMessages;
-
-  get submitButtonDisabled() {
-    let card = this.args.card;
-    return isEmpty(card.front) || isEmpty(card.back);
-  }
-
-  @action
-  async save() {
-    let card = this.args.card;
-    try {
-      await card.save();
-      this.args.onSave(card);
-    } catch (e) {
-      if (!(e instanceof InvalidError)) {
-        this.flashMessages.danger('Failed to save the new card');
-      }
-      console.error(e);
-    }
-  }
 }
