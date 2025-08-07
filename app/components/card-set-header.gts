@@ -1,8 +1,18 @@
 import Component from '@glimmer/component';
 import { LinkTo } from '@ember/routing';
 import { array } from '@ember/helper';
+import type CardSet from 'flashcards/models/card-set';
 
-export default class CardSetHeader extends Component {
+interface CardSetHeaderSignature {
+  Args: {
+    cardSet: CardSet;
+    editable?: boolean;
+  };
+}
+
+export default class CardSetHeader extends Component<CardSetHeaderSignature> {
+  name = this.args.cardSet.name;
+
   <template>
     <header class="d-flex align-items-center mb-5">
       <h1 class="d-inline-block">
@@ -30,5 +40,4 @@ export default class CardSetHeader extends Component {
       {{/if}}
     </header>
   </template>
-  name = this.args.cardSet.name;
 }
