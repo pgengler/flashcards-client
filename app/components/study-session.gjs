@@ -2,25 +2,49 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { cached } from 'tracked-toolbox';
-import Card from "./card.js";
-import onKey from "ember-keyboard/modifiers/on-key";
-import { on } from "@ember/modifier";
+import Card from './card.js';
+import onKey from 'ember-keyboard/modifiers/on-key';
+import { on } from '@ember/modifier';
 
-export default class StudySession extends Component {<template><span data-test-progress>{{this.displayIndex}} / {{this.cards.length}}</span>
+export default class StudySession extends Component {
+  <template>
+    <span data-test-progress>{{this.displayIndex}} / {{this.cards.length}}</span>
 
-<Card @card={{this.currentCard}} data-test-id={{this.currentCard.id}} {{onKey "ArrowLeft" this.goBack}} {{onKey "ArrowRight" this.goForward}} {{onKey "," this.goBack}} {{onKey "." this.goForward}} {{onKey "j" this.goForward}} {{onKey "k" this.goBack}} />
+    <Card
+      @card={{this.currentCard}}
+      data-test-id={{this.currentCard.id}}
+      {{onKey "ArrowLeft" this.goBack}}
+      {{onKey "ArrowRight" this.goForward}}
+      {{onKey "," this.goBack}}
+      {{onKey "." this.goForward}}
+      {{onKey "j" this.goForward}}
+      {{onKey "k" this.goBack}}
+    />
 
-<div class="row">
-  <div class="btn-group" role="group">
-    <button type="button" class="btn btn-outline-primary" disabled={{this.disablePreviousButton}} data-test-previous {{on "click" this.goBack}}>
-      Previous
-    </button>
+    <div class="row">
+      <div class="btn-group" role="group">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          disabled={{this.disablePreviousButton}}
+          data-test-previous
+          {{on "click" this.goBack}}
+        >
+          Previous
+        </button>
 
-    <button type="button" class="btn btn-outline-primary" disabled={{this.disableNextButton}} data-test-next {{on "click" this.goForward}}>
-      Next
-    </button>
-  </div>
-</div></template>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          disabled={{this.disableNextButton}}
+          data-test-next
+          {{on "click" this.goForward}}
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </template>
   @tracked currentIndex = 0;
 
   @cached

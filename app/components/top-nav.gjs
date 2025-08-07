@@ -1,9 +1,9 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import { LinkTo } from "@ember/routing";
-import { on } from "@ember/modifier";
-import onKey from "ember-keyboard/modifiers/on-key";
+import { LinkTo } from '@ember/routing';
+import { on } from '@ember/modifier';
+import onKey from 'ember-keyboard/modifiers/on-key';
 
 function isInput(element) {
   let tagName = element.tagName;
@@ -13,58 +13,79 @@ function isInput(element) {
   return false;
 }
 
-export default class TopNav extends Component {<template><nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <LinkTo @route="index" class="navbar-brand">
-      Flashcards
-    </LinkTo>
+export default class TopNav extends Component {
+  <template>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <LinkTo @route="index" class="navbar-brand">
+          Flashcards
+        </LinkTo>
 
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-test-collections-toggle>
-          Collections
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" data-test-collections-menu>
-          {{#each this.collections as |collection|}}
-            <li>
-              <LinkTo @route="collection" @model={{collection.slug}} class="dropdown-item" data-test-collection-item>
-                {{collection.name}}
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-test-collections-toggle
+            >
+              Collections
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" data-test-collections-menu>
+              {{#each this.collections as |collection|}}
+                <li>
+                  <LinkTo
+                    @route="collection"
+                    @model={{collection.slug}}
+                    class="dropdown-item"
+                    data-test-collection-item
+                  >
+                    {{collection.name}}
+                  </LinkTo>
+                </li>
+              {{/each}}
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <LinkTo @route="collections.new" class="dropdown-item" data-test-new-collection-item>
+                  Add new collection
+                </LinkTo>
+              </li>
+            </ul>
+          </li>
+
+          {{#if this.collection}}
+            <li class="nav-item">
+              <LinkTo @route="collection.card.new" @model={{this.collection.slug}} class="nav-link">
+                New
               </LinkTo>
             </li>
-          {{/each}}
-          <li><hr class="dropdown-divider" /></li>
-          <li>
-            <LinkTo @route="collections.new" class="dropdown-item" data-test-new-collection-item>
-              Add new collection
-            </LinkTo>
-          </li>
+
+            {{#if this.collection.cards}}
+              <li class="nav-item" data-test-random-card>
+                <button
+                  type="button"
+                  class="btn btn-link nav-link border-0"
+                  {{on "click" this.randomCard}}
+                  {{onKey "r" this.randomCard}}
+                >
+                  Random card
+                </button>
+              </li>
+            {{/if}}
+
+            <li class="nav-item" data-test-card-sets>
+              <LinkTo @route="collection.sets.new" @model={{this.collection.slug}} class="nav-link">
+                New set
+              </LinkTo>
+            </li>
+          {{/if}}
         </ul>
-      </li>
-
-      {{#if this.collection}}
-        <li class="nav-item">
-          <LinkTo @route="collection.card.new" @model={{this.collection.slug}} class="nav-link">
-            New
-          </LinkTo>
-        </li>
-
-        {{#if this.collection.cards}}
-          <li class="nav-item" data-test-random-card>
-            <button type="button" class="btn btn-link nav-link border-0" {{on "click" this.randomCard}} {{onKey "r" this.randomCard}}>
-              Random card
-            </button>
-          </li>
-        {{/if}}
-
-        <li class="nav-item" data-test-card-sets>
-          <LinkTo @route="collection.sets.new" @model={{this.collection.slug}} class="nav-link">
-            New set
-          </LinkTo>
-        </li>
-      {{/if}}
-    </ul>
-  </div>
-</nav></template>
+      </div>
+    </nav>
+  </template>
   @service currentCollection;
   @service router;
   @service store;

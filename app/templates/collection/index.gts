@@ -1,62 +1,64 @@
 import type { TemplateOnlyComponent } from '@ember/component/template-only';
-import CollectionHeader from "../../components/collection-header.js";
-import { LinkTo } from "@ember/routing";
-import pluralize from "ember-inflector/helpers/pluralize";
-import { array } from "@ember/helper";
-export default <template><CollectionHeader @collection={{@model}} @editable={{true}} />
+import CollectionHeader from '../../components/collection-header.js';
+import { LinkTo } from '@ember/routing';
+import pluralize from 'ember-inflector/helpers/pluralize';
+import { array } from '@ember/helper';
+export default <template>
+  <CollectionHeader @collection={{@model}} @editable={{true}} />
 
-<h3>Actions</h3>
-<ul class="list-group mb-4">
-  <li class="list-group-item">
-    <LinkTo @route="collection.card.new" @model={{@model.slug}}>
-      Add a new card
-    </LinkTo>
-  </li>
-
-  {{#if @model.cards}}
+  <h3>Actions</h3>
+  <ul class="list-group mb-4">
     <li class="list-group-item">
-      <LinkTo @route="collection.list" @model={{@model.slug}}>
-        View a list of all
-        {{pluralize @model.cards.length "card"}}.
+      <LinkTo @route="collection.card.new" @model={{@model.slug}}>
+        Add a new card
       </LinkTo>
     </li>
 
-    <li class="list-group-item">
-      <LinkTo @route="collection.card.random" @model={{@model.slug}}>
-        View a random card
-      </LinkTo>
-    </li>
-
-    <li class="list-group-item">
-      <LinkTo @route="collection.study" @model={{@model.slug}}>
-        Start a study session
-      </LinkTo>
-    </li>
-  {{/if}}
-
-  <li class="list-group-item">
-    <LinkTo @route="collection.import" @model={{@model.slug}}>
-      Bulk import cards
-    </LinkTo>
-  </li>
-</ul>
-
-<h3>Card Sets</h3>
-{{#if @model.cardSets}}
-  <ul class="list-group" data-test-card-set-list>
-    {{#each @model.cardSets as |cardSet|}}
-      <li class="list-group-item" data-test-card-set>
-        <LinkTo @route="collection.sets.show" @models={{array @model.slug cardSet.id}}>
-          {{cardSet.name}}
+    {{#if @model.cards}}
+      <li class="list-group-item">
+        <LinkTo @route="collection.list" @model={{@model.slug}}>
+          View a list of all
+          {{pluralize @model.cards.length "card"}}.
         </LinkTo>
       </li>
-    {{/each}}
+
+      <li class="list-group-item">
+        <LinkTo @route="collection.card.random" @model={{@model.slug}}>
+          View a random card
+        </LinkTo>
+      </li>
+
+      <li class="list-group-item">
+        <LinkTo @route="collection.study" @model={{@model.slug}}>
+          Start a study session
+        </LinkTo>
+      </li>
+    {{/if}}
+
+    <li class="list-group-item">
+      <LinkTo @route="collection.import" @model={{@model.slug}}>
+        Bulk import cards
+      </LinkTo>
+    </li>
   </ul>
-{{else}}
-  <p>
-    You haven't created any card sets.
-    <LinkTo @route="collection.sets.new" @model={{@model.slug}}>
-      Add one now.
-    </LinkTo>
-  </p>
-{{/if}}</template> satisfies TemplateOnlyComponent<{ Args: { model: unknown, controller: unknown } }>
+
+  <h3>Card Sets</h3>
+  {{#if @model.cardSets}}
+    <ul class="list-group" data-test-card-set-list>
+      {{#each @model.cardSets as |cardSet|}}
+        <li class="list-group-item" data-test-card-set>
+          <LinkTo @route="collection.sets.show" @models={{array @model.slug cardSet.id}}>
+            {{cardSet.name}}
+          </LinkTo>
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>
+      You haven't created any card sets.
+      <LinkTo @route="collection.sets.new" @model={{@model.slug}}>
+        Add one now.
+      </LinkTo>
+    </p>
+  {{/if}}
+</template> satisfies TemplateOnlyComponent<{ Args: { model: unknown; controller: unknown } }>;

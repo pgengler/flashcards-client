@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'flashcards/tests/helpers';
 import { click, render } from '@ember/test-helpers';
-import Card from "../../../app/components/card.js";
+import Card from '../../../app/components/card.js';
 
 module('Integration | Component | card', function (hooks) {
   setupRenderingTest(hooks);
@@ -11,9 +11,7 @@ module('Integration | Component | card', function (hooks) {
       front: 'Front side content',
       back: 'Back side content',
     };
-    await render(<template>
-      <Card @card={{this.card}} />
-    </template>);
+    await render(<template><Card @card={{this.card}} /></template>);
 
     assert.dom('[data-test-card]').exists();
     assert.dom('.front').hasText('Front side content');
@@ -25,9 +23,7 @@ module('Integration | Component | card', function (hooks) {
       front: 'Front side content',
       back: 'Back side content',
     };
-    await render(<template>
-      <Card @card={{this.card}} />
-    </template>);
+    await render(<template><Card @card={{this.card}} /></template>);
 
     await click('[data-test-edit-button]');
     assert.dom('[data-test-card]').doesNotExist('card is not shown in edit mode');
@@ -44,9 +40,7 @@ module('Integration | Component | card', function (hooks) {
       },
     };
 
-    await render(<template>
-      <Card @card={{this.card}} />
-    </template>);
+    await render(<template><Card @card={{this.card}} /></template>);
 
     await click('[data-test-edit-button]');
     assert.dom('[data-test-card]').doesNotExist('card is not shown in edit mode');
