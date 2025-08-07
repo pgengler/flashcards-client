@@ -23,7 +23,7 @@ export default class TopNav extends Component {
   @service declare store: Store;
 
   get collections() {
-    return <Collection[]>this.store.peekAll('collection').filter((collection) => !collection.isNew);
+    return (<Collection[]>this.store.peekAll('collection')).filter((collection) => !collection.isNew);
   }
 
   get collection() {
