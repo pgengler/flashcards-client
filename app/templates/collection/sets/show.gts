@@ -1,7 +1,7 @@
 import type { TOC } from '@ember/component/template-only';
-import CardSetHeader from 'flashcards/components/card-set-header';
-import { LinkTo } from '@ember/routing';
 import { array } from '@ember/helper';
+import { LinkTo } from '@ember/routing';
+import CardSetHeader from 'flashcards/components/card-set-header';
 import type { CollectionSetsShowRouteModel } from 'flashcards/routes/collection/sets/show';
 
 interface CollectionSetsShowSignature {

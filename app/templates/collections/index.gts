@@ -1,6 +1,5 @@
 import type { TOC } from '@ember/component/template-only';
 import { LinkTo } from '@ember/routing';
-
 import type { CollectionsIndexRouteModel } from 'flashcards/routes/collections/index';
 
 interface CollectionsIndexSignature {

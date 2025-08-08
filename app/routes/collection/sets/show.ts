@@ -1,6 +1,6 @@
-import type Store from '@ember-data/store';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import type Store from '@ember-data/store';
 import type CardSet from 'flashcards/models/card-set';
 import { hash } from 'rsvp';
 

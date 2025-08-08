@@ -1,8 +1,8 @@
 import Route from '@ember/routing/route';
-import { service } from '@ember/service';
-import type { CollectionRouteModel } from 'flashcards/routes/collection';
-import type Card from 'flashcards/models/card';
 import type RouterService from '@ember/routing/router-service';
+import { service } from '@ember/service';
+import type Card from 'flashcards/models/card';
+import type { CollectionRouteModel } from 'flashcards/routes/collection';
 
 export type CollectionRandomCardRouteModel = {
   card: Card;

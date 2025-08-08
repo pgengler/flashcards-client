@@ -1,8 +1,8 @@
 import type { TOC } from '@ember/component/template-only';
-import CollectionHeader from 'flashcards/components/collection-header';
+import { array } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import { pluralize } from 'ember-inflector';
-import { array } from '@ember/helper';
+import CollectionHeader from 'flashcards/components/collection-header';
 import type { CollectionRouteModel } from 'flashcards/routes/collection';
 
 interface CollectionIndexSignature {

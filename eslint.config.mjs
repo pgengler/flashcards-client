@@ -20,6 +20,7 @@ import ts from 'typescript-eslint';
 import ember from 'eslint-plugin-ember/recommended';
 import qunit from 'eslint-plugin-qunit';
 import n from 'eslint-plugin-n';
+import importPlugin from 'eslint-plugin-import';
 
 import babelParser from '@babel/eslint-parser';
 
@@ -81,7 +82,20 @@ export default ts.config(
       parser: ember.parser,
       parserOptions: parserOptions.esm.ts,
     },
-    extends: [...ts.configs.recommendedTypeChecked, ember.configs.gts],
+    extends: [...ts.configs.recommendedTypeChecked, ember.configs.gts, importPlugin.flatConfigs.typescript],
+    rules: {
+      'no-console': 'error',
+      'import/order': [
+        'error',
+        {
+          'newlines-between': 'always',
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true,
+          },
+        },
+      ],
+    },
   },
   {
     files: ['tests/**/*-test.{js,gjs,ts,gts}'],

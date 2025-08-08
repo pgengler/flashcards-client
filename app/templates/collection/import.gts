@@ -1,6 +1,6 @@
 import type { TOC } from '@ember/component/template-only';
-import CollectionHeader from 'flashcards/components/collection-header';
 import CardImportForm from 'flashcards/components/card-import-form';
+import CollectionHeader from 'flashcards/components/collection-header';
 import type { CollectionRouteModel } from 'flashcards/routes/collection';
 
 interface CollectionImportSignature {

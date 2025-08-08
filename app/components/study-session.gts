@@ -1,11 +1,12 @@
-import Component from '@glimmer/component';
-import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
-import { cached } from 'tracked-toolbox';
-import CardComponent from './card';
-import onKey from 'ember-keyboard/modifiers/on-key';
 import { on } from '@ember/modifier';
+import { action } from '@ember/object';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import onKey from 'ember-keyboard/modifiers/on-key';
 import type Card from 'flashcards/models/card';
+import { cached } from 'tracked-toolbox';
+
+import CardComponent from './card';
 
 interface StudySessionSignature {
   Args: {

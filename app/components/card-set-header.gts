@@ -1,6 +1,6 @@
-import Component from '@glimmer/component';
-import { LinkTo } from '@ember/routing';
 import { array } from '@ember/helper';
+import { LinkTo } from '@ember/routing';
+import Component from '@glimmer/component';
 import type CardSet from 'flashcards/models/card-set';
 
 interface CardSetHeaderSignature {

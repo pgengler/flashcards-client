@@ -1,13 +1,12 @@
-import Component from '@glimmer/component';
-import CardSetHeader from 'flashcards/components/card-set-header';
-import CardSetForm from 'flashcards/components/card-set-form';
 import { on } from '@ember/modifier';
-import { service } from '@ember/service';
 import { action } from '@ember/object';
-
-import type { CollectionSetsManageRouteModel } from 'flashcards/routes/collection/sets/manage';
-import FlashMessageService from 'ember-cli-flash/services/flash-messages';
 import RouterService from '@ember/routing/router-service';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
+import FlashMessageService from 'ember-cli-flash/services/flash-messages';
+import CardSetForm from 'flashcards/components/card-set-form';
+import CardSetHeader from 'flashcards/components/card-set-header';
+import type { CollectionSetsManageRouteModel } from 'flashcards/routes/collection/sets/manage';
 
 interface CollectionSetsManageSignature {
   Args: {
@@ -42,7 +41,7 @@ export default class extends Component<CollectionSetsManageSignature> {
       this.router.transitionTo('collection', collection.slug);
     } catch (e) {
       this.flashMessages.danger(`Could not remove "${cardSet.name}"`);
-      console.error(e);
+      console.error(e); // eslint-disable-line no-console
     }
   }
 

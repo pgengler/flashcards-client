@@ -1,6 +1,7 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
-import type Collection from './collection';
+
 import type CardSet from './card-set';
+import type Collection from './collection';
 
 export default class Card extends Model {
   @attr('string') declare front: string;

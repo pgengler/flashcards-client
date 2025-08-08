@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
-import type { CollectionRouteModel } from 'flashcards/routes/collection';
 import type Card from 'flashcards/models/card';
+import type { CollectionRouteModel } from 'flashcards/routes/collection';
 
 type CollectionShowCardRouteParams = { id: string };
 export type CollectionShowCardRouteModel = {
