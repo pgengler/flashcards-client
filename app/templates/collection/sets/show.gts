@@ -1,5 +1,5 @@
 import type { TOC } from '@ember/component/template-only';
-import CardSetHeader from '../../../components/card-set-header.js';
+import CardSetHeader from 'flashcards/components/card-set-header';
 import { LinkTo } from '@ember/routing';
 import { array } from '@ember/helper';
 import type { CollectionSetsShowRouteModel } from 'flashcards/routes/collection/sets/show';

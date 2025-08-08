@@ -43,7 +43,8 @@ export default class CardImportForm extends Component<CardImportFormSignature> {
         throw new Error(`Import failed: got code ${response.status}`);
       }
       const data = <CollectionResourceDocument>await response.json();
-      this.store.push(data);
+      // @ts-expect-error - ember-data types don't include pushPayload
+      this.store.pushPayload(data); // eslint-disable-line @typescript-eslint/no-unsafe-call
 
       const count = data.meta!['cards_imported'] as number;
       this.flashMessages.success(`Imported ${pluralize(count, 'card')}`);

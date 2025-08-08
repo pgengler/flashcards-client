@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import CardForm from './card-form.js';
+import CardForm from 'flashcards/components/card-form';
 import { on } from '@ember/modifier';
 import FlippableCard from 'flashcards/components/flippable-card';
 // eslint-disable-next-line ember/no-at-ember-render-modifiers

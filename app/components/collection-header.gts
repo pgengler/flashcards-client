@@ -20,7 +20,7 @@ export default class CollectionHeader extends Component<CollectionHeaderSignatur
     <header class="d-flex align-items-center mb-3" ...attributes>
       <h1>{{this.name}}</h1>
       {{#if @editable}}
-        <LinkTo @route="collection.edit" @model={{@collection}} class="btn" data-test-edit>
+        <LinkTo @route="collection.edit" @model={{@collection.slug}} class="btn" data-test-edit>
           <img src="/assets/images/pencil-square.svg" alt="pencil icon" title="Edit" />
         </LinkTo>
       {{/if}}

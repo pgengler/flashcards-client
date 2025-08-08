@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import CollectionHeader from 'flashcards/components/collection-header.js';
+import CollectionHeader from 'flashcards/components/collection-header';
 import CardSetForm from 'flashcards/components/card-set-form';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

@@ -13,10 +13,10 @@ export default class CollectionNewCardRoute extends Route {
   @service declare store: Store;
 
   model(): CollectionNewCardRouteModel {
-    const collection = <CollectionRouteModel>this.modelFor('collection');
+    const { collection } = <CollectionRouteModel>this.modelFor('collection');
     return {
       card: <Card>this.store.createRecord('card', {
-        collection: collection,
+        collection,
       }),
     };
   }
