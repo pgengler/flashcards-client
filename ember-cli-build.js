@@ -13,7 +13,7 @@ module.exports = function (defaults) {
         DEPRECATE_STORE_EXTENDS_EMBER_OBJECT: false,
       },
     },
-    // Add options here
+    'ember-cli-babel': { enableTypeScriptTransform: true },
   });
 
   // Use `app.import` to add additional libraries to the generated

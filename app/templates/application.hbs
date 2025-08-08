@@ -1,9 +1,0 @@
-<TopNav />
-
-<div class="container">
-  {{#each @model.queue as |flash|}}
-    <FlashMessage @flash={{flash}} />
-  {{/each}}
-
-  {{outlet}}
-</div>
