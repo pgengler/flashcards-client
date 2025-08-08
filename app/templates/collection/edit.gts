@@ -1,12 +1,12 @@
-import Component from '@glimmer/component';
-import CollectionHeader from 'flashcards/components/collection-header';
-import CollectionForm from 'flashcards/components/collection-form';
 import { on } from '@ember/modifier';
-import type { CollectionRouteModel } from 'flashcards/routes/collection';
-import type RouterService from '@ember/routing/router-service';
-import type FlashMessagesService from 'ember-cli-flash/services/flash-messages';
-import { service } from '@ember/service';
 import { action } from '@ember/object';
+import type RouterService from '@ember/routing/router-service';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
+import type FlashMessagesService from 'ember-cli-flash/services/flash-messages';
+import CollectionForm from 'flashcards/components/collection-form';
+import CollectionHeader from 'flashcards/components/collection-header';
+import type { CollectionRouteModel } from 'flashcards/routes/collection';
 
 interface CollectionEditSignature {
   Args: {
@@ -30,7 +30,7 @@ export default class extends Component<CollectionEditSignature> {
       this.router.transitionTo('collections.index');
     } catch (e) {
       this.flashMessages.danger(`Failed to delete "${collection.name}"`);
-      console.error(e);
+      console.error(e); // eslint-disable-line no-console
     }
   }
 

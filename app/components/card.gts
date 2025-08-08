@@ -1,14 +1,14 @@
-import Component from '@glimmer/component';
-import { action } from '@ember/object';
-import { service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
-import CardForm from 'flashcards/components/card-form';
 import { on } from '@ember/modifier';
-import FlippableCard from 'flashcards/components/flippable-card';
+import { action } from '@ember/object';
 // eslint-disable-next-line ember/no-at-ember-render-modifiers
 import didUpdate from '@ember/render-modifiers/modifiers/did-update';
-import type Card from 'flashcards/models/card';
 import type RouterService from '@ember/routing/router-service';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import CardForm from 'flashcards/components/card-form';
+import FlippableCard from 'flashcards/components/flippable-card';
+import type Card from 'flashcards/models/card';
 
 interface CardComponentSignature {
   Args: {

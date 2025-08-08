@@ -1,4 +1,5 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+
 import type Card from './card';
 import type Collection from './collection';
 

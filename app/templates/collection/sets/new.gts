@@ -1,9 +1,9 @@
-import Component from '@glimmer/component';
-import CollectionHeader from 'flashcards/components/collection-header';
-import CardSetForm from 'flashcards/components/card-set-form';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
 import type RouterService from '@ember/routing/router-service';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
+import CardSetForm from 'flashcards/components/card-set-form';
+import CollectionHeader from 'flashcards/components/collection-header';
 import type { CollectionSetsNewRouteModel } from 'flashcards/routes/collection/sets/new';
 
 interface CollectionSetsNewSignature {

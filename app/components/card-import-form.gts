@@ -1,17 +1,16 @@
-import Component from '@glimmer/component';
-import { action } from '@ember/object';
-import { service } from '@ember/service';
-import fetch from 'flashcards/utils/fetch-with-waiter';
 import { on } from '@ember/modifier';
-import preventDefault from 'flashcards/helpers/prevent-default';
-import autofocus from 'flashcards/modifiers/autofocus';
-import type Collection from 'flashcards/models/collection';
-import type FlashMessagesService from 'ember-cli-flash/services/flash-messages';
+import { action } from '@ember/object';
 import type RouterService from '@ember/routing/router-service';
+import { service } from '@ember/service';
 import type Store from '@ember-data/store';
-import { pluralize } from 'ember-inflector';
-
+import Component from '@glimmer/component';
 import type { CollectionResourceDocument } from '@warp-drive/core-types/spec/json-api-raw';
+import type FlashMessagesService from 'ember-cli-flash/services/flash-messages';
+import { pluralize } from 'ember-inflector';
+import preventDefault from 'flashcards/helpers/prevent-default';
+import type Collection from 'flashcards/models/collection';
+import autofocus from 'flashcards/modifiers/autofocus';
+import fetch from 'flashcards/utils/fetch-with-waiter';
 
 interface CardImportFormSignature {
   Args: {
@@ -51,7 +50,7 @@ export default class CardImportForm extends Component<CardImportFormSignature> {
       this.router.transitionTo('collection', this.args.collection.slug);
     } catch (e) {
       this.flashMessages.danger('Failed to import cards');
-      console.error(e);
+      console.error(e); // eslint-disable-line no-console
     }
   }
 

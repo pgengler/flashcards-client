@@ -1,6 +1,7 @@
 import Model, { attr, hasMany } from '@ember-data/model';
-import type CardSet from './card-set';
+
 import type Card from './card';
+import type CardSet from './card-set';
 
 export default class Collection extends Model {
   @attr('string') declare name: string;

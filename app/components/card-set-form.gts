@@ -1,16 +1,16 @@
-import Component from '@glimmer/component';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { InvalidError } from '@ember-data/adapter/error';
-import { on } from '@ember/modifier';
-import preventDefault from 'flashcards/helpers/prevent-default';
-import invalidClass from 'flashcards/helpers/invalid-class';
-import autofocus from 'flashcards/modifiers/autofocus';
-import validationErrors from 'flashcards/helpers/validation-errors';
-import type CardSet from 'flashcards/models/card-set';
-import type FlashMessagesService from 'ember-cli-flash/services/flash-messages';
 import type Store from '@ember-data/store';
+import Component from '@glimmer/component';
+import type FlashMessagesService from 'ember-cli-flash/services/flash-messages';
+import invalidClass from 'flashcards/helpers/invalid-class';
+import preventDefault from 'flashcards/helpers/prevent-default';
+import validationErrors from 'flashcards/helpers/validation-errors';
 import type Card from 'flashcards/models/card';
+import type CardSet from 'flashcards/models/card-set';
+import autofocus from 'flashcards/modifiers/autofocus';
 
 interface CardSetFormSignature {
   Args: {
@@ -60,7 +60,7 @@ export default class CardSetForm extends Component<CardSetFormSignature> {
       if (!(e instanceof InvalidError)) {
         this.flashMessages.danger('Failed to save the new card set');
       }
-      console.error(e);
+      console.error(e); // eslint-disable-line no-console
     }
   }
 

@@ -1,12 +1,12 @@
-import Component from '@glimmer/component';
-import CardForm from 'flashcards/components/card-form';
 import { Input } from '@ember/component';
-import type { CollectionNewCardRouteModel } from 'flashcards/routes/collection/card/new';
-import type RouterService from '@ember/routing/router-service';
 import { action } from '@ember/object';
+import type RouterService from '@ember/routing/router-service';
 import { service } from '@ember/service';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import CardForm from 'flashcards/components/card-form';
 import Card from 'flashcards/models/card';
+import type { CollectionNewCardRouteModel } from 'flashcards/routes/collection/card/new';
 
 interface CollectionCardNewSignature {
   Args: {

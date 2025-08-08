@@ -1,6 +1,6 @@
 import type { TOC } from '@ember/component/template-only';
-import CollectionHeader from 'flashcards/components/collection-header';
 import { LinkTo } from '@ember/routing';
+import CollectionHeader from 'flashcards/components/collection-header';
 import type { CollectionRouteModel } from 'flashcards/routes/collection';
 
 interface CollectionListSignature {

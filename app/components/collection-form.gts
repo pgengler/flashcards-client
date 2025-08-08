@@ -1,18 +1,18 @@
-import Component from '@glimmer/component';
+import { Input } from '@ember/component';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
+import type RouterService from '@ember/routing/router-service';
 import { service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { InvalidError } from '@ember-data/adapter/error';
-import { localCopy } from 'tracked-toolbox';
-import { on } from '@ember/modifier';
-import preventDefault from 'flashcards/helpers/prevent-default';
-import { Input } from '@ember/component';
+import Component from '@glimmer/component';
+import type FlashMessagesService from 'ember-cli-flash/services/flash-messages';
 import invalidClass from 'flashcards/helpers/invalid-class';
-import autofocus from 'flashcards/modifiers/autofocus';
+import preventDefault from 'flashcards/helpers/prevent-default';
 import validationErrors from 'flashcards/helpers/validation-errors';
 import type Collection from 'flashcards/models/collection';
-import type RouterService from '@ember/routing/router-service';
-import type FlashMessagesService from 'ember-cli-flash/services/flash-messages';
+import autofocus from 'flashcards/modifiers/autofocus';
+import { localCopy } from 'tracked-toolbox';
 
 interface CollectionFormSignature {
   Args: {
@@ -46,7 +46,7 @@ export default class CollectionForm extends Component<CollectionFormSignature> {
       if (!(e instanceof InvalidError)) {
         this.flashMessages.danger('Failed to save the collection');
       }
-      console.error(e);
+      console.error(e); // eslint-disable-line no-console
     }
   }
 

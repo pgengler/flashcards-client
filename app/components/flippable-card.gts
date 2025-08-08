@@ -1,6 +1,6 @@
-import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { on } from '@ember/modifier';
+import { action } from '@ember/object';
+import Component from '@glimmer/component';
 import onKey from 'ember-keyboard/modifiers/on-key';
 import MarkdownToHtml from 'ember-showdown/components/markdown-to-html';
 import type Card from 'flashcards/models/card';

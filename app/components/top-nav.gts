@@ -1,13 +1,13 @@
-import Component from '@glimmer/component';
-import { action } from '@ember/object';
-import { service } from '@ember/service';
-import { LinkTo } from '@ember/routing';
 import { on } from '@ember/modifier';
-import onKey from 'ember-keyboard/modifiers/on-key';
-import type CurrentCollectionService from 'flashcards/services/current-collection';
+import { action } from '@ember/object';
+import { LinkTo } from '@ember/routing';
 import type RouterService from '@ember/routing/router-service';
+import { service } from '@ember/service';
 import type Store from '@ember-data/store';
+import Component from '@glimmer/component';
+import onKey from 'ember-keyboard/modifiers/on-key';
 import type Collection from 'flashcards/models/collection';
+import type CurrentCollectionService from 'flashcards/services/current-collection';
 
 function isInput(element: Element | null) {
   if (!element) return false;
