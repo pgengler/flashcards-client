@@ -16,6 +16,7 @@ interface StudySessionSignature {
 
 export default class StudySession extends Component<StudySessionSignature> {
   @tracked currentIndex = 0;
+  @tracked isEditing = false;
 
   @cached
   get cards() {
@@ -37,11 +38,21 @@ export default class StudySession extends Component<StudySessionSignature> {
   }
 
   get disablePreviousButton() {
-    return this.currentIndex === 0;
+    return this.isEditing || this.currentIndex === 0;
   }
 
   get disableNextButton() {
-    return this.currentIndex === this.cards.length - 1;
+    return this.isEditing || this.currentIndex === this.cards.length - 1;
+  }
+
+  @action
+  enteredEditMode() {
+    this.isEditing = true;
+  }
+
+  @action
+  exitedEditMode() {
+    this.isEditing = false;
   }
 
   @action
@@ -59,6 +70,8 @@ export default class StudySession extends Component<StudySessionSignature> {
 
     <CardComponent
       @card={{this.currentCard}}
+      @enteredEdit={{this.enteredEditMode}}
+      @exitedEdit={{this.exitedEditMode}}
       data-test-id={{this.currentCard.id}}
       {{onKey "ArrowLeft" this.goBack}}
       {{onKey "ArrowRight" this.goForward}}

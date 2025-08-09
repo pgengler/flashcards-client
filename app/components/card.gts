@@ -1,7 +1,5 @@
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
-// eslint-disable-next-line ember/no-at-ember-render-modifiers
-import didUpdate from '@ember/render-modifiers/modifiers/did-update';
 import type RouterService from '@ember/routing/router-service';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -9,10 +7,13 @@ import { tracked } from '@glimmer/tracking';
 import CardForm from 'flashcards/components/card-form';
 import FlippableCard from 'flashcards/components/flippable-card';
 import type Card from 'flashcards/models/card';
+import { trackedReset } from 'tracked-toolbox';
 
 interface CardComponentSignature {
   Args: {
     card: Card;
+    enteredEdit?: () => void;
+    exitedEdit?: () => void;
   };
   Element: HTMLDivElement;
 }
@@ -23,8 +24,8 @@ export default class CardComponent extends Component<CardComponentSignature> {
   @tracked declare editFront: string;
   @tracked declare editBack: string;
   @tracked isEditing = false;
-  @tracked isResetting = false;
-  @tracked side: 'front' | 'back' = 'front';
+  @tracked isFlipping = false;
+  @trackedReset('args.card') side: 'front' | 'back' = 'front';
 
   @action
   async deleteCard() {
@@ -41,29 +42,27 @@ export default class CardComponent extends Component<CardComponentSignature> {
     this.editFront = card.front;
     this.editBack = card.back;
     this.isEditing = true;
+    this.args.enteredEdit?.();
   }
 
   @action
   cancelEdit() {
     this.args.card.rollbackAttributes();
     this.isEditing = false;
+    this.args.exitedEdit?.();
   }
 
   @action
   exitEdit() {
     this.isEditing = false;
+    this.args.exitedEdit?.();
   }
 
   @action
   flip(side: 'front' | 'back') {
+    this.isFlipping = true;
     this.side = side;
-  }
-
-  @action
-  resetToFront() {
-    this.isResetting = true;
-    this.side = 'front';
-    window.requestAnimationFrame(() => (this.isResetting = false));
+    window.requestAnimationFrame(() => (this.isFlipping = false));
   }
 
   <template>
@@ -88,9 +87,8 @@ export default class CardComponent extends Component<CardComponentSignature> {
         @card={{@card}}
         @side={{this.side}}
         @flip={{this.flip}}
-        class="mb-4 {{if this.isResetting 'no-transition'}}"
+        class="mb-4 {{unless this.isFlipping 'no-transition'}}"
         data-test-card
-        {{didUpdate this.resetToFront @card}}
         ...attributes
       />
       <button type="button" class="btn btn-primary" data-test-edit-button {{on "click" this.edit}}>
