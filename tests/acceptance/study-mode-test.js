@@ -10,7 +10,7 @@ module('Acceptance | study mode', function (hooks) {
     this.cards = this.server.createList('card', 15, { collection: this.collection });
   });
 
-  module('entire collection', function () {
+  module('for an entire collection', function () {
     test('it shows every card in the collection once', async function (assert) {
       await visit(`/collection/${this.collection.slug}/study`);
 
@@ -48,6 +48,19 @@ module('Acceptance | study mode', function (hooks) {
 
       await click('[data-test-previous]');
       assert.strictEqual(cardsShown[1], currentCardId(), 'moving "previous" displays last-shown card');
+    });
+
+    test('cannot navigate back and forth while editing a card', async function (assert) {
+      await visit(`/collection/${this.collection.slug}/study`);
+
+      // advance to not be on the first card, so we can check both "Back" and "Next" states
+      await click('[data-test-next]');
+
+      // enter "edit" mode for the current card
+      await click('[data-test-edit-button]');
+
+      assert.dom('[data-test-next]').isDisabled('"next" button is disabled while in edit mode');
+      assert.dom('[data-test-previous]').isDisabled('"back" button is disabled while in edit mode');
     });
   });
 
