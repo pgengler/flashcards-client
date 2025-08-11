@@ -23,7 +23,7 @@ export default class CardComponent extends Component<CardComponentSignature> {
 
   @tracked declare editFront: string;
   @tracked declare editBack: string;
-  @tracked isEditing = false;
+  @trackedReset('args.card') isEditing = false;
   @tracked isFlipping = false;
   @trackedReset('args.card') side: 'front' | 'back' = 'front';
 
