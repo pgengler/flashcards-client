@@ -35,4 +35,20 @@ module('Acceptance | random card', function (hooks) {
     await click('[data-test-random-card] button');
     assert.dom('[data-test-card]').doesNotHaveClass('flipped', 'card resets to displaying front');
   });
+
+  test('if in edit mode, fetching a random card loads it _not_ in edit mode', async function (assert) {
+    this.server.createList('card', 100, { collection: this.collection });
+
+    await visit(`/collection/${this.collection.slug}/card/random`);
+
+    // enter "edit" mode for the current card
+    await click('[data-test-edit-button]');
+
+    assert.dom('[data-test-edit-form]').exists();
+
+    await click('[data-test-random-card] button');
+    assert
+      .dom('[data-test-edit-form]')
+      .doesNotExist('after loading a random card while in edit mode, new card is displayed in not-edit mode');
+  });
 });
