@@ -47,6 +47,8 @@ module('Acceptance | random card', function (hooks) {
     assert.dom('[data-test-edit-form]').exists();
 
     await click('[data-test-random-card] button');
-    assert.dom('[data-test-edit-form]').doesNotExist('after loading a random card while in edit mode, new card is displayed in not-edit mode');
+    assert
+      .dom('[data-test-edit-form]')
+      .doesNotExist('after loading a random card while in edit mode, new card is displayed in not-edit mode');
   });
 });
