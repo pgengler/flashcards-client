@@ -119,7 +119,7 @@
     "tracked-toolbox": "^2.0.0",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.39.0",
-    "webpack": "^5.99.9"
+    "webpack": "^5.104.1"
   },
   "engines": {
     "node": ">= 18"
