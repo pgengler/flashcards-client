@@ -240,8 +240,8 @@ importers:
         specifier: ^0.1.48
         version: 0.1.48
       morgan:
-        specifier: ^1.12.0
-        version: 1.12.0(supports-color@8.1.1)
+        specifier: ^1.12.1
+        version: 1.12.1(supports-color@8.1.1)
       prettier:
         specifier: ^3.5.3
         version: 3.6.2
@@ -4854,8 +4854,8 @@ packages:
     resolution: {integrity: sha512-IXnMcJ6ZyTuhRmJSjzvHSRhlVPiN9Jwc6e59V0bEJ0ba6OBeX2L0E+mRN1QseeOF4mM+F1Rit6Nh7o+rl2Yn/A==}
     engines: {node: '>0.9'}
 
-  morgan@1.12.0:
-    resolution: {integrity: sha512-OHpTRQwn2ezasILW8iKe+Yww1XsfWsZIpUOLF7RDb2g5GwO3trPaRwi7+8BDiJ7HFx2Kg2mfUdCBcVhwYlOz2g==}
+  morgan@1.12.1:
+    resolution: {integrity: sha512-tljKC0ex20AjO58Ob/eZ53JloycbVswbVNCHx6V6VLGzqt/w8dIynVGL0G8qVjNKwiA7sYSogCrN6QtJ82IV+g==}
     engines: {node: '>= 0.8.0'}
 
   ms@2.0.0:
@@ -10272,7 +10272,7 @@ snapshots:
       markdown-it: 14.1.0
       markdown-it-terminal: 0.4.0(markdown-it@14.1.0)
       minimatch: 7.4.6
-      morgan: 1.12.0(supports-color@8.1.1)
+      morgan: 1.12.1(supports-color@8.1.1)
       nopt: 3.0.6
       npm-package-arg: 12.0.2
       os-locale: 5.0.0
@@ -12468,7 +12468,7 @@ snapshots:
 
   mktemp@0.4.0: {}
 
-  morgan@1.12.0(supports-color@8.1.1):
+  morgan@1.12.1(supports-color@8.1.1):
     dependencies:
       basic-auth: 2.0.1
       debug: 2.6.9(supports-color@8.1.1)
